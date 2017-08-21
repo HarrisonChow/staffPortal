@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="header">
-      <div class="logo">
-
-      </div>
+      <div class="logo"></div>
       <div class="search">
         <div>
           <input class='input-style' placeholder='&#xF002; What are you looking for...'/>
@@ -25,11 +25,196 @@
       </div>
     </div>
     <div class="container">
-      <div class="sider">
-
+      <div class="profile">
+        <div class="row">
+          <div class="col-xs-2">
+            <img class="avatar" src="assets/images/photo.jpg">
+          </div>
+          <div class="detail col-xs-10 row">
+            <div class="name col-xs-12">
+              Michael Alexander
+            </div>
+            <div class="job-title col-xs-3">
+              <span>JOB TITLE<span>
+              <p>Payroll Officer</p>
+            </div>
+            <div class="mobile col-xs-3">
+              <span>MOBILE</span>
+              <p>0412 345 678</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="content">
 
+      <div class="content">
+        <div class="contacts col-xs-4">
+          WORK PHONE
+          01 2345 6789
+
+          FAX
+          01 2345 6789
+
+          STREET ADDRESS
+          Level 10, 1 Sydney Street
+          Sydney, NSW, 2000
+
+        </div>
+        <div class="user-details col-xs-4">
+          DOE USER ID
+          Gavin.Talbot7
+
+          NEWWORK USER
+          GTALBOT3
+
+          EMPLOYMENT ROLES
+          DET.CONTRACTOR
+        </div>
+
+
+        <div class="side-bar col-xs-4">
+          <div id="side-bar-menu" aria-multiselectable="true">
+              <div class="panel">
+                <div id="headingOne">
+                    <a data-toggle="collapse" class="collapsed" data-parent="#side-bar-menu" href="#doe-directory" aria-expanded="false" aria-controls="doe-directory">
+                      <div class="parent-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        DoE directory
+                      </div>
+                    </a>
+                </div>
+                <div id="doe-directory" class="panel-collapse collapse" aria-labelledby="headingOne">
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div id="headingTwo">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#side-bar-menu" href="#corporate-services" aria-expanded="false" aria-controls="corporate-services">
+                      <div class="parent-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Corporate Services
+                      </div>
+                    </a>
+                </div>
+                <div id="corporate-services" class="panel-collapse collapse" aria-labelledby="headingTwo">
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div id="headingThree">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#side-bar-menu" href="#information-technology" aria-expanded="false" aria-controls="information-technology">
+                      <div class="parent-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Information Technology (New)
+                      </div>
+                    </a>
+                </div>
+                <div id="information-technology" class="panel-collapse collapse" aria-labelledby="headingThree">
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div id="headingFour">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#side-bar-menu" href="#enterprise-systems" aria-expanded="false" aria-controls="enterprise-systems">
+                      <div class="parent-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Enterprise Systems
+                      </div>
+                    </a>
+                </div>
+                <div id="enterprise-systems" class="panel-collapse collapse" aria-labelledby="headingFour">
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Test
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div id="headingFive">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#side-bar-menu" href="#student-management" aria-expanded="false" aria-controls="student-management">
+                      <div class="parent-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Student Management
+                      </div>
+                    </a>
+                </div>
+                <div id="student-management" class="panel-collapse collapse" aria-labelledby="headingFive">
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    School Systems(legacy)
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    School Systems(SALM)
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Talbot, Gavin
+                  </div>
+                  <div class="child-btn">
+                    <i class="fa fa-university" aria-hidden="true"></i>
+                    Farsaci, Sal
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
     <div class="footer">

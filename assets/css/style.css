@@ -57,3 +57,55 @@ body {
   font-size: 10px;
   font-weight: bold;
 }
+
+.profile {
+  margin-top: 25px;
+}
+
+.avatar {
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+}
+.panel a{
+  text-decoration: none;
+}
+.parent-btn, .parent-btn-top {
+  width: 387px;
+	height: 55px;
+	border-bottom: solid 1px #ededed;
+	font-family: Montserrat;
+	font-size: 14px;
+	color: #ffffff;
+}
+.collapsed .parent-btn {
+  background-color: #0e3f51;
+}
+.parent-btn {
+  background-color: #4ab9b8;
+}
+.parent-btn-top {
+  border-radius: 5px 5px 0 0;
+}
+.panel {
+  margin-bottom: 0;
+  border: 0;
+}
+.child-btn {
+  width: 387px;
+	height: 55px;
+	background-color: #fafafa;
+	border: solid 1px #ededed;
+  font-family: Montserrat;
+	font-size: 14px;
+	color: #343441;
+}
+.child-btn:hover {
+  background-color: #ededed;
+}
+.parent-btn, .parent-btn-top, .child-btn {
+  padding-top: 15px;
+}
+.fa-university {
+  padding: 0 20px;
+}
