@@ -51,17 +51,69 @@ body {
 	color: #343441;
 }
 .custom-file-input:hover:before {
-  background: #E3E3E3;
+  background: #ededed;
   border-radius: 100px;
   color: #000000;
   font-size: 10px;
   font-weight: bold;
 }
 
-.profile {
+.profile, .content {
   margin-top: 25px;
 }
-
+.name {
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 300;
+  color: #343441;
+}
+.sub-title {
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c2c2c2;
+}
+.content-detail {
+  font-family: Montserrat;
+  font-size: 15px;
+  font-weight: 300;
+  color: #343441;
+}
+.contacts-btn {
+  margin-top: -175px;
+  width: 90px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: #4ab9b8;
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  padding-top: 6px;
+  padding-left: 5px;
+}
+.user-details-btn {
+  margin-top: -155px;
+  width: 117px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: #4ab9b8;
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  padding-top: 6px;
+  padding-left: 5px;
+}
+.contacts-btn:hover, .user-details-btn:hover {
+  background-color: #ededed;
+  cursor: pointer;
+  color: #000000;
+}
+.fa-user, .fa-circle-o-notch {
+  padding: 0 8px;
+  font-size: 12px;
+}
 .avatar {
   width: 94px;
   height: 94px;
@@ -71,7 +123,6 @@ body {
   text-decoration: none;
 }
 .parent-btn, .parent-btn-top {
-  width: 387px;
 	height: 55px;
 	border-bottom: solid 1px #ededed;
 	font-family: Montserrat;
@@ -92,7 +143,6 @@ body {
   border: 0;
 }
 .child-btn {
-  width: 387px;
 	height: 55px;
 	background-color: #fafafa;
 	border: solid 1px #ededed;
@@ -108,4 +158,11 @@ body {
 }
 .fa-university {
   padding: 0 20px;
+}
+.user-details, .contacts{
+  min-height: 210px;
+	border-radius: 8px;
+	background-color: #fafafa;
+	border: solid 1px #ededed;
+  padding: 15px;
 }
