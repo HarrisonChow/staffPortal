@@ -9,6 +9,19 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+      .child-btn.highlight {
+        background-color: #4ab9b8;
+        color: #ffffff;
+      }
+      .child-btn.highdark {
+        background-color: #0e3f51;
+        color: #ffffff;
+      }
+      .parent-btn.ddda {
+        background-color: #0e3f51;
+      }
+    </style>
   </head>
   <body>
     <div class="header">
@@ -18,9 +31,8 @@
           <input class='input-style' placeholder='&#xF002; What are you looking for...'/>
         </div>
         <div>
-          <label class='custom-file-input'>
-            <input type='file'/>
-          </label>
+
+          <input class="seach-btn" type="button" value="search">
         </div>
       </div>
     </div>
@@ -47,176 +59,216 @@
       </div>
 
       <div class="content">
-        <div class="col-xs-4">
-          <div class="contacts">
-            <span class="sub-title">WORK PHONE</span>
-            <p class="content-detail">01 2345 6789</p>
-            <span class="sub-title">FAX</span>
-            <p class="content-detail">01 2345 6789</p>
-            <span class="sub-title">STREET ADDRESS</span>
-            <p class="content-detail">Level 10, 1 Sydney Street Sydney, NSW, 2000</p>
-            <div class="contacts-btn pull-right"><i class="fa fa-user" aria-hidden="true"></i>CONTACT</div>
-          </div>
-        </div>
-        <div class="col-xs-4">
-          <div class="user-details">
-            <span class="sub-title">DOE USER ID</span>
-            <p class="content-detail">Gavin.Talbot7</p>
-            <span class="sub-title">NEWWORK USER</span>
-            <p class="content-detail">GTALBOT3</p>
-            <span class="sub-title">EMPLOYMENT ROLES</span>
-            <p class="content-detail">DET.CONTRACTOR</p>
-            <div class="user-details-btn pull-right"><i class="fa fa-circle-o-notch" aria-hidden="true"></i>USER DETAILS</div>
-          </div>
-        </div>
-        <div class="col-xs-4">
-          <div id="side-bar-menu" aria-multiselectable="true">
-              <div class="panel">
-                <div id="headingOne">
-                    <a data-toggle="collapse" class="collapsed" data-parent="#side-bar-menu" href="#doe-directory" aria-expanded="false" aria-controls="doe-directory">
-                      <div class="parent-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
-                        DoE directory
-                      </div>
-                    </a>
-                </div>
-                <div id="doe-directory" class="panel-collapse collapse" aria-labelledby="headingOne">
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                </div>
-              </div>
-              <div class="panel">
-                <div id="headingTwo">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#side-bar-menu" href="#corporate-services" aria-expanded="false" aria-controls="corporate-services">
-                      <div class="parent-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
-                        Corporate Services
-                      </div>
-                    </a>
-                </div>
-                <div id="corporate-services" class="panel-collapse collapse" aria-labelledby="headingTwo">
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                </div>
-              </div>
-              <div class="panel">
-                <div id="headingThree">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#side-bar-menu" href="#information-technology" aria-expanded="false" aria-controls="information-technology">
-                      <div class="parent-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
-                        Information Technology (New)
-                      </div>
-                    </a>
-                </div>
-                <div id="information-technology" class="panel-collapse collapse" aria-labelledby="headingThree">
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                </div>
-              </div>
-              <div class="panel">
-                <div id="headingFour">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#side-bar-menu" href="#enterprise-systems" aria-expanded="false" aria-controls="enterprise-systems">
-                      <div class="parent-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
-                        Enterprise Systems
-                      </div>
-                    </a>
-                </div>
-                <div id="enterprise-systems" class="panel-collapse collapse" aria-labelledby="headingFour">
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Test
-                  </div>
-                </div>
-              </div>
-              <div class="panel">
-                <div id="headingFive">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#side-bar-menu" href="#student-management" aria-expanded="false" aria-controls="student-management">
-                      <div class="parent-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
-                        Student Management
-                      </div>
-                    </a>
-                </div>
-                <div id="student-management" class="panel-collapse collapse" aria-labelledby="headingFive">
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    School Systems(legacy)
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    School Systems(SALM)
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Talbot, Gavin
-                  </div>
-                  <div class="child-btn">
-                    <i class="fa fa-university" aria-hidden="true"></i>
-                    Farsaci, Sal
-                  </div>
-                </div>
+        <div class="row">
+          <div class="col-md-8 col-sm-6">
+            <div class="col-md-6 col-sm-12">
+              <div class="contacts">
+                <span class="sub-title">WORK PHONE</span>
+                <p class="content-detail">01 2345 6789</p>
+                <span class="sub-title">FAX</span>
+                <p class="content-detail">01 2345 6789</p>
+                <span class="sub-title">STREET ADDRESS</span>
+                <p class="content-detail">Level 10, 1 Sydney Street Sydney, NSW, 2000</p>
+                <div class="contacts-btn pull-right"><i class="fa fa-user" aria-hidden="true"></i>CONTACT</div>
               </div>
             </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="user-details">
+                <span class="sub-title">DOE USER ID</span>
+                <p class="content-detail">Gavin.Talbot7</p>
+                <span class="sub-title">NEWWORK USER</span>
+                <p class="content-detail">GTALBOT3</p>
+                <span class="sub-title">EMPLOYMENT ROLES</span>
+                <p class="content-detail">DET.CONTRACTOR</p>
+                <div class="user-details-btn pull-right"><i class="fa fa-circle-o-notch" aria-hidden="true"></i>USER DETAILS</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="col-sm-12">
+              <div id="side-bar-menu" aria-multiselectable="true">
+                <div id="MainMenu">
+                  <div class="list-group panel">
+                    <a href="#item-1" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                      <div id="menu-1">
+                        <div class="parent-btn">
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          DoE directory
+                        </div>
+                      </div>
+                    </a>
+                    <div class="collapse" id="item-1">
+                      <a href="#subItem-1" class="collapsed" data-toggle="collapse" data-parent="#subItem-1" onclick="toggle('item-1', 'menu-1')">
+                        <div class="child-btn">
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          Corporate Services
+                        </div>
+                      </a>
+                      <div class="collapse" id="subItem-1">
+                        <a href="#SubSubItem-1" class="collapsed" data-toggle="collapse" data-parent="#SubSubItem-1" onclick="toggle('subItem-1', 'item-1')">
+                          <div class="child-btn">
+                            <i class="fa fa-university" aria-hidden="true"></i>
+                            Information Technology(New)
+                          </div>
+                        </a>
+                        <div class="collapse" id="SubSubItem-1">
+                          <a href="#SubSubSubItem-1" class="collapsed" data-toggle="collapse" data-parent="#SubSubSubItem-1" onclick="toggle('SubSubItem-1', 'subItem-1')">
+                            <div class="child-btn">
+                              <i class="fa fa-university" aria-hidden="true"></i>
+                              Enterprise Systems
+                            </div>
+                          </a>
+                          <div class="collapse" id="SubSubSubItem-1">
+                            <a href="#SubSubSubSubItem-1" class="collapsed"  data-toggle="collapse" data-parent="#SubSubSubSubItem-1" onclick="toggle('SubSubSubItem-1', 'SubSubItem-1')">
+                              <div class="child-btn">
+                                <i class="fa fa-university" aria-hidden="true"></i>
+                                Student Management
+                              </div>
+                            </a>
+                            <div class="collapse" id="SubSubSubSubItem-1">
+                              <a href="#" >
+                                <div class="child-btn">
+                                  <i class="fa fa-university" aria-hidden="true"></i>
+                                  School Systems(legacy)
+                                </div>
+                                <div class="child-btn">
+                                  <i class="fa fa-university" aria-hidden="true"></i>
+                                  School Systems(SALM)
+                                </div>
+                                <div class="child-btn">
+                                  <i class="fa fa-university" aria-hidden="true"></i>
+                                  Talbot, Gavin
+                                </div>
+                                <div class="child-btn">
+                                  <i class="fa fa-university" aria-hidden="true"></i>
+                                  Farsaci, Sal
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="#item-2" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                      <div id="menu-2">
+                        <div class="parent-btn" >
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          Item 2
+                        </div>
+                      </div>
+                    </a>
+                    <div class="collapse" id="item-2">
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 2
+                      </div>
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 2
+                      </div>
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 2
+                      </div>
+                    </div>
+
+                    <a href="#item-3" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                      <div id="menu-3">
+                        <div class="parent-btn">
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          Item 3
+                        </div>
+                      </div>
+                    </a>
+                    <div class="collapse" id="item-3">
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 3
+                      </div>
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 3
+                      </div>
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 3
+                      </div>
+                    </div>
+
+                    <a href="#item-4" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                      <div id="menu-4">
+                        <div class="parent-btn">
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          Item 4
+                        </div>
+                      </div>
+                    </a>
+                    <div class="collapse" id="item-4">
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 4
+                      </div>
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 4
+                      </div>
+                      <div class="child-btn">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                        Sub Item 4
+                      </div>
+                    </div>
+
+                    <a href="#itme-5" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                      <div id="menu-5">
+                        <div class="parent-btn">
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          Item 5
+                        </div>
+                      </div>
+                    </a>
+                    <div class="collapse" id="itme-5">
+                        <div class="child-btn">
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          Sub Item 5
+                        </div>
+                        <div class="child-btn">
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          Sub Item 5
+                        </div>
+                        <div class="child-btn">
+                          <i class="fa fa-university" aria-hidden="true"></i>
+                          Sub Item 5
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+
         </div>
+
+
+
       </div>
     </div>
     <div class="footer">
-
     </div>
+    <script type="text/javascript">
+      function toggle(x, y) {
+        $( "#"+x+" .child-btn:first" ).toggleClass( "highlight" );
+
+        if ($( "#"+y ).find('.parent-btn').length) {
+          $( "#"+y+" .parent-btn:first" ).toggleClass( "ddda" );
+        } else {
+          $( "#"+y+" .child-btn:first" ).toggleClass( "highdark" );
+        }
+      }
+    </script>
   </body>
 </html>
