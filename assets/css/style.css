@@ -189,12 +189,10 @@ body {
 .parent-btn.darkback {
   background-color: #0e3f51;
 }
-
-
 .fa-university {
   padding: 0 20px;
 }
-.reset {
+.reset-web, .reset-mobile {
   background-image: url(../images/reset.png);
   background-repeat: no-repeat;
   background-position: 1em;
@@ -208,9 +206,12 @@ body {
   background-color: #fafafa;
   border-radius: 5px;
 }
-.reset:hover {
+.reset-web:hover, .reset-mobile:hover {
   background-color: #ededed;
   cursor: pointer;
+}
+.reset-mobile {
+  display: none;
 }
 @media (max-width: 991px) {
   .col-sm-12 {
@@ -224,4 +225,22 @@ body {
     /*display: none;*/
     padding-bottom: 0;
   }
+  .info {
+    margin-bottom: 15px;
+  }
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+  .detail.col-xs-10.row {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  .reset-mobile {
+    display: table;
+  }
+  .reset-web {
+    display: none;
+  }
+
 }
