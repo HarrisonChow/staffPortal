@@ -213,6 +213,9 @@ body {
 .reset-mobile {
   display: none;
 }
+.info {
+  margin-bottom: 15px;
+}
 @media (max-width: 991px) {
   .col-sm-12 {
     padding-left: 0;
@@ -224,9 +227,6 @@ body {
   .contacts, .user-details {
     /*display: none;*/
     padding-bottom: 0;
-  }
-  .info {
-    margin-bottom: 15px;
   }
   .avatar {
     width: 80px;
