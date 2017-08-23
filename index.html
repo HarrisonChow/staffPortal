@@ -13,12 +13,13 @@
       .child-btn.highlight {
         background-color: #4ab9b8;
         color: #ffffff;
+        background-image: url(assets/images/directory-white.png);
       }
       .child-btn.highdark {
         background-color: #0e3f51;
         color: #ffffff;
       }
-      .parent-btn.ddda {
+      .parent-btn.darkback {
         background-color: #0e3f51;
       }
     </style>
@@ -58,29 +59,109 @@
         </div>
       </div>
 
+      <div class="reset pull-right">
+        SHOW GAVIN'S LOCATION
+      </div>
+
       <div class="content">
         <div class="row">
           <div class="col-md-8 col-sm-6">
             <div class="col-md-6 col-sm-12">
-              <div class="contacts">
-                <span class="sub-title">WORK PHONE</span>
-                <p class="content-detail">01 2345 6789</p>
-                <span class="sub-title">FAX</span>
-                <p class="content-detail">01 2345 6789</p>
-                <span class="sub-title">STREET ADDRESS</span>
-                <p class="content-detail">Level 10, 1 Sydney Street Sydney, NSW, 2000</p>
-                <div class="contacts-btn pull-right"><i class="fa fa-user" aria-hidden="true"></i>CONTACT</div>
+              <div class="info">
+                <div class="info-header row">
+                  <div class="col-xs-9">
+                    <div class="info-title">
+                      Contact Details
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <a href="#contact-details" id="contact-text" class="collapsed" data-toggle="collapse" data-parent="#contact-details" onclick="toggletext('contact-text')">
+                    <div class="info-btn">HIDE</div>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="info-details collapse in" id="contact-details">
+                  <span class="sub-title">WORK PHONE</span>
+                  <p class="content-detail">01 2345 6789</p>
+                  <span class="sub-title">FAX</span>
+                  <p class="content-detail">01 2345 6789</p>
+                  <span class="sub-title">STREET ADDRESS</span>
+                  <p class="content-detail">Level 10, 1 Sydney Street Sydney, NSW, 2000</p>
+                </div>
               </div>
             </div>
             <div class="col-md-6 col-sm-12">
-              <div class="user-details">
-                <span class="sub-title">DOE USER ID</span>
-                <p class="content-detail">Gavin.Talbot7</p>
-                <span class="sub-title">NEWWORK USER</span>
-                <p class="content-detail">GTALBOT3</p>
-                <span class="sub-title">EMPLOYMENT ROLES</span>
-                <p class="content-detail">DET.CONTRACTOR</p>
-                <div class="user-details-btn pull-right"><i class="fa fa-circle-o-notch" aria-hidden="true"></i>USER DETAILS</div>
+              <div class="info">
+                <div class="info-header row">
+                  <div class="col-xs-9">
+                    <div class="user-title">
+                      User Details
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <a href="#user-details" id="user-text" class="collapsed" data-toggle="collapse" data-parent="#user-details" onclick="toggletext('user-text')">
+                      <div class="info-btn">HIDE</div>
+                    </a>
+                  </div>
+                </div>
+                <div class="info-details collapse in" id="user-details">
+                  <span class="sub-title">DOE USER ID</span>
+                  <p class="content-detail">Gavin.Talbot7</p>
+                  <span class="sub-title">NEWWORK USER</span>
+                  <p class="content-detail">GTALBOT3</p>
+                  <span class="sub-title">EMPLOYMENT ROLES</span>
+                  <p class="content-detail">DET.CONTRACTOR</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+              <div class="info">
+                <div class="info-header row">
+                  <div class="col-xs-9">
+                    <div class="group-title">
+                      Groups
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <a href="#group-details" id="group-text" class="collapsed" data-toggle="collapse" data-parent="#group-details" onclick="toggletext('group-text')">
+                      <div class="info-btn">HIDE</div>
+                    </a>
+                  </div>
+                </div>
+                <div class="info-details collapse in" id="group-details">
+                  <p class="group-label">GROUPS I'M IN</p>
+                  <div class="row">
+                    <div class="group-btn col-xs-6">
+                      All Teachers
+                    </div>
+                    <div class="group-btn col-xs-6">
+                      North Coast Principals
+                    </div>
+                    <div class="group-btn col-xs-6">
+                      North Coast Principals
+                    </div>
+                    <div class="group-btn col-xs-6">
+                      North Coast Principals
+                    </div>
+                    <div class="group-btn col-xs-6">
+                      Norsncipals
+                    </div>
+                    <div class="group-btn col-xs-6">
+                      Nncipals
+                    </div>
+                    <div class="group-btn col-xs-6">
+                      Ncipals
+                    </div>
+                    <div class="group-btn col-xs-6">
+                      Ncipals
+                    </div>
+                    <div class="group-btn col-xs-6">
+                      Ncipals
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -89,10 +170,9 @@
               <div id="side-bar-menu" aria-multiselectable="true">
                 <div id="MainMenu">
                   <div class="list-group panel">
-                    <a href="#item-1" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                    <a href="#item-1" class="collapsed" data-toggle="collapse" data-parent="#MainMenu" onclick="collapsing('menu-1')">
                       <div id="menu-1">
                         <div class="parent-btn">
-                          <i class="fa fa-university" aria-hidden="true"></i>
                           DoE directory
                         </div>
                       </div>
@@ -100,47 +180,39 @@
                     <div class="collapse" id="item-1">
                       <a href="#subItem-1" class="collapsed" data-toggle="collapse" data-parent="#subItem-1" onclick="toggle('item-1', 'menu-1')">
                         <div class="child-btn">
-                          <i class="fa fa-university" aria-hidden="true"></i>
                           Corporate Services
                         </div>
                       </a>
                       <div class="collapse" id="subItem-1">
                         <a href="#SubSubItem-1" class="collapsed" data-toggle="collapse" data-parent="#SubSubItem-1" onclick="toggle('subItem-1', 'item-1')">
                           <div class="child-btn">
-                            <i class="fa fa-university" aria-hidden="true"></i>
                             Information Technology(New)
                           </div>
                         </a>
                         <div class="collapse" id="SubSubItem-1">
                           <a href="#SubSubSubItem-1" class="collapsed" data-toggle="collapse" data-parent="#SubSubSubItem-1" onclick="toggle('SubSubItem-1', 'subItem-1')">
                             <div class="child-btn">
-                              <i class="fa fa-university" aria-hidden="true"></i>
                               Enterprise Systems
                             </div>
                           </a>
                           <div class="collapse" id="SubSubSubItem-1">
                             <a href="#SubSubSubSubItem-1" class="collapsed"  data-toggle="collapse" data-parent="#SubSubSubSubItem-1" onclick="toggle('SubSubSubItem-1', 'SubSubItem-1')">
                               <div class="child-btn">
-                                <i class="fa fa-university" aria-hidden="true"></i>
                                 Student Management
                               </div>
                             </a>
                             <div class="collapse" id="SubSubSubSubItem-1">
                               <a href="#" >
                                 <div class="child-btn">
-                                  <i class="fa fa-university" aria-hidden="true"></i>
                                   School Systems(legacy)
                                 </div>
                                 <div class="child-btn">
-                                  <i class="fa fa-university" aria-hidden="true"></i>
                                   School Systems(SALM)
                                 </div>
-                                <div class="child-btn">
-                                  <i class="fa fa-university" aria-hidden="true"></i>
+                                <div class="child-btn-user">
                                   Talbot, Gavin
                                 </div>
-                                <div class="child-btn">
-                                  <i class="fa fa-university" aria-hidden="true"></i>
+                                <div class="child-btn-user">
                                   Farsaci, Sal
                                 </div>
                               </a>
@@ -150,123 +222,117 @@
                       </div>
                     </div>
 
-                    <a href="#item-2" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                    <a href="#item-2" class="collapsed" data-toggle="collapse" data-parent="#MainMenu" onclick="collapsing('menu-2')">
                       <div id="menu-2">
                         <div class="parent-btn" >
-                          <i class="fa fa-university" aria-hidden="true"></i>
                           Item 2
                         </div>
                       </div>
                     </a>
                     <div class="collapse" id="item-2">
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 2
                       </div>
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 2
                       </div>
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 2
                       </div>
                     </div>
 
-                    <a href="#item-3" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                    <a href="#item-3" class="collapsed" data-toggle="collapse" data-parent="#MainMenu" onclick="collapsing('menu-3')">
                       <div id="menu-3">
                         <div class="parent-btn">
-                          <i class="fa fa-university" aria-hidden="true"></i>
                           Item 3
                         </div>
                       </div>
                     </a>
                     <div class="collapse" id="item-3">
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 3
                       </div>
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 3
                       </div>
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 3
                       </div>
                     </div>
 
-                    <a href="#item-4" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                    <a href="#item-4" class="collapsed" data-toggle="collapse" data-parent="#MainMenu" onclick="collapsing('menu-4')">
                       <div id="menu-4">
                         <div class="parent-btn">
-                          <i class="fa fa-university" aria-hidden="true"></i>
                           Item 4
                         </div>
                       </div>
                     </a>
                     <div class="collapse" id="item-4">
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 4
                       </div>
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 4
                       </div>
                       <div class="child-btn">
-                        <i class="fa fa-university" aria-hidden="true"></i>
                         Sub Item 4
                       </div>
                     </div>
 
-                    <a href="#itme-5" class="collapsed" data-toggle="collapse" data-parent="#MainMenu">
+                    <a href="#item-5" class="collapsed" data-toggle="collapse" data-parent="#MainMenu" onclick="collapsing('menu-5')">
                       <div id="menu-5">
                         <div class="parent-btn">
-                          <i class="fa fa-university" aria-hidden="true"></i>
                           Item 5
                         </div>
                       </div>
                     </a>
-                    <div class="collapse" id="itme-5">
-                        <div class="child-btn">
-                          <i class="fa fa-university" aria-hidden="true"></i>
-                          Sub Item 5
-                        </div>
-                        <div class="child-btn">
-                          <i class="fa fa-university" aria-hidden="true"></i>
-                          Sub Item 5
-                        </div>
-                        <div class="child-btn">
-                          <i class="fa fa-university" aria-hidden="true"></i>
-                          Sub Item 5
-                        </div>
-
+                    <div class="collapse" id="item-5">
+                      <div class="child-btn">
+                        Sub Item 5
+                      </div>
+                      <div class="child-btn">
+                        Sub Item 5
+                      </div>
+                      <div class="child-btn">
+                        Sub Item 5
+                      </div>
                     </div>
                   </div>
                 </div>
-
-
-
               </div>
             </div>
           </div>
-
         </div>
-
-
-
       </div>
     </div>
     <div class="footer">
     </div>
     <script type="text/javascript">
+      $(document).ready(function() {
+        $('body').find('.parent-btn:first').css('border-radius','5px 5px 0 0');
+        $('body').find('.parent-btn:last').css('border-radius','0 0 5px 5px');
+        $('body').find('.child-btn:last').css('border-radius','0 0 5px 5px');
+      });
+      function collapsing(x) {
+        if ($('body').find('.child-btn:last').parent().attr('class') === 'collapse' && $('body').find('.parent-btn:last').parent().attr('id') === x) {
+          $('body').find('.parent-btn:last').css('border-radius','0');
+        } else {
+          $('body').find('.parent-btn:last').css('border-radius','0 0 5px 5px');
+        }
+      }
       function toggle(x, y) {
         $( "#"+x+" .child-btn:first" ).toggleClass( "highlight" );
-
         if ($( "#"+y ).find('.parent-btn').length) {
-          $( "#"+y+" .parent-btn:first" ).toggleClass( "ddda" );
+          $( "#"+y+" .parent-btn:first" ).toggleClass( "darkback" );
         } else {
           $( "#"+y+" .child-btn:first" ).toggleClass( "highdark" );
+        }
+      }
+      function toggletext(x){
+        if ($("#"+x+ " .info-btn").text() === 'HIDE') {
+          $("#"+x+ " .info-btn").text('SHOW');
+        } else {
+          $("#"+x+ " .info-btn").text('HIDE');
         }
       }
     </script>
