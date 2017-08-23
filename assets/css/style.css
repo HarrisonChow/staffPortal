@@ -177,6 +177,20 @@ body {
   background-position: 1em .7em;
   padding-left: 50px;
 }
+.child-btn.highlight {
+  background-color: #4ab9b8;
+  color: #ffffff;
+  background-image: url(../images/directory-white.png);
+}
+.child-btn.highdark {
+  background-color: #0e3f51;
+  color: #ffffff;
+}
+.parent-btn.darkback {
+  background-color: #0e3f51;
+}
+
+
 .fa-university {
   padding: 0 20px;
 }

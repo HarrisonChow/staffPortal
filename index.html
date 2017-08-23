@@ -9,20 +9,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <style>
-      .child-btn.highlight {
-        background-color: #4ab9b8;
-        color: #ffffff;
-        background-image: url(assets/images/directory-white.png);
-      }
-      .child-btn.highdark {
-        background-color: #0e3f51;
-        color: #ffffff;
-      }
-      .parent-btn.darkback {
-        background-color: #0e3f51;
-      }
-    </style>
   </head>
   <body>
     <div class="header">
@@ -307,34 +293,6 @@
     </div>
     <div class="footer">
     </div>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('body').find('.parent-btn:first').css('border-radius','5px 5px 0 0');
-        $('body').find('.parent-btn:last').css('border-radius','0 0 5px 5px');
-        $('body').find('.child-btn:last').css('border-radius','0 0 5px 5px');
-      });
-      function collapsing(x) {
-        if ($('body').find('.child-btn:last').parent().attr('class') === 'collapse' && $('body').find('.parent-btn:last').parent().attr('id') === x) {
-          $('body').find('.parent-btn:last').css('border-radius','0');
-        } else {
-          $('body').find('.parent-btn:last').css('border-radius','0 0 5px 5px');
-        }
-      }
-      function toggle(x, y) {
-        $( "#"+x+" .child-btn:first" ).toggleClass( "highlight" );
-        if ($( "#"+y ).find('.parent-btn').length) {
-          $( "#"+y+" .parent-btn:first" ).toggleClass( "darkback" );
-        } else {
-          $( "#"+y+" .child-btn:first" ).toggleClass( "highdark" );
-        }
-      }
-      function toggletext(x){
-        if ($("#"+x+ " .info-btn").text() === 'HIDE') {
-          $("#"+x+ " .info-btn").text('SHOW');
-        } else {
-          $("#"+x+ " .info-btn").text('HIDE');
-        }
-      }
-    </script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
   </body>
 </html>
