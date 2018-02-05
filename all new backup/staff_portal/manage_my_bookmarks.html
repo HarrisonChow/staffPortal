@@ -1,0 +1,114 @@
+<#attempt>
+<h2>Bookmark Authoring</h2>
+<p>The way we author bookmarks has changed.  Bookmarks are now maintained...</p>
+<p>You now have 2 ways to find your bookmark for editing.</p>
+<h3>Option 1. Search for your bookmark</h3>
+<p>Select the "Find my bookmark" button below and you will be take to the Find My Bookmark tool.  You can browse the available bookmarks...</p>
+<button id="bookmark-button">Find My Bookmark</button>
+<br/>
+<h3>Option 2. Find your bookmark site</h3>
+<p>The following...</p>
+<button id="site-button">Find My Bookmark Site</button>
+
+<script>
+
+AUI().use(
+	'liferay-item-selector-dialog',
+	'liferay-portlet-url',
+	function(A) {
+		$("body").on(
+			"click",
+			"#site-button",
+			function(a) {
+                $('#_com_liferay_product_navigation_product_menu_web_portlet_ProductMenuPortlet_manageSitesLink').click();
+			}
+		)
+	}
+);
+
+AUI().use(
+	'liferay-item-selector-dialog',
+	'liferay-portlet-url',
+	function(A) {
+		$("body").on(
+			"click",
+			"#bookmark-button",
+			function(a) {
+				var b = this;
+				Liferay.Util.selectEntity(
+					{
+						dialog : {
+							constrain : !0,
+							destroyOnHide : !0,
+							modal : !0
+						},
+						eventName : "selectContent",
+						id : "selectContent",
+						title : "Web Content",
+						uri : "/group/control_panel?p_p_id=com_liferay_asset_browser_web_portlet_AssetBrowserPortlet&p_p_lifecycle=0&p_p_state=pop_up&p_p_mode=view&_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_groupId=${groupId}&_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_selectedGroupIds=${themeDisplay.getUser().getGroupIds()?join(',')}&_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_typeSelection=com.liferay.journal.model.JournalArticle&_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_showNonindexable=false&_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_showScheduled=false&_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_eventName=selectContent&p_p_auth=xsrdQUdt&_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_subtypeSelectionId=220638"
+					},
+					function(selection) {
+						console.log(selection);
+						Liferay.Service(
+							'/journal.journalarticle/get-latest-article',
+							{
+							resourcePrimKey : selection.assetclasspk
+							},
+							function(article) {
+								Liferay.Service(
+									'/group/get-group',
+									{
+										groupId : article.groupId
+									},
+									function(group) {
+										window.location.href = "/group"	+ group.friendlyURL;
+									}
+								);
+							}
+						)
+					}
+				)
+				$("iframe").ready(
+					function() {
+						setTimeout(
+							checkIframe("#_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_menuItem",0)
+							,100);
+					}
+				);
+			}
+		)
+	}
+);
+
+function checkIframe(itmName, nbCalls) {
+
+  function timeoutHandler(){
+    if (nbCalls < 100) {
+        nbCalls += 1;
+		try {
+			var itm = $('iframe')[0].contentWindow.$(itmName);
+			console.log("Itm " + itm);
+			if (itm.length) {
+				console.log("Found " + itm);
+				itm.hide();
+			} else {
+				console.log("not found " + nbCalls);
+				setTimeout( timeoutHandler, 200 );
+			}
+		}
+		catch (ex) {
+			console.log("not found ex " + nbCalls);
+			setTimeout( timeoutHandler, 200 );
+		}
+    }
+  }
+
+  timeoutHandler();
+
+}
+</script>
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

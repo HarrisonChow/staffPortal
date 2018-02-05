@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My essentials editing</title>
+  <style>
+      .container-fluid {
+        font-family: Montserrat;
+      }
+      .container-fluid .personal-essentials ul li, .container-fluid .all-essentials ul li {
+        float: left;
+      }
+      .container-fluid .row{
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .essentials-title h2, .essentials-title p {
+        text-align: center;
+        font-weight: 300;
+      }
+      .essentials-title h2 {
+        font-size: 20px;
+        color: #0e3f51;
+      }
+      .essentials-title p {
+        font-size: 12px;
+        color: #343441;
+      }
+      .all-essentials, .personal-essentials {
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 1200px;
+      }
+      .personal-essentials {
+        margin-bottom: 15px;
+      }
+      #personal-essentials, #all-essentials {
+        width: 100%;
+        list-style-type: none;
+        float: left;
+        position: relative;
+        min-height: 250px;
+      }
+      #personal-essentials li, #all-essentials li{
+        padding: 5px;
+      }
+      .middle-bar {
+        margin-left: -15px;
+        margin-right: -15px;
+        background-color: #4ab9b8;
+        height: 58px;
+      }
+      .middle-bar-right {
+      	float: right;
+      }
+      .middle-bar-content {
+      	margin-left: auto;
+      	margin-right: auto;
+      	max-width: 1200px;
+      }
+      .middle-bar-right .btn-plus {
+        background: none;
+        border: none;
+        vertical-align: middle;
+      }
+      .middle-bar-right .btn-plus:focus {
+        outline: none;
+      }
+      .middle-bar-right button {
+        margin: 0 15px;
+      }
+      .middle-bar-right input {
+        margin: 0 5px;
+      }
+      .category-select {
+        width: 167px;
+        float: left;
+        border-radius: 100px !important;
+        background-color: #fff;
+        padding: 0;
+      }
+      .middle-bar .dropdown{
+        margin-top: 11px
+      }
+      .category-select .btn .caret {
+        float: right;
+        margin-top: 9px;
+      }
+
+      .has-feedback .form-control {
+        border-radius: 100px;
+      }
+      select.form-control {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+      .dropdown {
+        border-radius: 100px;
+        background-color: #ffffff;
+        border: solid 1px #ededed;
+        margin-top: 12px;
+        height: 34px;
+      }
+      .form-control-feedback{
+        position: absolute;
+        padding: 10px;
+        pointer-events: none;
+        left:  0px;
+        top: 2px;
+        color: #4ab9b8;
+      }
+      .has-feedback {
+        width: 185px;
+        float: left;
+        margin-left: 15px;
+      }
+      .has-feedback input {
+        padding-left: 30px;
+      }
+
+      .btn-save, .btn-cancel {
+        font-size: 10px !important;
+        font-weight: 600 !important;
+        border-radius: 100px !important;
+        border: solid 1px #ededed !important;
+      }
+      .btn-save {
+        color: #26ca50 !important;
+      }
+      .btn-cancel {
+        color: #979797 !important;
+      }
+
+      .drag-drop-container {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .essential {
+        padding: 15px;
+      }
+      .essential-placeholder {
+        position: relative;
+        width: 100%;
+      }
+      .essential-placeholder:after {
+        /*content: " ";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 35px;
+        background-color: #fafafa;*/
+      }
+      .essential-container {
+        height: 55px;
+  			line-height: 55px;
+  			border-radius: 2px;
+  			background-color: #fafafa;
+  			border: solid 1px #ededed;
+  			font-size: 14px;
+  			color: #343441;
+  			margin: 6px;
+  			padding-left: 10px;
+      }
+      .essential-container img {
+        padding-right: 10px;
+        height: 21px;
+        width: auto;
+      }
+      .essential-container .btn-group {
+        line-height: 12px;
+      }
+      .essential-container .btn-group button {
+        padding: 0 !important;
+        border: none !important;
+        background-color: rgba(0, 0, 0, 0) !important;
+      }
+      .essential-container .btn-group.open .dropdown-toggle {
+        box-shadow: none;
+      }
+      .essential-container .dropdown-menu .shared {
+        background-color: #4ab9b8;
+        font-weight: 400;
+        color: #ffffff;
+        height: 32px;
+        line-height: 32px;
+        padding: 0 10px !important;
+      }
+      .essential-container .dropdown-menu li {
+        width: 100%;
+        font-size: 10px;
+      }
+      .essential-container .dropdown-menu li:not(.shared) {
+        color: #0e3f51 !important;
+        padding: 5px;
+      }
+      .essential-container .dropdown-menu {
+        padding: 0 !important;
+      }
+      .manage-shared-essentials{
+      	font-size: 10px;
+      	font-weight: 600;
+      	text-align: left;
+      	color: #ffffff;
+      	line-height: 58px;
+      }
+
+      .btn-add, .btn-remove{
+      	position:absolute;
+        bottom: 10px;
+        right: 10px;
+        border-radius: 3px;
+      	border: solid 1px #ededed;
+        width: 62px;
+      	height: 19px;
+        text-align: center;
+        color: #fff;
+        line-height: 19px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 0 !important;
+      }
+      .btn-add {
+      	background-color: #26ca50;
+      }
+      .btn-remove {
+      	background-color: #ff5b5b;
+      }
+      .btn-default {
+        width: 86px;
+        height: 34px;
+        border-radius: 100px;
+        background-color: #ffffff;
+        border: solid 1px #ededed;
+      	font-size: 10px;
+      	font-weight: 600;
+      }
+      .all-essentials .glyphicon, .personal-essentials .glyphicon  {
+        padding-top: 3px;
+        padding-right: 3px;
+      }
+      .all-essentials .glyphicon-cog, .personal-essentials .glyphicon-cog {
+      	color: #c2c2c2;
+      	font-size: 12px;
+      }
+      .glyphicon-plus-sign {
+      	color: #fff;
+      	font-size: 32px;
+      	padding-top: 4px;
+      }
+      .deleteWarning {
+        width: 100%;
+        height: 100%;
+        line-height: 400px;
+        padding-top: 60px;
+        font-size: 2.5rem;
+        color: #fff;
+        /*background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 55%, rgba(255, 255, 255, 0.2) 40%);*/
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 988;
+        position: absolute;
+        text-align: center;
+        left: 0;
+        display: none;
+      }
+      .deleteWarning:after {
+        content: "\f014";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        text-decoration: inherit;
+        position: absolute;
+        text-align: center;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 80px;
+        color: #fff;
+        z-index: 9999;
+      }
+
+      @media only screen and (min-width: 1200px)  {
+      	.middle-bar-content .col-xs-7 {
+      		padding-right: 0;
+      	}
+      	.middle-bar-content .col-xs-5 {
+      		padding-left: 0;
+      	}
+      }
+
+      @media only screen and (max-width: 1199px) and (min-width: 400px) {
+        .middle-bar-content .col-xs-7 {
+          padding-right: 20px;
+        }
+        .middle-bar-content .col-xs-5 {
+          padding-left: 20px;
+        }
+      }
+
+      @media (max-width:992px) {
+        .has-feedback {
+          display: none;
+        }
+      }
+      @media (max-width:768px) {
+        .manage-shared-essentials, .btn-cancel {
+          display: none !important;
+        }
+        .btn-save {
+          margin-top: 6px !important;
+        }
+        .glyphicon-plus-sign {
+          padding-top: 10px;
+        }
+      }
+
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" >
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <script>
+    $( function(){
+
+        var data = [
+            {"name":"Social Networking","url":"http://facebook.com","imageUrl":"/images/facebookjpg","text":"Facebook","id":"e716e748c50cb88c"},
+            {"name":"Social Networking1","url":"http://twitter.com","imageUrl":"/image/bird.jpg","text":"Twitter","id":"d4017c4b19e5584d"},
+            {"name":"Social Networking2","url":"http://googleplus.com","imageUrl":"/image/google.jpg","text":"GooglePlus","id":"af3201f31fb3d93a"},
+            {"name":"Professional Networking","url":"http://linkedin.com","imageUrl":"/images/linked.jpg","text":"LinkedIn","id":"cf4556fd76de095a"},
+            {"name":"Professional Networking","url":"http://referral.com","imageUrl":"/images/referreal","text":"Referral","id":"ef3a9ad4b962a850"},
+            {"name":"Sports","url":"http://icc.com","imageUrl":"/images/icc.com","text":"ICC","id":"d4a428f460363841"},
+            {"name":"News","url":"http://sbs.com.au","imageUrl":"images/sbs.jpg","text":"SBS","id":"7a74cb69103a7916"},
+            {"name":"Cricket","url":"http://icc.com.au","imageUrl":"images/crck.jpg","text":"Cricket","id":"4d756b671ba9080a"},
+            {"name":"Soccer","url":"http://fifa.com.au","imageUrl":"images/soccer.jpg","text":"Soccer","id":"306ae1cfb1c83850"},
+            {"name":"Optus","url":"http://optus.com","imageUrl":"images/optus.jpg","text":"Optus","id":"d40046f08a8b8918"},
+            {"name":"DODO","url":"http://dodo.com.au","imageUrl":"images/dod.jpg","text":"Dodo","id":"5325b190f160985f"},
+            {"name":"AGL","url":"http://agl.com.au","imageUrl":"images/agl.jpg","text":"AGL","id":"af9f026e316e2893"},
+            {"name":"AWS","url":"http://aws.com.au","imageUrl":"images/aws.jpg","text":"AWS","id":"9d7c2cdf16eada80"},
+            {"name":"Kogarah","url":"http://kogarah.com.au","imageUrl":"images/kogarah.jpg","text":"Kogarah","id":"82df74ce5ad05bcc"},
+            {"name":"Carlton","url":"http://calrton.com.au","imageUrl":"images/carlton.jpg","text":"Carlton","id":"0868d63677a2b8d8"},
+            {"name":"Tempe","url":"http://tempe.com.au","imageUrl":"images/tempe","text":"Tempe","id":"322575565a6c7951"},
+            {"name":"Opera House","url":"http://operahouse.com.au","imageUrl":"images/opera.jpg","text":"Opera","id":"b11dfba78e9fb8a5"},
+            {"name":"Sydney Park","url":"http://sydneypark.com.au","imageUrl":"images/sydneypark.jpg","text":"Sydney Park","id":"4c465d525b5728ce"},
+            {"name":"Malini Beach","url":"http://malinibeach.com.au","imageUrl":"images/malini.jpg","text":"Malini Beach","id":"66539a1656c1abb1"}
+        ];
+
+        data.forEach(function(essential){
+          $("#all-essentials").append("<li class='essential col-md-3 col-sm-6 col-xs-12' id='"+essential.id+"'><div class='essential-container'><img src='./assets/images/vacation.png' class='essential-icon'>"+essential.name+"<span class='pull-right glyphicon glyphicon-cog' aria-hidden='true'></span><button type='button' class='btn-add'>ADD</button></div></li>");
+        });
+
+
+        $("#personal-essentials, #all-essentials").sortable({
+            connectWith: ".drag-drop-container",
+            revert: 300,
+        });
+        $('#all-essentials').droppable({
+          over: function( event, ui ) {
+            //get the current drag component id
+            var dragingEssential = ui.draggable.attr("id");
+
+            if ($('#all-essentials').has("#"+dragingEssential+"").length != 1) {
+              $('.deleteWarning').css('display','block');
+            }
+          },
+          out: function( event, ui ) {
+            $('.deleteWarning').css('display','none');
+          },
+          drop: function( event, ui ) {
+            var dragingEssential = ui.draggable.attr("id");
+            $("#"+dragingEssential+"").effect('puff', 500, callback(dragingEssential));
+            $('.deleteWarning').css('display','none');
+            $("#"+dragingEssential+"" + " .btn-remove").replaceWith("<button type='button' class='btn-add'>ADD</button>");
+          }
+        });
+
+        function callback(id) {
+          setTimeout(function() {
+            $( "#"+id+"" ).removeAttr( "style" ).hide().fadeIn();
+          }, 1000 );
+        };
+
+        $('#personal-essentials').droppable({
+          drop: function( event, ui ) {
+            var dragingEssential = ui.draggable.attr("id");
+            $("#"+dragingEssential+"" + " .btn-add").replaceWith("<button type='button' class='btn-remove'>REMOVE</button>");
+          }
+        });
+    });
+
+
+  </script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row essentials-title">
+      <div class="col-xs-offset-0 col-xs-12 col-sm-offset-3 col-sm-6">
+        <h2>Editing Essentials</h2>
+        <p>Simply drag & drop your essentials from the library below to
+					create your personal collection.Your top 5 will be available in the
+					menu for quick access.You can also manage your sharing using the
+					setting button on an essential.</p>
+	  	</div>
+    </div>
+    <div class="row personal-essentials">
+      <ul id="personal-essentials" class="drag-drop-container">
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential1">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 1
+            <div class="pull-right btn-group editing-btn">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-cog"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#"><img src="./assets/images/additional.png" class="edit-icon">Share Link</a></li>
+                <li><a href="#"><img src="./assets/images/additional.png" class="edit-icon">Remove from My Essentials</a></li>
+                <li><a href="#"><img src="./assets/images/additional.png" class="edit-icon">View Link Details</a></li>
+              </ul>
+            </div>
+            <button type="button" class="btn-remove">REMOVE</button>
+          </div>
+        </li>
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential2">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 2
+            <div class="pull-right btn-group editing-btn">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-cog"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li class="shared">Shared by: Michael Alexander</li>
+                <li><a href="#"><img src="./assets/images/additional.png" class="edit-icon">Manage Sharing</a></li>
+                <li><a href="#"><img src="./assets/images/additional.png" class="edit-icon">Share Link</a></li>
+                <li><a href="#"><img src="./assets/images/additional.png" class="edit-icon">Remove from My Essentials</a></li>
+                <li><a href="#"><img src="./assets/images/additional.png" class="edit-icon">View Link Details</a></li>
+              </ul>
+            </div>
+            <button type="button" class="btn-remove">REMOVE</button>
+          </div>
+        </li>
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential3">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 3
+            <span class="pull-right glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <button type="button" class="btn-remove">REMOVE</button>
+          </div>
+        </li>
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential4">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 4
+            <span class="pull-right glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <button type="button" class="btn-remove">REMOVE</button>
+          </div>
+        </li>
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential5">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 5
+            <span class="pull-right glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <button type="button" class="btn-remove">REMOVE</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="middle-bar">
+      <div class="col-xs-5">
+        <div class="category-select dropdown">
+          <button type="button" class="btn category-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Showing: All <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">All Essentials</a></li>
+            <li><a href="#">Shared with me</a></li>
+            <li><a href="#">Applications</a></li>
+            <li><a href="#">Websites</a></li>
+            <li><a href="#">System Links</a></li>
+          </ul>
+        </div>
+        <div class="form-group has-feedback">
+          <i class="form-control-feedback glyphicon glyphicon-search"></i>
+          <input type="text" class="form-control dropdown" placeholder="Find Essential..." />
+        </div>
+      </div>
+      <div class="col-xs-7">
+        <div class="middle-bar-right">
+          <label class="manage-shared-essentials">
+            <span class="glyphicon glyphicon-cog " aria-hidden="true"></span>Manage Shared Essentials
+          </label>
+          <button type="button" class="btn-plus">
+            <span class="glyphicon glyphicon-plus-sign grpmargin" aria-hidden="true"></span>
+          </button>
+          <input type="button" class="btn btn-default btn-cancel" value="CANCEL" />
+          <input type="submit" class="btn btn-default btn-save" value="SAVE" />
+        </div>
+      </div>
+    </div>
+    <div class="row all-essentials">
+      <div class="deleteWarning">DROP HERE TO REMOVE</div>
+      <ul id="all-essentials" class="drag-drop-container">
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential6">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 6
+            <span class="pull-right glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <button type="button" class="btn-add">ADD</button>
+          </div>
+        </li>
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential7">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 7
+            <span class="pull-right glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <button type="button" class="btn-add">ADD</button>
+          </div>
+        </li>
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential8">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 8
+            <span class="pull-right glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <button type="button" class="btn-add">ADD</button>
+          </div>
+        </li>
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential9">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 9
+            <span class="pull-right glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <button type="button" class="btn-add">ADD</button>
+          </div>
+        </li>
+        <li class="essential col-md-3 col-sm-6 col-xs-12" id="essential10">
+          <div class="essential-container">
+            <img src="./assets/images/vacation.png" class="essential-icon">
+              OMSEE 10
+            <span class="pull-right glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <button type="button" class="btn-add">ADD</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

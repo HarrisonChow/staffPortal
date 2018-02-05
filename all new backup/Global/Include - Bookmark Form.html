@@ -1,0 +1,787 @@
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Article = function (_React$Component) {
+	_inherits(Article, _React$Component);
+
+	function Article() {
+		_classCallCheck(this, Article);
+
+		var _this = _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this));
+
+		_this.updateSectionModelData = _this.updateSectionModelData.bind(_this);
+		_this.removeSectionFromModel = _this.removeSectionFromModel.bind(_this);
+
+		_this.state = LiferayArticle.getSourceContentItem();
+
+		_this.state["studentPortalCategories"] = _this.state.studentPortalCategoryIds.join(',');
+		_this.state["staffPortalCategories"] = _this.state.staffPortalCategoryIds.join(',');
+		_this.state["extranetPortalCategories"] = _this.state.extranetPortalCategoryIds.join(',');
+		_this.state["launchTypeCategories"] = _this.state.launchTypeCategoryIds.join(',');
+		return _this;
+	}
+
+	_createClass(Article, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			LiferayArticle.initialiseSelectors();
+		}
+	}, {
+		key: "addSectionToModel",
+		value: function addSectionToModel(newLayout) {
+			var tmpSections = this.state.sections;
+
+			var index = 0;
+			for (var n in tmpSections) {
+				index++;
+			}
+
+			var newId = "id" + index;
+			tmpSections[newId] = { id: newId, sort: index, layout: newLayout, name: "", phone: "", email: "" };
+			this.setState({ sections: tmpSections });
+		}
+	}, {
+		key: "removeSectionFromModel",
+		value: function removeSectionFromModel(id) {
+			var tmpSections = this.state.sections;
+			delete tmpSections[id];
+			this.setState({ sections: tmpSections });
+		}
+	}, {
+		key: "updateSectionModelData",
+		value: function updateSectionModelData(modelData) {
+			var tmpSections = this.state.sections;
+			tmpSections[modelData.id] = modelData;
+			this.setState({ sections: tmpSections });
+		}
+	}, {
+		key: "renderLayouts",
+		value: function renderLayouts() {
+			var _this2 = this;
+
+			var sections = this.state.sections;
+			var sectionArray = [];
+			for (var key in sections) {
+				sectionArray.push(sections[key]);
+			}
+
+			return sectionArray.map(function (section) {
+				if (section != null) {
+					return React.createElement(Layout, { removeSectionFromModel: function removeSectionFromModel() {
+							return _this2.removeSectionFromModel(section.id);
+						}, modelData: section, updateSectionModelData: _this2.updateSectionModelData, key: section.sort, id: section.id });
+				}
+			});
+		}
+	}, {
+		key: "messageInfo",
+		value: function messageInfo() {
+			this.setState({ errors: true });
+			setTimeout(function () {
+				this.setState({ errors: false });
+			}.bind(this), 5000);
+		}
+	}, {
+		key: "handleChange",
+		value: function handleChange(e) {
+			var target = e.target;
+			var value = target.type === 'checkbox' ? target.checked : target.value;
+			var name = target.name;
+			this.setState(_defineProperty({}, name, value));
+		}
+	}, {
+		key: "handleSubmit",
+		value: function handleSubmit(event) {
+			event.preventDefault();
+			var requestAction = event.target.value;
+			var sections = this.state.sections;
+
+			var sectionArray = [];
+			var lastUpdated = LiferayArticle.formatDate(new Date());
+			var pDate = this.state.publishDate == null ? new Date() : this.state.publishDate;
+
+			function dynamicSort(property) {
+				return function (a, b) {
+					return a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+				};
+			}
+
+			for (var key in sections) {
+				sectionArray.push(sections[key]);
+			}
+
+			sectionArray.sort(dynamicSort('sort'));
+
+			var contentSections = sectionArray.map(function (element) {
+				if (element) {
+					return '<dynamic-element name="Contact" type="text" index-type="keyword" instance-id="' + LiferayArticle.generateInstanceId("fddo") + '">' + '   <dynamic-element name="Phone" instance-id="' + LiferayArticle.generateInstanceId("tnar") + '" type="text" index-type="text">' + '		<dynamic-content language-id="en_AU"><![CDATA[' + element.phone + ']]></dynamic-content>' + '	</dynamic-element>' + '	<dynamic-element name="Email" instance-id="' + LiferayArticle.generateInstanceId("vtmg") + '" type="text" index-type="text">' + '		<dynamic-content language-id="en_AU"><![CDATA[' + element.email + ']]></dynamic-content>' + '	</dynamic-element>' + '	<dynamic-content language-id="en_AU"><![CDATA[' + element.name + ']]></dynamic-content>' + '</dynamic-element>';
+				} else {
+					return "";
+				}
+			});
+
+			var finalContent = '<?xml version="1.0"?>' + '<root available-locales="en_AU" default-locale="en_AU">' + '	<dynamic-element name="URL" type="text" index-type="keyword" instance-id="hnur">' + '		<dynamic-content language-id="en_AU"><![CDATA[' + this.state.url + ']]></dynamic-content>' + '	</dynamic-element>' + '	<dynamic-element name="Icon" type="text" index-type="keyword" instance-id="tgxa">' + '		<dynamic-content language-id="en_AU"><![CDATA[' + this.state.icon + ']]></dynamic-content>' + '	</dynamic-element>' + contentSections.join('') + '</root>';
+
+			var categoryIds = LiferayArticle.filterCategoryIds(this.state.studentPortalCategories, this.state.staffPortalCategories, this.state.extranetPortalCategories, this.state.launchTypeCategories);
+
+			LiferayArticle.upsertContentItem(this.state.title, this.state.description, pDate, null, finalContent, this.state.urlTitle, categoryIds, requestAction == "Publish");
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this3 = this;
+
+			return React.createElement(
+				"div",
+				{ className: "article" },
+				React.createElement(
+					"form",
+					{ className: "content-article-form" },
+					React.createElement(
+						ReactBootstrap.Grid,
+						null,
+						React.createElement(
+							ReactBootstrap.Row,
+							null,
+							React.createElement(
+								ReactBootstrap.Col,
+								{ xs: 12 },
+								React.createElement(
+									"div",
+									{ className: "", id: "id-header" },
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"h2",
+											{ className: "edit-title" },
+											this.state.editorTitle
+										)
+									)
+								)
+							),
+							React.createElement(
+								ReactBootstrap.Col,
+								{ sm: 4, xs: 12, className: "form-controls" },
+								this.state.status === 2 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style draft" },
+											"DRAFT"
+										)
+									),
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"button",
+											{ type: "submit", value: "Publish", className: "publish-btn", onClick: this.handleSubmit.bind(this) },
+											"Publish"
+										)
+									)
+								) : null,
+								this.state.status === 1 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style pending" },
+											"PENDING"
+										)
+									)
+								) : null,
+								this.state.status === 7 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style scheduled" },
+											"SCHEDULED"
+										)
+									)
+								) : null,
+								this.state.status === 3 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style expired" },
+											"EXPIRED"
+										)
+									)
+								) : null,
+								this.state.status === 6 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style incomplete" },
+											"INCOMPLETE"
+										)
+									)
+								) : null,
+								this.state.status === 5 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style inactive" },
+											"INACTIVE"
+										)
+									)
+								) : null,
+								this.state.status === 8 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style deleted" },
+											"DELETED"
+										)
+									)
+								) : null,
+								this.state.status === 4 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style denied" },
+											"DENIED"
+										)
+									)
+								) : null,
+								this.state.status === 0 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style published" },
+											"PUBLISHED"
+										)
+									),
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"button",
+											{ type: "submit", value: "Publish", className: "publish-btn", onClick: this.handleSubmit.bind(this) },
+											"Publish Changes"
+										)
+									)
+								) : null
+							),
+							React.createElement(
+								ReactBootstrap.Col,
+								{ sm: 8, xs: 12 },
+								React.createElement(
+									ReactBootstrap.Col,
+									{ xs: 12 },
+									React.createElement(
+										"div",
+										{ className: "input-title" },
+										"Bookmark Title"
+									),
+									React.createElement("input", { name: "title", className: "input-style", type: "text", value: this.state.title, placeholder: "Enter the title of your bookmark...", onChange: this.handleChange.bind(this) })
+								),
+								React.createElement(
+									ReactBootstrap.Col,
+									{ xs: 12 },
+									React.createElement(
+										"div",
+										{ className: "input-title" },
+										"Description"
+									),
+									React.createElement("textarea", { name: "description", className: "text-content", maxLength: "400", type: "text", value: this.state.description, placeholder: "Enter an optional description...", onChange: this.handleChange.bind(this) })
+								)
+							),
+							React.createElement(
+								ReactBootstrap.Col,
+								{ xs: 12 },
+								React.createElement(
+									"div",
+									{ className: "article-header" },
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"div",
+											{ className: "input-title" },
+											"URL"
+										),
+										React.createElement("input", { name: "url", className: "input-style", type: "text", value: this.state.url, placeholder: "Enter your bookmark url...", onChange: this.handleChange.bind(this) })
+									),
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"div",
+											{ className: "input-title" },
+											"Icon"
+										),
+										React.createElement(
+											"div",
+											null,
+											React.createElement("input", { id: "iconInput", readOnly: true, className: "input-style", name: "icon", type: "text", value: this.state.icon, onChange: this.handleChange.bind(this), onClick: this.handleChange.bind(this) })
+										),
+										React.createElement(
+											"div",
+											null,
+											React.createElement(
+												"label",
+												{ id: "selectIconButton", className: "select-button-label featureImage" },
+												"Select Icon"
+											)
+										)
+									),
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"div",
+											{ className: "input-title" },
+											"Categorisation"
+										),
+										React.createElement(
+											"div",
+											{ className: "category-container" },
+											React.createElement(
+												ReactBootstrap.Col,
+												{ sm: 12, md: 6 },
+												React.createElement(
+													ReactBootstrap.Col,
+													{ xs: 12, className: "category-box" },
+													React.createElement(
+														"div",
+														{ className: "input-title" },
+														"Student Portal"
+													),
+													React.createElement(
+														"div",
+														{ className: "form-group" },
+														React.createElement("div", { id: "studentPortalCategorySelector" }),
+														React.createElement("input", { id: "studentPortalCategorySelectorHiddenInput", hidden: true, className: "input-style", name: "studentPortalCategories", type: "text", value: this.state.studentPortalCategories, onChange: this.handleChange.bind(this), onClick: this.handleChange.bind(this) })
+													)
+												),
+												React.createElement(
+													ReactBootstrap.Col,
+													{ xs: 12, className: "category-box" },
+													React.createElement(
+														"div",
+														{ className: "input-title" },
+														"Staff Portal"
+													),
+													React.createElement(
+														"div",
+														{ className: "form-group" },
+														React.createElement("div", { id: "staffPortalCategorySelector" }),
+														React.createElement("input", { id: "staffPortalCategorySelectorHiddenInput", hidden: true, className: "input-style", name: "staffPortalCategories", type: "text", value: this.state.staffPortalCategories, onChange: this.handleChange.bind(this), onClick: this.handleChange.bind(this) })
+													)
+												)
+											),
+											React.createElement(
+												ReactBootstrap.Col,
+												{ sm: 12, md: 6 },
+												React.createElement(
+													ReactBootstrap.Col,
+													{ xs: 12, className: "category-box" },
+													React.createElement(
+														"div",
+														{ className: "input-title" },
+														"Extranet Portal"
+													),
+													React.createElement(
+														"div",
+														{ className: "form-group" },
+														React.createElement("div", { id: "extranetPortalCategorySelector" }),
+														React.createElement("input", { id: "extranetPortalCategorySelectorHiddenInput", hidden: true, className: "input-style", name: "extranetPortalCategories", type: "text", value: this.state.extranetPortalCategories, onChange: this.handleChange.bind(this), onClick: this.handleChange.bind(this) })
+													)
+												),
+												React.createElement(
+													ReactBootstrap.Col,
+													{ xs: 12, className: "category-box" },
+													React.createElement(
+														"div",
+														{ className: "input-title" },
+														"Launch Type"
+													),
+													React.createElement(
+														"div",
+														{ className: "form-group" },
+														React.createElement("div", { id: "launchTypeCategorySelector" }),
+														React.createElement("input", { id: "launchTypeCategorySelectorHiddenInput", hidden: true, className: "input-style", name: "launchTypeCategories", type: "text", value: this.state.launchTypeCategories, onChange: this.handleChange.bind(this), onClick: this.handleChange.bind(this) })
+													)
+												)
+											)
+										)
+									)
+								)
+							)
+						)
+					),
+					this.state.errors && React.createElement(Message, { data: this.state }),
+					this.renderLayouts(),
+					React.createElement(
+						"div",
+						{ className: "bottom-block" },
+						React.createElement(
+							"div",
+							{ className: "add-new-content" },
+							React.createElement("div", { className: "add-btn", onClick: function onClick() {
+									var title = _this3.state.title;
+									if (title) {
+										_this3.addSectionToModel("");
+									} else {
+										_this3.messageInfo();
+									}
+								} })
+						),
+						React.createElement(
+							"p",
+							{ className: "add-content" },
+							"ADD CONTACT"
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return Article;
+}(React.Component);
+
+var Layout = function (_React$Component2) {
+	_inherits(Layout, _React$Component2);
+
+	function Layout() {
+		_classCallCheck(this, Layout);
+
+		var _this4 = _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).call(this));
+
+		_this4.state = {
+			chosen: [],
+			layouts: []
+		};
+		return _this4;
+	}
+
+	_createClass(Layout, [{
+		key: "chooseLayout",
+		value: function chooseLayout(x, y) {
+			this.setState({
+				chosen: { title: x }
+			});
+		}
+	}, {
+		key: "componentWillMount",
+		value: function componentWillMount() {
+			var layoutClass = this.props.modelData ? this.props.modelData.layout.replace(/-/g, ' ') : '';
+			var display = this.props.modelData ? true : false;
+
+			this.setState({
+				layouts: [{ title: 'Contact', classname: 'contact' }],
+				chosen: { title: layoutClass }
+			});
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this5 = this;
+
+			return React.createElement(
+				"div",
+				null,
+				this.state.chosen.title === '' && React.createElement(
+					"div",
+					null,
+					React.createElement(
+						"div",
+						{ className: "layout-block", id: this.props.id },
+						React.createElement(
+							ReactBootstrap.Grid,
+							null,
+							React.createElement(
+								ReactBootstrap.Row,
+								null,
+								React.createElement(
+									ReactBootstrap.Col,
+									{ className: "title-layout" },
+									"Choose your layout style"
+								)
+							),
+							React.createElement(
+								ReactBootstrap.Row,
+								null,
+								React.createElement(
+									ReactBootstrap.Col,
+									{ className: "layoutlist" },
+									this.state.layouts.map(function (item, index) {
+										return React.createElement(
+											ReactBootstrap.Col,
+											_defineProperty({ key: index, xsOffset: 1, xs: 10 }, "xsOffset", 1),
+											React.createElement(
+												"div",
+												{ className: "layout-icon-style", onClick: function onClick() {
+														return _this5.chooseLayout(item.title);
+													} },
+												React.createElement(
+													"div",
+													null,
+													React.createElement("div", { className: 'layout-button ' + item.classname }),
+													React.createElement(
+														"div",
+														{ className: "layout-title" },
+														item.title
+													)
+												)
+											)
+										);
+									})
+								)
+							)
+						)
+					)
+				),
+				this.state.chosen.title !== '' && this.props.modelData ? React.createElement(Section, { updateSectionModelData: this.props.updateSectionModelData, currentda: this.props.modelData, removeSectionFromModel: this.props.removeSectionFromModel, data: { chosen: this.state.chosen, id: this.props.id } }) : this.state.chosen.title !== '' ? React.createElement(Section, { updateSectionModelData: this.props.updateSectionModelData, removeSectionFromModel: this.props.removeSectionFromModel, data: { chosen: this.state.chosen, id: this.props.id } }) : ''
+			);
+		}
+	}]);
+
+	return Layout;
+}(React.Component);
+
+var Section = function (_React$Component3) {
+	_inherits(Section, _React$Component3);
+
+	function Section() {
+		_classCallCheck(this, Section);
+
+		var _this6 = _possibleConstructorReturn(this, (Section.__proto__ || Object.getPrototypeOf(Section)).call(this));
+
+		_this6.state = {
+			id: '',
+			fields: {}
+		};
+		return _this6;
+	}
+
+	_createClass(Section, [{
+		key: "componentWillMount",
+		value: function componentWillMount() {
+			if (this.props.currentda) {
+				this.setState({
+					fields: {
+						id: this.props.data.id,
+						sort: this.props.currentda.sort,
+						name: this.props.currentda.name,
+						phone: this.props.currentda.phone,
+						email: this.props.currentda.email
+					}
+				});
+			}
+		}
+	}, {
+		key: "componentDidMount",
+		value: function componentDidMount() {}
+	}, {
+		key: "delete",
+		value: function _delete() {
+			this.props.removeSectionFromModel();
+		}
+	}, {
+		key: "changeInput",
+		value: function changeInput(event) {
+			var text = event.target.value;
+			if (event.target.name.startsWith("content")) {
+				var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+				while (SCRIPT_REGEX.test(text)) {
+					text = text.replace(SCRIPT_REGEX, "");
+				}
+			}
+
+			var tmpFields = this.state.fields;
+			tmpFields[event.target.name] = text;
+			tmpFields['layout'] = this.props.data.chosen.title;
+			tmpFields['id'] = this.props.data.id;
+			this.setState({ fields: tmpFields });
+			this.props.updateSectionModelData(this.state.fields);
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this7 = this;
+
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"div",
+					{ className: "section-block", id: this.props.data.id },
+					React.createElement(
+						ReactBootstrap.Grid,
+						null,
+						React.createElement(
+							ReactBootstrap.Row,
+							{ className: "section-title" },
+							React.createElement(
+								ReactBootstrap.Col,
+								{ xsOffset: 4, xs: 4, className: "title-section" },
+								this.props.data.chosen.title
+							),
+							React.createElement(
+								ReactBootstrap.Col,
+								{ xs: 4 },
+								React.createElement(
+									"div",
+									{ className: "delete-btn", onClick: function onClick() {
+											return _this7.delete();
+										} },
+									"DELETE SECTION"
+								)
+							)
+						),
+						this.props.data.chosen.title === 'Contact' ? React.createElement(
+							"div",
+							null,
+							React.createElement(
+								ReactBootstrap.Row,
+								null,
+								React.createElement(
+									ReactBootstrap.Col,
+									_defineProperty({ xsOffset: 1, xs: 10 }, "xsOffset", 1),
+									React.createElement(
+										"div",
+										{ className: "input-title" },
+										"Contact"
+									)
+								),
+								React.createElement(
+									ReactBootstrap.Col,
+									_defineProperty({ xsOffset: 1, xs: 10 }, "xsOffset", 1),
+									React.createElement("input", { name: "name", className: "input-style", type: "text", value: this.state.fields.name, placeholder: "Enter a contact name...", onChange: this.changeInput.bind(this) })
+								)
+							),
+							React.createElement(
+								ReactBootstrap.Row,
+								null,
+								React.createElement(
+									ReactBootstrap.Col,
+									_defineProperty({ xsOffset: 1, xs: 10 }, "xsOffset", 1),
+									React.createElement(
+										"div",
+										{ className: "input-title" },
+										"Phone"
+									)
+								),
+								React.createElement(
+									ReactBootstrap.Col,
+									_defineProperty({ xsOffset: 1, xs: 10 }, "xsOffset", 1),
+									React.createElement("input", { name: "phone", className: "input-style", type: "text", value: this.state.fields.phone, placeholder: "Enter a phone number for this contact...", onChange: this.changeInput.bind(this) })
+								)
+							),
+							React.createElement(
+								ReactBootstrap.Row,
+								null,
+								React.createElement(
+									ReactBootstrap.Col,
+									_defineProperty({ xsOffset: 1, xs: 10 }, "xsOffset", 1),
+									React.createElement(
+										"div",
+										{ className: "input-title" },
+										"Email"
+									)
+								),
+								React.createElement(
+									ReactBootstrap.Col,
+									_defineProperty({ xsOffset: 1, xs: 10 }, "xsOffset", 1),
+									React.createElement("input", { name: "email", className: "input-style", type: "text", value: this.state.fields.email, placeholder: "Enter an email address for this contact...", onChange: this.changeInput.bind(this) })
+								)
+							)
+						) : null
+					)
+				)
+			);
+		}
+	}]);
+
+	return Section;
+}(React.Component);
+
+var Message = function (_React$Component4) {
+	_inherits(Message, _React$Component4);
+
+	function Message() {
+		_classCallCheck(this, Message);
+
+		return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).apply(this, arguments));
+	}
+
+	_createClass(Message, [{
+		key: "render",
+		value: function render() {
+			return React.createElement(
+				"div",
+				{ className: "message" },
+				React.createElement(
+					ReactBootstrap.Alert,
+					{ bsStyle: "danger" },
+					this.props.data.title === '' ? React.createElement(
+						"div",
+						null,
+						"Please enter a title!"
+					) : ''
+				)
+			);
+		}
+	}]);
+
+	return Message;
+}(React.Component);
+
+ReactDOM.render(React.createElement(Article, null), document.getElementById('content-root'));

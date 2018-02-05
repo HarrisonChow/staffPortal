@@ -1,0 +1,300 @@
+<#-- Include - ADT -->
+
+<#if portletPreferences["portletSetupTitle_en_AU"]?has_content >
+	<#assign title = portletPreferences["portletSetupTitle_en_AU"][0]!structureLabel />
+<#else>
+	<#assign title = structureLabel/>
+</#if>
+
+<style>
+body.staff #content h1.authoring-title {
+	font-weight: 300;
+}
+
+body.staff #content ul.adt-article-container {
+    list-style: none;
+    padding-left: 0;
+}
+
+body.staff #content .adt-article {
+    border: solid 1px #869CAF;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+body.staff #content .adt-article:focus {
+    outline: none;
+}
+
+body.staff #content .adt-article:hover {
+    opacity: 0.6;
+    transition: opacity 0.35s ease;
+}
+
+body.staff #content .state-style {
+    text-align: center;
+    width: 230px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    padding-right: 20px;
+}
+
+body.staff #content .state-style.draft {
+    border: solid 1px #869CAF;
+    color: #869CAF;
+}
+
+body.staff #content .state-style.draft:before {
+	content: '\f044\ ';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	margin: 0px 0px 0px 10px;
+	text-decoration: none;
+}
+
+body.staff #content .state-style.pending {
+    border: solid 1px #869CAF;
+    color: #869CAF;
+}
+
+body.staff #content .state-style.pending:before {
+	content: '\f017\ ';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	margin: 0px 0px 0px 10px;
+	text-decoration: none;
+}
+
+body.staff #content .state-style.scheduled {
+    border: solid 1px #869CAF;
+    color: #869CAF;
+}
+
+body.staff #content .state-style.scheduled:before {
+	content: '\f017\ ';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	margin: 0px 0px 0px 10px;
+	text-decoration: none;
+}
+
+<#assign states = ["", "pending", "draft", "expired", "denied", "inactive", "incomplete", "scheduled", "deleted"] />
+
+body.staff #content .state-style.expired,
+body.staff #content .state-style.denied,
+body.staff #content .state-style.inactive,
+body.staff #content .state-style.incomplete,
+body.staff #content .state-style.deleted {
+    border: solid 1px #cbbebf;
+    color: #cbbebf;
+}
+
+body.staff #content .state-style.expired:before,
+body.staff #content .state-style.denied:before,
+body.staff #content .state-style.inactive:before,
+body.staff #content .state-style.incomplete:before,
+body.staff #content .state-style.deleted:before {
+	content: '\f1da\ ';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	margin: 0px 0px 0px 10px;
+	text-decoration: none;
+}
+
+body.staff #content .state-style.live {
+    border: solid 1px #869CAF;
+    color: #869CAF;
+}
+
+body.staff #content .state-style.live:before {
+	content: '\f046\ ';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	margin: 0px 0px 0px 10px;
+	text-decoration: none;
+}
+
+body.staff #content .portlet-body h1 {
+    margin-bottom: 5px;
+    font-size: 1.3rem;
+    color: #0e3f51;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+body.staff #content .adt-article h2 {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #0e3f51;
+	margin-top: 0;
+}
+
+body.staff #content .adt-article-container a:hover {
+    text-decoration: none;
+}
+
+body.staff #content .adt-article .description {
+    padding: 10px;
+    font-size: 0.8rem;
+    color: #666666;
+}
+
+body.staff #content .adt-article .btn.view {
+    text-align: center;
+    width: 180px;
+    height: 32px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #fff;
+    padding-top: 5px;
+    border: 1px solid rgba(92,184,92,0.8);
+    background-color: rgba(92,184,92,0.8);
+}
+
+body.staff #content .adt-article .metadata span {
+    display: block;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+body.staff #content .add-edit-stories {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+body.staff #addContentItemButton .add-new-story {
+    height: 52px;
+    width: 52px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    background: url(${themeDisplay.getCDNBaseURL()}/o/doe-staff-theme/images/add.svg);
+}
+
+body.staff #addContentItemButton .add-content {
+    color: #AAB8C2;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    margin: 15px auto;
+    text-transform: uppercase;
+}
+
+body.staff #addContentItemButton .add-new-story:hover {
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+body.staff #addContentItemButton {
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px;
+}
+</style>
+
+<#assign publishState = themeDisplay.getRequest().getParameter("publish_state")!'live' />
+
+	<#if publishState == 'live'>
+		<#assign publish_states = [0, 1, 7] />
+	<#elseif publishState == 'draft'>
+		<#assign publish_states = [2] />
+	<#else>
+		<#assign publish_states = [3, 4, 5, 6, 8] />
+	</#if>
+
+	<h1 class="authoring-title">${title}</h1>
+	<#assign articles = JournalArticleService.getArticlesByStructureId(scopeGroupId, contentStructureKey, -1, -1, -1, null) />
+
+	<#if articles?has_content>
+		<ul class="adt-article-container all">
+		<#list articles?reverse as article>
+			<#if publish_states?seq_contains(article.getStatus())>
+				<#if !article.isApproved() >
+					<#assign entry = AssetEntryLocalService.fetchEntry("com.liferay.journal.model.JournalArticle", article.getPrimaryKey())!"" />
+					<#if !entry?has_content>
+						<#assign entry = AssetEntryLocalService.fetchEntry("com.liferay.journal.model.JournalArticle", article.getResourcePrimKey())!"" />
+					</#if>
+				<#else>
+					<#assign entry = AssetEntryLocalService.fetchEntry("com.liferay.journal.model.JournalArticle", article.getResourcePrimKey())!"" />
+				</#if>
+				<#assign layoutPlid = article.getLayout().getPlid() />
+				<#if entry?has_content>
+					<#if article.getStatus() != LIVE>
+						<#assign previewUrl = portletURLFactory.create(renderRequest, "com_liferay_journal_web_portlet_JournalPortlet", layoutPlid, "0") />
+
+						${previewUrl.setParameter("mvcPath", "/preview_article_content.jsp")}
+						${previewUrl.setParameter("searchContainerId", "articles")}
+						${previewUrl.setParameter("viewMode", "view")}
+						${previewUrl.setParameter("groupId", scopeGroupId+"")}
+						${previewUrl.setParameter("articleId", article.getArticleId())}
+						${previewUrl.setParameter("version", article.getVersion()+"")}
+						${previewUrl.setWindowState("pop_up")}
+
+						<#assign
+							assetRenderer = entry.getAssetRenderer()
+							entryTitle = htmlUtil.escape(assetRenderer.getTitle(locale))
+							preview = "Liferay.fire('previewArticle', {title: '" + htmlUtil.escapeJS(entryTitle) + "', uri: '" + htmlUtil.escapeJS(previewUrl.toString()) + "'});"
+						/>
+
+						<li>
+							<a href="javascript:;" onclick="${preview}" role="menuItem">
+								<div class="adt-article">
+									<span class="pull-right state-style ${states[article.getStatus()]}">${states[article.getStatus()]?upper_case}</span>
+									<h2>${entryTitle}</h2>
+									<div class="description">${entry.getDescription(locale)}</div>
+									<span class="btn view pull-right">View</span>
+									<div class="metadata">
+										<span class="created">Created: <time>${entry.createDate?datetime?string('dd/MM/yyyy HH:mm')}</time></span>
+										<span class="modified">Modified: <time>${entry.modifiedDate?datetime?string('dd/MM/yyyy HH:mm')}</time></span>
+									</div>
+								</div>
+							</a>
+						</li>
+					<#else>
+						<#assign
+							assetRenderer = entry.getAssetRenderer()
+							entryTitle = htmlUtil.escape(assetRenderer.getTitle(locale))
+							viewURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, assetRenderer, entry, true)
+						/>
+
+						<li>
+							<a href="${viewURL}" target="_blank" role="menuItem">
+								<div class="adt-article">
+									<span class="pull-right state-style live">LIVE</span>
+									<h2>${entryTitle}</h2>
+									<div class="description">${entry.getDescription(locale)}</div>
+									<span class="btn view pull-right">View</span>
+									<div class="metadata">
+										<span class="created">Created: <time>${entry.createDate?datetime?string('dd/MM/yyyy HH:mm')}</time></span>
+										<span class="modified">Modified: <time>${entry.modifiedDate?datetime?string('dd/MM/yyyy HH:mm')}</time></span>
+									</div>
+								</div>
+							</a>
+						</li>
+					</#if>
+				</#if>
+			</#if>
+		</#list>
+		</ul>
+	<#else>
+		<p class="portlet-msg-info">There are no ${structureLabel}s to display</p>
+	</#if>
+<#if publishState == "live">
+	<div class="add-edit-stories">
+		<div id="addContentItemButton">
+			<div class="add-new-story"></div>
+			<p class="add-content">Add ${structureLabel}</p>
+		</div>
+	</div>
+</#if>

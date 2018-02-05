@@ -1,0 +1,204 @@
+<#attempt>
+<#assign
+   layoutLocalService = serviceLocator.findService( "com.liferay.portal.kernel.service.LayoutLocalService" )
+   userId = themeDisplay.userId
+   user = themeDisplay.user
+   layouts = layoutLocalService.getLayouts(user.groupId, true)
+/>
+
+<style>
+    .manage-dashboards .manage-dashboards-title {
+      font-size: 20px;
+      font-weight: 300;
+      text-align: center;
+      color: #0e3f51;
+      margin-bottom: 40px;
+    }
+    .manage-dashboards .row .col-xs-10 .dashboard-menu{
+      height: 50px;
+      line-height: 50px;
+      background-color: #fafafa;
+      border: solid 1px #ededed;
+      margin: 6px;
+      padding-left: 25px;
+      border-radius: 5px;
+    }
+    .manage-dashboards .row .col-xs-10 .dashboard-menu a{
+      font-size: 14px;
+      color: #0e3f51;
+      font-weight: 500;
+    }
+    .manage-dashboards .row .col-xs-10 .dashboard-menu a:hover{
+      text-decoration: none;
+    }
+    .manage-dashboards .dashboard-action {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .manage-dashboards .dashboard-action .add-dashboard-btn {
+      border-radius: 100px;
+      background-color: #4ab9b8;
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      color: #ffffff;
+      border: 0;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    .manage-dashboards .dashboard-menu i {
+      padding-right: 15px;
+      padding-top: 16px;
+    }
+    .manage-dashboards .add-dashboard-btn i {
+      padding-right: 5px;
+    }
+    .manage-dashboards .dashboard-action a:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .manage-dashboards #add-dashboard input, select {
+      border-radius: 4px;
+      background-color: #ffffff;
+      border: solid 1px #ededed;
+      width: 100%;
+      height: 42px;
+      padding-left: 15px;
+    }
+    .manage-dashboards #add-dashboard input:focus, select:focus {
+      outline: none;
+    }
+    .manage-dashboards #add-dashboard .cancel-btn, .manage-dashboards #add-dashboard .confirm-btn {
+      padding-top: 5px;
+    }
+    .manage-dashboards .modal {
+      display:none;
+    }
+    .manage-dashboards .modal .modal-dialog .modal-content .modal-header .close {
+      width: 100px;
+    }
+    .manage-dashboards #add-dashboard .action {
+      text-align: center;
+    }
+    .manage-dashboards #add-dashboard .modal-dialog {
+      position: relative;
+      left: 0;
+      right: 0;
+    }
+
+</style>
+
+<div class="manage-dashboards">
+  <div class="manage-dashboards-title">
+    Manage Dashboards
+  </div>
+  <div class="row">
+    <#list layouts as layout>
+      <div class="col-xs-offset-1 col-xs-10" id="dashboard${layout.plid}">
+        <div class="dashboard-menu">
+          <a href="${layout.friendlyURL}">${layout.name}</a>
+          <a data-plid="${layout.plid}" id="dashboardId${layout.plid}" href=""><i class="fa fa-times pull-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </#list>
+  </div>
+  <div class="row dashboard-action">
+    <a class="add-dashboard-btn" data-toggle="modal" data-target="#add-dashboard">
+      <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+      ADD DASHBOARD
+    </a>
+  </div>
+
+  <div class="modal fade" id="add-dashboard" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">CLOSE X</button>
+          <h4 class="modal-title">ADD DASHBOARD</h4>
+        </div>
+        <div class="modal-body">
+          <form action="#" id="add-dashboard-form" role="form" onsubmit="addDashboard()" data-toggle="validator" data-disable="true" >
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-offset-1 col-md-10">
+                  <label for="add-dashboard-form-name">NAME</label>
+                </div>
+                <div class="col-md-offset-1 col-md-10">
+                  <input id="add-dashboard-form-name" type="text" placeholder="Name" required />
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6 action">
+              <button class="cancel-btn" data-dismiss="modal">CANCEL</button>
+            </div>
+            <div class="col-xs-6 action">
+              <button class="confirm-btn" type="submit" id="add-dashboard-btn">CONFIRM</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  AUI().use(
+  	'aui-base',
+  	function(A) {
+
+  		$('[id^="dashboardId"]').click(function(){
+
+        var deleteId = $('#'+this.id+'').data('plid');;
+
+        Liferay.Service(
+          '/layout/delete-layout',
+          {
+            plid: deleteId
+          },
+          function(obj) {
+            var ids = deleteId.toString();
+            ids = 'dashboard' + ids;
+            $("#"+ids+"").remove();
+          },
+          function(exception, obj){
+            new Liferay.Notification( {
+               "message" : "An error occurred while deleting your dashboard. Please try again later.",
+               "render" : "true",
+               "type" : "danger"
+               } );
+          }
+        );
+      });
+  	}
+  );
+
+
+  function addDashboard(){
+      AUI().use('aui-io-request', function(A){
+          var inputValue = $('#add-dashboard-form-name').val();
+          $.ajax({
+              "type" : "post",
+              "url" : "/o/rest/dashboard",
+              "data" : { "name" : inputValue }
+            }).done( function( response ) {
+              location.reload();
+            }).fail(function() {
+              new Liferay.Notification( {
+                 "message" : "An error occurred while adding dashboard. Please try again later.",
+                 "render" : "true",
+                 "type" : "danger"
+                 } );
+            });
+        });
+      }
+
+</script>
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

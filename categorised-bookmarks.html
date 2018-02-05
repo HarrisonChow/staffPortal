@@ -1,0 +1,79 @@
+
+<style>
+.categorised-bookmarks {
+  border-radius: 5px;
+  background-color: #fafafa;
+  border: solid 1px #ededed;
+  min-height: 220px;
+}
+.categorised-bookmarks .categorised-bookmarks-title {
+  font-family: Montserrat;
+	font-size: 15px;
+	font-weight: 500;
+	color: #343441;
+  padding: 15px 25px 0 25px;
+}
+.categorised-bookmarks h5 {
+  font-family: Montserrat;
+  font-size: 14px !important;
+  color: #343441;
+}
+.categorised-bookmarks .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.categorised-bookmarks .col-xs-12{
+  padding-left: 0;
+  padding-right: 0;
+}
+.categorised-bookmarks-list li a{
+  font-size: 14px !important;
+  font-weight: 400;
+}
+.categorised-bookmarks-list li a:hover{
+  text-decoration: none;
+}
+.categorised-bookmarks-list li {
+  list-style: none;
+  padding: 10px 25px;
+  color: #343441;
+}
+.categorised-bookmarks-list ul p {
+  opacity: 0.6;
+	font-family: Montserrat;
+	font-size: 12px;
+	font-weight: 300;
+	text-align: left;
+	color: #343441;
+}
+.categorised-bookmarks-list ul, menu, dir {
+  -webkit-padding-start: 0px;
+}
+</style>
+
+
+<div class="categorised-bookmarks">
+  <div class="row categorised-bookmarks-title">
+    Categorised Bookmarks
+  </div>
+  <hr/>
+  <div class="categorised-bookmarks-list">
+    <ul id="categorised-bookmarks-item">
+
+    </ul>
+  </div>
+</div>
+<#assign links = serviceLocator.findService( "au.gov.nsw.doe.search.service.content.LinksSearchService" ).getByAnyCategoryId( 220519, [ 240682?long ] ) />
+
+
+<script type="text/javascript">
+  var datas = ${links};
+  var contents = datas.hits.hits;
+  for (var i = 0; i < contents.length; i++) {
+    var title = contents[i]._source.title_en_AU;
+    var classid = "ddm__keyword__" + contents[i]._source.classTypeId + "__URL_en_AU" ;
+    var urls = contents[i]._source[classid];
+    $('#categorised-bookmarks-item').append('<li><a target=\"_blank\" href=\"'+urls+'\">'+title+'</a> </li>');
+
+  }
+</script>

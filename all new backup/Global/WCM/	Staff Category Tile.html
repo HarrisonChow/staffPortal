@@ -1,0 +1,93 @@
+<#assign ServiceContextThreadLocal = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"] />
+<#assign themeDisplay = ServiceContextThreadLocal.getServiceContext().getThemeDisplay() />
+
+<#assign
+categoryId=.vars['reserved-article-description'].data
+title=.vars['reserved-article-title'].data
+namespace=categoryId
+categoryIdList=[ getterUtil.getLong(categoryId) ]
+userId=themeDisplay.userId
+/>
+
+<#assign links=serviceLocator.findService( "au.gov.nsw.doe.search.service.content.LinksSearchService" ).getByAnyCategoryId( userId, categoryIdList ) />
+
+<style>
+.categorised-bookmarks {
+border-radius: 5px;
+background-color: #fafafa;
+border: solid 1px #ededed;
+}
+
+.categorised-bookmarks .categorised-bookmarks-title {
+font-size: 15px;
+font-weight: 500;
+color: #343441;
+padding: 15px 25px 0 25px;
+}
+
+.categorised-bookmarks .row {
+margin-left: 0;
+margin-right: 0;
+}
+
+.categorised-bookmarks .col-xs-12 {
+padding-left: 0;
+padding-right: 0;
+}
+
+.categorised-bookmarks-list a li {
+font-size: 14px;
+font-weight: 400;
+}
+
+.categorised-bookmarks-list a:hover {
+text-decoration: none;
+}
+
+.categorised-bookmarks-list a:hover li {
+background-color: #f5f5f5;
+}
+
+.categorised-bookmarks-list li {
+list-style: none;
+padding: 10px 25px;
+color: #343441;
+}
+
+.categorised-bookmarks-list ul p {
+opacity: 0.6;
+font-size: 12px;
+font-weight: 300;
+text-align: left;
+color: #343441;
+}
+
+.categorised-bookmarks-list ul, menu, dir {
+-webkit-padding-start: 0px;
+}
+
+.categorised-bookmarks hr {
+margin-top: 15px;
+margin-bottom: 0;
+}
+
+.categorised-bookmarks .categorised-bookmarks-list ul {
+margin: 0;
+}
+</style>
+
+<section class="categorised-bookmarks tile">
+<header class="tile-title">
+<h2 class="tile-heading">${title}</h2>
+<button aria-expanded="false" aria-controls="tileContent"
+class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+</header>
+
+<div
+class="categorised-bookmarks-list accordion-content accordionItem tile-content is-expanded animateIn"
+id="tileContent" aria-expanded="true">
+<ul id="categorised-bookmarks-item-${namespace}">
+
+</ul>
+</div>
+</section>

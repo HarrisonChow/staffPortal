@@ -1,0 +1,409 @@
+<style>
+    .schoolBiz {
+      border-radius: 5px;
+      background-color: #fafafa;
+      border: solid 1px #ededed;
+      min-height: 220px;
+    }
+    .schoolBiz .schoolBiz-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: #343441;
+      padding: 15px 25px 0 25px;
+    }
+    .schoolBiz .schoolBiz-title i {
+      font-size: 15px;
+    }
+    .schoolBiz .region {
+      padding: 0 25px;
+    }
+    .schoolBiz .region .col-xs-8 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .schoolBiz .region .dropdown .dropdown-menu {
+      width: 300px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #343441;
+      padding: 0;
+    }
+    .schoolBiz .region .dropdown-menu li{
+      border-bottom: 1px solid #EFEFEF;
+      cursor: pointer;
+      padding: 15px;
+    }
+    .schoolBiz .region .col-xs-3{
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .schoolBiz .region .col-xs-3 span{
+      font-size: 14px;
+    }
+    .schoolBiz .region .col-xs-3 span p{
+      font-size: 12px;
+      color: #343441;
+    }
+    .schoolBiz .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .schoolBiz .col-xs-12{
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .schoolBiz-list li{
+      list-style: none;
+      padding: 10px 25px;
+    }
+    .schoolBiz-list ul a li {
+      font-size: 14px;
+      text-align: left;
+      color: #343441;
+    }
+    .schoolBiz-list a:hover {
+      text-decoration: none;
+    }
+    .schoolBiz-list a:hover li {
+      background-color: #f5f5f5;
+    }
+    .schoolBiz-list ul {
+      -webkit-padding-start: 0px;
+      margin-bottom: 0;
+    }
+
+    a.selected {
+      background-color:#1F75CC;
+      color:white;
+      z-index:100;
+    }
+
+    .checkbox-pop {
+      background-color:#FFFFFF;
+      border:1px solid #999999;
+      cursor:default;
+      display:none;
+      margin-top: 15px;
+      position:absolute;
+      text-align:left;
+      width:394px;
+      z-index:50;
+      padding: 25px 25px 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 3px;
+      padding-left: 15px;
+      text-indent: -15px;
+    }
+    .schoolBiz-title .checkbox-pop form .checkbox label {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .checkbox-pop p, .checkbox-pop.div {
+      border-bottom: 1px solid #EFEFEF;
+      margin: 8px 0;
+      padding-bottom: 8px;
+    }
+    .schoolBiz-title .checkbox-pop form .action-btn #message_submit{
+      width: 50%;
+      padding-left: 0px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .action-btn {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .close{
+      float: none;
+    }
+
+    .schoolBiz-title .checkbox-pop form .checkbox label input[type="checkbox"] {
+      display: none;
+    }
+    .radio, .checkbox {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .checkbox .cr {
+      position: relative;
+      display: inline-block;
+      border: 1px solid #a9a9a9;
+      border-radius: .25em;
+      width: 1.3em;
+      height: 1.3em;
+      float: left;
+      margin-right: 1.5em;
+    }
+
+    .checkbox .cr .cr-icon {
+      position: absolute;
+      font-size: .8em;
+      line-height: 0;
+      top: 50%;
+      left: 80%;
+    }
+
+    .checkbox label input[type="checkbox"]+.cr>.cr-icon {
+      opacity: 0;
+    }
+
+    .checkbox label input[type="checkbox"]:checked+.cr>.cr-icon {
+      opacity: 1;
+    }
+
+    .checkbox label input[type="checkbox"]:disabled+.cr {
+      opacity: .5;
+    }
+    .schoolBiz hr {
+      margin-top: 15px;
+      margin-bottom: 0;
+    }
+    .schoolBiz #region .col-xs-3 span p {
+      margin: 0;
+    }
+    .schoolBiz #region .col-xs-8 {
+      padding-top: 5px;
+    }
+    .schoolBiz #region {
+      padding-top: 15px;
+    }
+    .input-group .input-group-btn .add-feeds {
+      margin-top: 0;
+      background-color: #fff;
+      border: solid 1px rgba(100,100,100,0.2);
+      border-left: 0;
+      color: #000;
+    }
+    .schoolBiz .schoolBiz-title #rssFeed {
+      margin-top: 5px;
+    }
+    .input-group .input-group-btn .add-feeds:hover {
+      background-color: #fff;
+    }
+    .schoolBiz-title #rssFeed .input-group input {
+      height: 34px;
+      border-radius: 30px 0 0 30px;
+      z-index: 0;
+      font-size: 13px;
+      font-weight: 300;
+      color: #343441;
+    }
+    .schoolBiz-title #rssFeed .input-group input:focus {
+      border-color: rgba(100,100,100,0.2);
+    }
+
+    </style>
+
+        <div class="schoolBiz">
+          <div class="row schoolBiz-title">
+            SchoolBiz
+            <a data-toggle="collapse" data-target="#rssFeed"><i class="fa fa-plus pull-right" aria-hidden="true"></i></a>
+
+            <div id="rssFeed" class="collapse">
+              <form>
+                <div class="input-group">
+                  <input type="text" id="new-feed" class="form-control" placeholder="RSS feed..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'RSS feed...'">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default add-feeds" type="button">ADD</button>
+                  </span>
+                </div>
+                For example: "http://www.abc.net.au/news/feed/45910/rss.xml"
+              </form>
+            </div>
+          </div>
+          <hr/>
+          <div class="row region" id="region">
+
+
+          </div>
+          <hr/>
+          <div class="schoolBiz-list">
+            <ul id="schoolBiz-item">
+
+            </ul>
+          </div>
+          <div class="">
+            <#if portletPreferences?has_content>
+                <h1>Portlet Preferences</h1>
+
+                <ul>
+                    <#list portletPreferences?keys as key>
+                        <#assign values = portletPreferences[key] />
+
+                        <#if values?has_content>
+                          <#if key?contains("feed-url")>
+                            <li>${key}:
+                                <ul>
+                                    <#list values as value>
+                                        <li>${value}</li>
+                                    </#list>
+                                </ul>
+                            </li>
+                          </#if>
+                        </#if>
+                    </#list>
+                </ul>
+            </#if>
+          </div>
+        </div>
+
+
+    <script>
+        AUI().use('aui-base', function(A){
+
+
+          var userFeed = 'SCHOOLBIZ-FEED-WAGGA_WAGGA, SCHOOLBIZ-FEED-MACQUARIE_PARK, SCHOOLBIZ-FEED-ULTIMO, SCHOOLBIZ-FEED-TAMWORTH';
+          var userFeedArray = userFeed.split(',');
+          var options = '';
+
+          userFeedArray.forEach(function(element) {
+              element = element.trim();
+              var elementName = element.replace('SCHOOLBIZ-FEED-', '').split('_');
+              var finalName='';
+              for (var i = 0; i < elementName.length; i++) {
+                finalName += (elementName[i].substring(0,1)+elementName[i].substring(1).toLowerCase() + ' ');
+              }
+              options += '<li id=\"'+element+'\">'+finalName+' Region </li>'
+              $('#'+finalName.replace(' ', '')+'').attr('checked', true);
+          });
+          options = '<div class=\"dropdown pull-right\"><a href=\"#\" data-toggle=\"dropdown\" class=\"dropdown-toggle\"><b class=\"caret\"></b></a><ul class=\"dropdown-menu\">'+options+'</ul></div>'
+
+          $('#region').append(options);
+
+
+
+
+          Liferay.Service( '/journal.journalarticle/get-article', {
+            groupId: 20152,
+            articleId: userFeedArray[0],
+          },
+          function(obj) {
+            var xml = obj.content;
+            var urls = (xml.match(/url="([^"]+)"/g)).map(function(e){e.match(/url="([^"]+)"/); return RegExp.$1});
+            var names = (xml.match(/name="([^"]+)"/g)).map(function(e){e.match(/name="([^"]+)"/); return RegExp.$1});
+            var issuedetails = (xml.match(/issue="([^"]+)"/g)).map(function(e){e.match(/issue="([^"]+)"/); return RegExp.$1});
+
+            issuedetails = issuedetails[0].split(',');
+
+            $('#region').prepend('<div class=\"col-xs-8\">'+names[1] +' Region </div><div class=\"col-xs-3\"><span class="pull-right">'+issuedetails[0]+'<p>'+issuedetails[1]+'</p></span></div>');
+            for (var i = 1; i < urls.length; i++) {
+              $('#schoolBiz-item').append('<a href=\"'+urls[i]+'\"><li>'+names[i+1]+'</li></a>');
+            }
+
+          });
+
+        });
+
+        $(function() {
+          AUI().use('aui-io-request', function(A){
+            $('[id^="SCHOOLBIZ-FEED-"]').click(function(){
+                  var regionId = $(this).attr("id");
+
+                  Liferay.Service( '/journal.journalarticle/get-article', {
+                    groupId: 20152,
+                    articleId: regionId,
+                  },
+                  function(obj) {
+                    var xml = obj.content;
+                    var urls = (xml.match(/url="([^"]+)"/g)).map(function(e){e.match(/url="([^"]+)"/); return RegExp.$1});
+                    var names = (xml.match(/name="([^"]+)"/g)).map(function(e){e.match(/name="([^"]+)"/); return RegExp.$1});
+                    var issuedetails = (xml.match(/issue="([^"]+)"/g)).map(function(e){e.match(/issue="([^"]+)"/); return RegExp.$1});
+
+                    issuedetails = issuedetails[0].split(',');
+
+                    $('#schoolBiz-item').empty();
+                    $('#region .col-xs-8').empty();
+                    $('#region .col-xs-3 .pull-right').empty();
+                    $('#region .col-xs-8').append(names[1] +' Region');
+                    $('#region .col-xs-3 .pull-right').append(issuedetails[0]+'<p>'+issuedetails[1]+'</p>');
+
+                    for (var i = 1; i < urls.length; i++) {
+                      $('#schoolBiz-item').append('<li><a href=\"'+urls[i]+'\">'+names[i+1]+'</a></li>');
+                    }
+
+                  });
+            });
+          });
+        });
+
+        function subscribe(){
+            AUI().use('aui-io-request', function(A){
+              var checkedValue = $('.checkbox input:checked').val();
+              var allvalues ='';
+              $('.checkbox input:checked').each(function() {
+                if ($(this).val()) {
+                  allvalues += ($(this).val()+',');
+                }
+              });
+
+              Liferay.Service(
+                '/expandovalue/add-value',
+                {
+                  companyId: themeDisplay.getCompanyId(),
+                  className: 'com.liferay.portal.kernel.model.User',
+                  tableName: 'CUSTOM_FIELDS',
+                  columnName: 'schoolbiz-feeds',
+                  classPK: themeDisplay.getUserId(),
+                  data: allvalues,
+                },
+                function(obj) {
+                }
+              );
+            });
+         }
+
+        function deselect(e) {
+          $('.pop').slideFadeToggle(function() {
+            e.removeClass('selected');
+          });
+        }
+
+        $(function() {
+          $('#contact').on('click', function() {
+            if($(this).hasClass('selected')) {
+              deselect($(this));
+            } else {
+              $(this).addClass('selected');
+              $('.pop').slideFadeToggle();
+            }
+            return false;
+          });
+
+          $('.close').on('click', function() {
+            deselect($('#contact'));
+            return false;
+          });
+        });
+
+        $.fn.slideFadeToggle = function(easing, callback) {
+          return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+        };
+
+
+        $(".add-feeds").click(function() {
+          var portletId = $('.schoolBiz').parents().eq(3).attr("id").replace("portlet_","");
+          var newFeed = $("#new-feed").val();
+          var randomId = (new Date()).getTime();
+          $.ajax( {
+                'type' : 'post',
+                'url' : '/o/rest/portlet-prefs',
+                'data' : JSON.stringify( {
+                    'portletId' : portletId,
+                    'plid' : Liferay.ThemeDisplay.getPlid(),
+                    'portletPreferences' : [ { 'key' : 'feed-url'+randomId, 'value' : newFeed} ]
+                } ),
+                'contentType' : "application/json"
+            } ).done( function( result ) {
+                location.reload();
+            } );
+        });
+
+
+
+
+
+    </script>

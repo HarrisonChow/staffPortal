@@ -1,0 +1,24 @@
+<!--
+data-category-ids will be specific per template. Multiple categories need to be comma-separated and they are treated as an AND (the content must match all the categories). No whitespaces should be present in the value of the attribute.
+-->
+<#attempt>
+  <section class="tile links-tile" data-category-ids="244597,240682">
+      <header class='tile-title'>
+          <img src="${themeDisplay.getCDNBaseURL()}/documents/20152/5394348/kids-games.svg/e107d64b-0003-528c-9667-dbf7fc091029" title="Games" />
+          <h2 class="tile-heading">Games</h2>
+          <button class="show-hide-button" onclick="$(this).closest( '.tile' ).toggleClass( 'collapsed' ); $( this ).closest( '.tile' ).find( '.show-more-toggle' ).toggle();  "></button>
+      </header>
+      <div class="tile-content">
+          <div class="links-container">
+  		<ul>
+  			<li><a href="#">&nbsp;</a></li>
+  			<li><a href="#">&nbsp;</a></li>
+  			<li><a href="#">&nbsp;</a></li>
+  		</ul>
+  	</div>
+      </div>
+  </section>
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

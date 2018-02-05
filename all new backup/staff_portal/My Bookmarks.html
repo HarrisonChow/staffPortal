@@ -1,0 +1,545 @@
+<#assign ServiceContextThreadLocal = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"] />
+<#assign themeDisplay = ServiceContextThreadLocal.getServiceContext().getThemeDisplay() />
+
+<#assign
+	bookmarkStructureKey = "220637"
+	bookmarkTemplateKey = "220641"
+	namespace = themeDisplay.portletDisplay.namespace
+	currentPlid = themeDisplay.getPortletDisplay().getId()
+/>
+
+<#assign categoryIds = portletPreferences["categoryId"]![] />
+<#if categoryIds?has_content >
+	<#assign categoryId = categoryIds[ 0 ] />
+<#else>
+	<#assign categoryId = "" />
+</#if>
+
+<#assign AssetCategoryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetCategoryLocalService") />
+<#assign AssetVocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService")>
+<#assign listVecoblaries = AssetVocabularyLocalService.getGroupVocabularies(themeDisplay.getUser().getGroupId())>
+
+<#assign LinksSearchService = serviceLocator.findService("au.gov.nsw.doe.search.service.content.LinksSearchService") />
+<#assign links = LinksSearchService.getByAnyCategoryId( themeDisplay.userId, categoryIds ) />
+
+
+<#if listVecoblaries?has_content>
+	<#list listVecoblaries as vecobulary>
+	<#assign vacob = vecobulary.getVocabularyId() />
+	</#list>
+<#else>
+	<#assign vacob = "" />
+</#if>
+
+
+<style media="screen">
+
+	body.early .tile .tile-content {
+		padding-top: 5px;
+	}
+
+	.info-content {
+		font-size: 14px;
+		text-align: center;
+		color: #848484;
+	}
+
+	#${namespace}my-bookmarks .my-bookmarks-list {
+		border-radius: 0 0 5px 5px;
+		background-color: #fafafa;
+		height: auto;
+	}
+
+	#${namespace}my-bookmarks ul, menu, dir {
+		-webkit-padding-start: 15px;
+	}
+
+	#${namespace}myBookmarkUrl, #${namespace}myBookmarkName {
+		background-color: rgba(255, 255, 255, 0.75);
+		border: solid 1px #ededed;
+		padding-left: 15px;
+		width: 100%;
+		height: 34px;
+	}
+
+	#${namespace}myBookmarkUrl:focus, #${namespace}myBookmarkName:focus {
+		outline: none;
+	}
+
+	#${namespace}submitNewMyBookmarks, #${namespace}closeWindow {
+		margin-top: 10px;
+		height: 47px;
+		width: 50%;
+	}
+
+	#${namespace}closeWindow {
+		border-radius: 0 0 0 5px;
+		background: #6b7897;
+		color: white;
+	}
+
+	#${namespace}closeWindow:hover {
+		background: white;
+		color: #6b7897;
+	}
+
+	#${namespace}submitNewMyBookmarks {
+		border-radius: 0 0 5px 0;
+	}
+
+	#${namespace}add-my-bookmarks-container fieldset {
+		margin-bottom: 0;
+	}
+	#${namespace}add-my-bookmarks-container form p {
+		padding: 5px 0 5px 15px;
+		font-size: 1rem;
+	}
+
+	#${namespace}submitNewMyBookmarks:focus, #${namespace}closeWindow:focus {
+		outline: none;
+	}
+
+	#${namespace}add-my-bookmarks-container fieldset h3 {
+		padding-left: 15px;
+		font-size: 16px;
+		font-weight: 600;
+		color: #343441;
+		text-align: center;
+		margin-top: 0;
+	}
+
+	#${namespace}my-bookmarks .my-bookmarks-list #contact-text {
+		font-size: 16px;
+		font-weight: 300;
+		text-align: right;
+		color: #343441;
+		padding-right: 15px;
+		min-width: 100%;
+		display: block;
+	}
+	#${namespace}my-bookmarks .bookmarks-container ul {
+		list-style: none;
+	}
+	#${namespace}my-bookmarks .bookmarks-container ul li {
+		margin-right: 10px;
+	}
+	#${namespace}my-bookmarks .bookmarks-container ul li a {
+		display: inline-block;
+		font-size: 14px;
+		color: #343441;
+		text-decoration: none;
+	}
+	#${namespace}my-bookmarks .bookmarks-container ul li i {
+		float:right;
+		cursor: pointer;
+	}
+
+	#${namespace}add-bookmarks-toggle.toggled, #${namespace}add-bookmarks-toggle.toggled i {
+		opacity: 0.2;
+	}
+
+	#${namespace}edit-bookmark-toggle.toggled {
+		opacity: 0.2;
+	}
+
+	#${namespace}add-bookmarks-toggle i {
+		padding-right: 5px;
+	}
+	#${namespace}edit-bookmark-toggle, #${namespace}add-bookmarks-toggle {
+		position: absolute;
+		top: 0px;
+		height: 47px;
+		border-radius: 0 5px 5px 0;
+		background-color: transparent;
+		border-left: solid 1px #ededed;
+		color: #000;
+		font-size: 12px;
+		font-weight: 600;
+	}
+	#${namespace}edit-bookmark-toggle {
+		right: 60px;
+		width: 45px;
+	}
+	#${namespace}add-bookmarks-toggle {
+		right: 105px;
+		width: 60px;
+	}
+	#${namespace}my-bookmarks-container .bookmark-title {
+		font-size: 14PX;
+		line-height: 37px;
+		padding-left: 15px;
+	}
+	#${namespace}input-module-name, #${namespace}update-module-name {
+		margin-top: 15px;
+	}
+	#${namespace}update-module-name {
+		margin-bottom: 10px;
+	}
+	#${namespace}save-new-module-name {
+		width: 100px;
+		height: 42px;
+		background-color: #0e3f51;
+		float: right;
+		margin: 10px 15px 10px 0;
+	}
+	#${namespace}new-module-name:focus, #${namespace}my-module-name:focus {
+		outline: 0;
+		border-color: #66afe9;
+	}
+	#${namespace}my-bookmarks-container ul p {
+		padding: 15px;
+		font-size: 14px;
+		font-weight: 500;
+	}
+</style>
+
+<section id="${namespace}my-bookmarks" class="tile">
+	<header class="tile-title">
+		<h2 class="tile-heading">
+			My-Bookmarks
+		</h2>
+		<button aria-expanded="false" aria-controls="${namespace}tileContent"
+		class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+		<button class="toolbar-button toggled disabled" id='${namespace}edit-bookmark-toggle' onclick="">EDIT</button>
+		<button class="toolbar-button toggled disabled" id='${namespace}add-bookmarks-toggle' onclick="$(this).toggleClass( 'toggled' );$(this).closest( '.tile' ).find( '.collapsible' ).toggle(); $( '#${namespace}my-bookmarks .show-more-toggle' ).toggle(); $('#${namespace}edit-bookmark-toggle').toggleClass( 'toggled disabled' ); "><i class="fa fa-plus"></i>ADD</button>
+	</header>
+	<div class="accordion-content accordionItem tile-content is-expanded animateIn" id="${namespace}tileContent" aria-expanded="true">
+		<div class="my-bookmarks-list">
+			<div id="${namespace}my-bookmarks-container" class="bookmarks-container collapsible">
+				<div id='${namespace}input-module-name'>
+					<div>
+						<label class='bookmark-title'>module title</label>
+						<input name='name' id='${namespace}new-module-name' type='text' value='' placeholder='My-Bookmarks' onfocus='this.placeholder = ""' onblur='this.placeholder = ""'/>
+					</div>
+					<div>
+						<button id='${namespace}save-new-module-name' >SAVE</button>
+					</div>
+				</div>
+				<ul class="bookmarks"></ul>
+			</div>
+			<div class="collapse collapsible" id="${namespace}add-my-bookmarks-container">
+				<form action="#">
+					<p>Add a link:</p>
+					<div class="col-xs-12">
+						<label for="${namespace}myBookmarkName">NAME</label>
+						<input name="name" id="${namespace}myBookmarkName" type="text" value=""
+						placeholder='Example: Google' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: Google'"/>
+					</div>
+					<div class="col-xs-12">
+						<label for="${namespace}myBookmarkUrl">URL</label>
+						<input name="url" class="url required focus " id="${namespace}myBookmarkUrl" type="text" value=""
+						placeholder='Example: http://www.google.com' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: http://www.google.com'"/>
+					</div>
+				</form>
+				<div class="controls-container">
+					<button id="${namespace}closeWindow" onclick="$('#${namespace}add-bookmarks-toggle').removeClass( 'toggled' );$(this).closest( '.tile' ).find( '.collapsible' ).toggle(); $('#${namespace}myBookmarkUrl').val(''); $('#${namespace}myBookmarkName').val(''); $( '#${namespace}my-bookmarks .show-more-toggle' ).show(); $('#${namespace}edit-bookmark-toggle').toggleClass( 'toggled disabled' );" class="pull-left btn-secondary">CANCEL</button>
+					<button id="${namespace}submitNewMyBookmarks" class="pull-right">SAVE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+
+	$(document).ready(function(){
+
+		var portletId = '${currentPlid}';
+		var usersGroupId = ${themeDisplay.getUser().getGroupId()};
+
+		if ('${categoryId}' != "") {
+
+			$('#${namespace}input-module-name').remove();
+			$('#${namespace}add-bookmarks-toggle').toggleClass('toggled disabled');
+			$('#${namespace}edit-bookmark-toggle').toggleClass('toggled disabled');
+
+			Liferay.Service(
+				'/assetcategory/get-category',
+				{
+					categoryId: '${categoryId}'
+				},
+				function(obj) {
+					$('#${namespace}my-bookmarks .tile-heading').text(obj.name);
+				}
+			);
+			loadBookmarks();
+		}
+
+		function addVocabulary() {
+			Liferay.Service(
+				'/assetvocabulary/add-vocabulary',
+				{
+					groupId: usersGroupId,
+					title: "My Bookmarks",
+				},
+				function(obj) {
+					location.reload();
+				}
+			);
+		}
+
+		function addCategory(vocabId, moduleTitle) {
+			Liferay.Service(
+				'/assetcategory/add-category',
+				{
+					groupId: usersGroupId,
+					parentCategoryId: 0,
+					titleMap: {"en_AU": moduleTitle},
+					descriptionMap: {"en_AU": '${currentPlid}'},
+					vocabularyId: vocabId,
+					categoryProperties: null
+				},
+				function(obj) {
+					var category_Id = obj.categoryId;
+					$.ajax( {
+						'type' : 'post',
+						'url' : '/o/rest/portlet-prefs',
+						'data' : JSON.stringify( {
+								'portletId' : portletId,
+								'plid' : Liferay.ThemeDisplay.getPlid(),
+								'portletPreferences' : [ { 'key' : 'categoryId', 'value' : category_Id} ]
+							}),
+						'contentType' : "application/json"
+					}).done( function( result ) {
+						location.reload();
+					}).error( function( error ) {
+						console.log( "Error while saving prefs", error );
+					});
+				}
+			);
+		}
+
+		function loadBookmarks() {
+			var maxVisibleBookmarks = 5;
+			var counter = 0;
+			Liferay.Service(
+				'/journal.journalarticle/get-articles',
+				{
+					groupId: usersGroupId,
+					folderId: 0
+				},
+				function(obj) {
+					console.log(obj);
+					var currentDate = Date.now();
+					var allData = obj.filter(function( obj ) {
+						return (obj.descriptionCurrentValue === portletId) && (!obj.expirationDate || (obj.expirationDate && obj.expirationDate > currentDate));
+					});
+					if (allData.length>0) {
+						$('#${namespace}my-bookmarks-container ul').empty();
+						allData.forEach(function(element) {
+							var xmlDoc = $.parseXML(element.content);
+							var URLnode = xmlDoc.getElementsByTagName("dynamic-content")[0];
+							var urlvalue = URLnode.childNodes[0].nodeValue;
+							$('#${namespace}my-bookmarks-container ul').append('<li data-groupId="'+usersGroupId+'" data-articleId = "'+element.articleId+'"  id="${namespace}mybookmarkid-'+counter+'"' +  ( counter >= maxVisibleBookmarks ? 'class="default-hidden" style="display: none;" ' : '' )  + '><a target="_blank" href="' + urlvalue + '">' + element.urlTitle + '</a></li>');
+							counter++;
+						});
+					} else {
+						$('#${namespace}my-bookmarks-container ul').append('<p>No bookmark! Please click "+ADD" button to add your bookmarks! </p>')
+					}
+				}
+			);
+
+			if ( counter > maxVisibleBookmarks ) {
+				var showHideToggle = $(
+					'<div class="show-more-toggle">'
+					+ '	<a href="#" class="show-more">'
+					+ '		SHOW MORE'
+					+ '		<i class="fa fa-caret-down"></i>'
+					+ '	</a>'
+					+ '	<a href="#" class="show-less" style="display: none;">'
+					+ '		SHOW LESS'
+					+ '		<i class="fa fa-caret-up"></i>'
+					+ '	</a>'
+					+ '</div>'
+				);
+
+				showHideToggle.click( function() {
+					var $this = $( this );
+					$this.find('.show-more, .show-less').toggle();
+					$this.closest( 'section' ).find( 'li.default-hidden' ).toggle();
+					return false;
+				} );
+
+				$( '#my-bookmarks' ).append( showHideToggle );
+			}
+		}
+
+		function addBookmark() {
+
+			var bookmarkTitle = validateName($('#${namespace}myBookmarkName'));
+			var bookmarkUrl = validateUrl($('#${namespace}myBookmarkUrl'));
+
+			var finalContent = "<?xml version=\"1.0\"?>"+
+			"<root available-locales=\"en_AU\" default-locale=\"en_AU\">"+
+			"	<dynamic-element name=\"URL\" type=\"text\" index-type=\"keyword\" instance-id=\"ayry\">"+
+			"		<dynamic-content language-id=\"en_AU\"><![CDATA["+bookmarkUrl+"]]></dynamic-content>"+
+			"	</dynamic-element>"+
+			"	<dynamic-element name=\"Icon\" type=\"text\" index-type=\"keyword\" instance-id=\"yjfi\">"+
+			"		<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+			"	</dynamic-element>"+
+			"	<dynamic-element name=\"Separatorrhxd\" type=\"selection_break\" index-type=\"keyword\" instance-id=\"qier\">"+
+			"	<dynamic-element name=\"Contact\" type=\"text\" index-type=\"text\" instance-id=\"ehou\">"+
+			"		<dynamic-element name=\"Phone\" instance-id=\"thub\" type=\"text\" index-type=\"keyword\">"+
+			"			<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+			"		</dynamic-element>"+
+			"		<dynamic-element name=\"Email\" instance-id=\"yxhm\" type=\"text\" index-type=\"keyword\">"+
+			"			<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+			"		</dynamic-element>"+
+			"		<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+			"	</dynamic-element>"+
+			"</dynamic-element></root>";
+
+			Liferay.Service(
+				'/journal.journalarticle/add-article',
+				{
+					groupId: usersGroupId,
+					folderId: 0,
+					classNameId: 0,
+					classPK: 0,
+					articleId: '',
+					autoArticleId: true,
+					titleMap:{"en_AU": bookmarkTitle},
+					descriptionMap: {"en_AU": portletId},
+					content: finalContent,
+					ddmStructureKey: ${bookmarkStructureKey},
+					ddmTemplateKey: ${bookmarkTemplateKey},
+					layoutUuid: '',
+					displayDateMonth: 1,
+					displayDateDay: 1,
+					displayDateYear: 1945,
+					displayDateHour: 0,
+					displayDateMinute: 0,
+					expirationDateMonth: 0,
+					expirationDateDay: 0,
+					expirationDateYear: 0,
+					expirationDateHour: 0,
+					expirationDateMinute: 0,
+					neverExpire: true,
+					reviewDateMonth: 0,
+					reviewDateDay: 0,
+					reviewDateYear: 0,
+					reviewDateHour: 0,
+					reviewDateMinute: 0,
+					neverReview: true,
+					indexable: true,
+					articleURL: '',
+					serviceContext: {"scopeGroupId":themeDisplay.getScopeGroupId(), "userId": themeDisplay.getUserId(), "categoryId": '${categoryId}', "workflowAction": 1}
+				},
+				setTimeout("location.reload(true);",1000)
+			)
+		}
+
+
+
+		$("#${namespace}submitNewMyBookmarks").off("click").on("click", function(){
+			$(this).attr("disabled", true);
+			$("body").css("cursor", "wait");
+			addBookmark();
+		});
+
+		$("#${namespace}save-new-module-name").off("click").on("click", function(){
+			var moduleTitle = $("#${namespace}input-module-name input").val();
+			if ('${vacob}'!='') {
+				addCategory('${vacob}', moduleTitle);
+			}else {
+				addVocabulary();
+			}
+		});
+
+		$("#${namespace}edit-bookmark-toggle").off("click").on("click", function(){
+			var currentModuleName = $('#${namespace}my-bookmarks .tile-heading').text();
+			$(this).text(function(i, text){
+				if(text === "EDIT"){
+					$('#${namespace}add-bookmarks-toggle').toggleClass('toggled disabled');
+
+					$('#${namespace}my-bookmarks-container').prepend("<div id='${namespace}update-module-name'><label class='bookmark-title'>module title</label><input name='name' id='${namespace}my-module-name' type='text' value='' placeholder='"+currentModuleName+"' onfocus='this.placeholder = \"\"' onblur='this.placeholder = \"\"'/></div>");
+
+					$('#${namespace}my-bookmarks-container ul li').append("<i  class='fa fa-trash-o' aria-hidden='true'></i>");
+
+					$( "#${namespace}my-bookmarks-container ul li i" ).click(function(){
+						var currentId = "#"+$(this).parent().attr('id');
+						var articleId = $(currentId)[0].dataset.articleid;
+						var groupId = parseInt($(currentId)[0].dataset.groupid);
+
+						Liferay.Service( '/journal.journalarticle/get-article', {
+							groupId: groupId,
+							articleId: articleId
+						},
+						function( article ) {
+							Liferay.Service(
+								'/journal.journalarticle/expire-article',
+								{
+									groupId: groupId,
+									articleId: articleId,
+									version: article.version,
+									articleURL: article.urlTitle
+								},
+								function(obj) {
+									$(currentId).remove();
+								}
+							);
+						});
+					});
+				} else if(text === "SAVE"){
+					$('#${namespace}add-bookmarks-toggle').toggleClass('toggled disabled');
+
+					var newTitle = $('#${namespace}my-bookmarks-container input').val();
+					$('#${namespace}update-module-name').remove();
+					$('#${namespace}my-bookmarks-container ul li i').remove();
+					var remainBookmarks = $('#${namespace}my-bookmarks-container ul li').length;
+					if (newTitle === '' && remainBookmarks > 1) {
+					} else if (newTitle === '' && remainBookmarks < 1) {
+						location.reload();
+					} else {
+						Liferay.Service(
+							'/assetcategory/get-category',
+							{
+								categoryId: '${categoryId}'
+							},
+							function(obj) {
+								var newTitleMap = {
+									"en_AU": newTitle
+								}
+								var newdescriptionMap = {
+									"en_AU": portletId
+								}
+								Liferay.Service(
+									'/assetcategory/update-category',
+									{
+										categoryId: obj.categoryId,
+										parentCategoryId: obj.parentCategoryId,
+										titleMap: newTitleMap,
+										descriptionMap: newdescriptionMap,
+										vocabularyId: obj.vocabularyId,
+										categoryProperties: null
+									},
+									function(obj) {
+										location.reload();
+									}
+								);
+							}
+						);
+					}
+				}
+			return text === "EDIT" ? "SAVE" : "EDIT";
+			})
+		});
+	});
+
+	function validateUrl(urlInput) {
+		var url = urlInput.val();
+		if (url.length != 0 && url.indexOf("http://", 0) != 0) {
+			url = "http://"+url;
+		}
+		return url;
+	}
+
+	function validateName(nameInput) {
+		var name = nameInput.val();
+		if (!name) {
+			name = "Bookmark";
+		}
+		return name;
+	}
+
+</script>

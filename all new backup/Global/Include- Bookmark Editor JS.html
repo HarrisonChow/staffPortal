@@ -1,0 +1,76 @@
+<#-- Include- Bookmark Editor js -->
+	initialiseSelectors: function() {
+		LiferayArticle.registerCategorySelector('#studentPortalCategorySelector', '#studentPortalCategorySelectorHiddenInput', '#studentPortalCategorySelectorHiddenInput_proxy', '${themeDisplay.getCompanyGroupId()}', '${studentPortalVocab}', LiferayArticle.contentItem.studentPortalCategoryIds, LiferayArticle.contentItem.studentPortalCategoryNames);
+		LiferayArticle.registerCategorySelector('#staffPortalCategorySelector', '#staffPortalCategorySelectorHiddenInput', '#staffPortalCategorySelectorHiddenInput_proxy', '${themeDisplay.getCompanyGroupId()}', '${staffPortalVocab}', LiferayArticle.contentItem.staffPortalCategoryIds, LiferayArticle.contentItem.staffPortalCategoryNames);
+		LiferayArticle.registerCategorySelector('#extranetPortalCategorySelector', '#extranetPortalCategorySelectorHiddenInput', '#extranetPortalCategorySelectorHiddenInput_proxy', '${themeDisplay.getCompanyGroupId()}', '${extranetPortalVocab}', LiferayArticle.contentItem.extranetPortalCategoryIds, LiferayArticle.contentItem.extranetPortalCategoryNames);
+		LiferayArticle.registerCategorySelector('#launchTypeCategorySelector', '#launchTypeCategorySelectorHiddenInput', '#launchTypeCategorySelectorHiddenInput_proxy', '${themeDisplay.getCompanyGroupId()}', '${launchTypesVocab}', LiferayArticle.contentItem.launchTypeCategoryIds, LiferayArticle.contentItem.launchTypeCategoryNames);
+
+		if ($("#editContentItemButton").length > 0) {
+			$("#editContentItemButton").off("click").on("click", function(){
+				document.getElementById('contentItemPopup').style.display = "block";
+			});
+		}
+		if ($("#addContentItemButton").length > 0) {
+			$("#addContentItemButton").off("click").on("click", function(){
+				document.getElementById('contentItemPopup').style.display = "block";
+			});
+		}
+		if ($("#contentItemPopupX").length > 0) {
+			$("#contentItemPopupX").off("click").on("click", function() {
+				document.getElementById('contentItemPopup').style.display = "none";
+			});
+		}
+
+		if ($('#selectIconPopup').length > 0) {
+			LiferayArticle.getIcons("${iconPrefix}");
+		}
+
+		if ($("#selectIconButton").length > 0) {
+			$("#selectIconButton").off("click").on("click", function(){
+				document.getElementById('selectIconPopup').style.display = "block";
+			});
+		}
+		if ($("#selectIconPopupX").length > 0) {
+			$("#selectIconPopupX").off("click").on("click", function() {
+				document.getElementById('selectIconPopup').style.display = "none";
+			});
+		}
+		if ($("#icons li").length > 0) {
+			$('#icons li').off("click").on("click", function() {
+				var iconInput = document.getElementById("iconInput");
+				iconInput.value = "${iconPrefix} " + $(this).text();
+				LiferayArticle.forceClickEvent(iconInput, 'click');
+				document.getElementById('selectIconPopup').style.display = "none";
+			});
+		}
+	},
+
+<#if isWCM>
+	unloadContent: function(obj) {
+		obj.url = "<#if URL.data?has_content>${URL.data?json_string}</#if>";
+		obj.icon = "<#if Icon.data?has_content>${Icon.data?json_string}</#if>";
+		obj.sections = {<#list Contact.getSiblings() as contact>"id${contact?index}": {id: "id${contact?index}",sort: ${contact?index}, layout:"Contact", name: "${contact.data}", phone: "${contact.Phone.data?json_string}", email: "${contact.Email.data?json_string}"}<#sep>, </#sep></#list>};
+		obj.studentPortalCategoryIds = [<#assign firstCategory = true /><#list srcAssetEntry.getCategories() as category><#if category.getVocabularyId() == studentPortalVocab><#if firstCategory><#assign firstCategory = false /><#else>,</#if>"${category.getCategoryId()}"</#if></#list>];
+		obj.studentPortalCategoryNames = [<#assign firstCategory = true /><#list srcAssetEntry.getCategories() as category><#if category.getVocabularyId() == studentPortalVocab><#if firstCategory><#assign firstCategory = false /><#else>,</#if>"${category.getName()}"</#if></#list>];
+		obj.staffPortalCategoryIds = [<#assign firstCategory = true /><#list srcAssetEntry.getCategories() as category><#if category.getVocabularyId() == staffPortalVocab><#if firstCategory><#assign firstCategory = false /><#else>,</#if>"${category.getCategoryId()}"</#if></#list>];
+		obj.staffPortalCategoryNames = [<#assign firstCategory = true /><#list srcAssetEntry.getCategories() as category><#if category.getVocabularyId() == staffPortalVocab><#if firstCategory><#assign firstCategory = false /><#else>,</#if>"${category.getName()}"</#if></#list>];
+		obj.extranetPortalCategoryIds = [<#assign firstCategory = true /><#list srcAssetEntry.getCategories() as category><#if category.getVocabularyId() == extranetPortalVocab><#if firstCategory><#assign firstCategory = false /><#else>,</#if>"${category.getCategoryId()}"</#if></#list>];
+		obj.extranetPortalCategoryNames = [<#assign firstCategory = true /><#list srcAssetEntry.getCategories() as category><#if category.getVocabularyId() == extranetPortalVocab><#if firstCategory><#assign firstCategory = false /><#else>,</#if>"${category.getName()}"</#if></#list>];
+		obj.launchTypeCategoryIds = [<#assign firstCategory = true /><#list srcAssetEntry.getCategories() as category><#if category.getVocabularyId() == launchTypesVocab><#if firstCategory><#assign firstCategory = false /><#else>,</#if>"${category.getCategoryId()}"</#if></#list>];
+		obj.launchTypeCategoryNames = [<#assign firstCategory = true /><#list srcAssetEntry.getCategories() as category><#if category.getVocabularyId() == launchTypesVocab><#if firstCategory><#assign firstCategory = false /><#else>,</#if>"${category.getName()}"</#if></#list>];
+	},
+<#else>
+	unloadContent: function(obj) {
+		obj.url = "";
+		obj.icon = "";
+		obj.sections = {"id0": {id: "id0", sort: 0, layout:"Contact", name: "", phone: "", email: "" }};
+		obj.studentPortalCategoryIds = [];
+		obj.studentPortalCategoryNames = [];
+		obj.staffPortalCategoryIds = [];
+		obj.staffPortalCategoryNames = [];
+		obj.extranetPortalCategoryIds = [];
+		obj.extranetPortalCategoryNames = [];
+		obj.launchTypeCategoryIds = [];
+		obj.launchtypeCategoryNames = [];
+	},
+</#if>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style media="screen">
+      .staff-search .title {
+        font-size: 20px;
+        font-weight: 400;
+        text-align: center;
+        color: #0e3f51;
+        margin-bottom: 17px;
+      }
+      .search-result {
+        margin-left: 15px;
+        margin-right: 15px;
+      }
+      .search-result .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+      .search-result .col-sm-6 > .col-xs-12{
+        margin-top: 15px;
+        border-radius: 4px;
+      	background-color: #fafafa;
+      	border: solid 1px #ededed;
+        padding: 15px 0 0 0;
+        display: inline-block;
+      }
+      .search-result ul li:nth-child(even) .col-sm-6 {
+        padding-left: 7px;
+        padding-right: 0px;
+      }
+      .search-result ul li:nth-child(odd) .col-sm-6 {
+        padding-right: 8px;
+        padding-left: 0px;
+      }
+      .search-result .user-name {
+        font-size: 22px;
+        font-weight: 500;
+        color: #0e3f51;
+      }
+      .search-result .job-title .sub-title, .search-result .mobile .sub-title{
+        font-size: 12px;
+        font-weight: 600;
+        color: #c2c2c2;
+      }
+      .search-result .content-detail {
+        font-size: 15px;
+        font-weight: 400;
+        color: #343441;
+      }
+      .staff-search .col-xs-12 span, .staff-search .col-sm-4 span {
+        font-size: 12px;
+        font-weight: 600;
+        text-align: left;
+        color: #0e3f51;
+        margin-top: 17px;
+      }
+      .staff-search .col-xs-12 input, .staff-search .col-sm-4 input {
+        height: 42px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        border: solid 1px #ededed;
+        margin-top: 7px;
+        margin-bottom: 17px;
+        font-size: 15px;
+        font-weight: 400;
+        text-align: left;
+        color: #343441;
+      }
+      .staff-search .col-xs-12 input:focus, .staff-search .col-sm-4 input:focus {
+        outline: none;
+      }
+      .staff-search .search-inputs .col-sm-4:nth-child(3n-1){
+        padding-right:0px;
+        padding-left:0px;
+      }
+      .staff-search .search-inputs .search-button .simple-search {
+        width: 100%;
+        height: 42px;
+        border-radius: 100px;
+        background-color: #9b9b9b;
+      }
+      .staff-search .search-inputs .search-button .search {
+        width: 100%;
+        height: 42px;
+        border-radius: 100px;
+        background-color: #0e3f51;
+      }
+      .staff-search .search-inputs .search-button .search:focus, .staff-search .search-inputs .search-button .simple-search:focus {
+        outline: none;
+      }
+      .staff-search .search-inputs .search-button .simple-search, .staff-search .search-inputs .search-button .search{
+        border-width: 0;
+        font-size: 10px;
+        font-weight: 600;
+        text-align: center;
+        color: #ffffff;
+      }
+      .search-inputs .search-button {
+        margin-top: 7px;
+      }
+      .search-button .col-sm-12, .search-button .col-md-11, .search-button .col-sm-6, .search-button .col-md-8, .search-button .col-md-4{
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .search-button .col-md-8 {
+        padding-right: 5px;
+      }
+      .search-button .col-md-4 {
+        padding-left: 5px;
+      }
+      .staff-search .search-result ul {
+        -webkit-padding-start:0;
+      }
+      .staff-search .search-result ul li{
+        list-style: none;
+      }
+      @media only screen and (max-width: 992px) and (min-width: 768px) {
+        .search-result .avatar {
+          width: 60px;
+          height: 60px;
+        }
+      }
+      @media (max-width: 768px){
+        .staff-search .search-inputs .col-sm-4:nth-child(3n-1){
+          padding-right: 15px;
+          padding-left: 15px;
+        }
+        .search-result ul li:nth-child(even) .col-sm-6 {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+        .search-result ul li:nth-child(odd) .col-sm-6 {
+          padding-right: 0px;
+          padding-left: 0px;
+        }
+        .staff-search .col-xs-12 .col-xs-12 .col-xs-9 .col-xs-6 {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="staff-search">
+      <div class="title">
+        Staff Search
+      </div>
+      <div class="search-inputs">
+        <div class="col-xs-12 col-sm-4">
+            <span>FIRST NAME</span>
+            <input type="text" class="col-xs-12" name="" value="" placeholder="aaa">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>SURNAME</span>
+            <input type="text" class="col-xs-12" name="" value="" placeholder="">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>POSITION TITLE</span>
+            <input type="text" class="col-xs-12" name="" value="" placeholder="">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>DEC USER ID</span>
+            <input type="text" class="col-xs-12" name="" value="" placeholder="">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>PHONE</span>
+            <input type="text" class="col-xs-12" name="" value="" placeholder="">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>ORC UNIT</span>
+            <input type="text" class="col-xs-12" name="" value="" placeholder="">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>EMAIL</span>
+            <input type="text" class="col-xs-12" name="" value="" placeholder="">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>EXTRA FUNCTIONS</span>
+            <input type="text" class="col-xs-12" name="" value="" placeholder="">
+        </div>
+        <div class="col-xs-12 col-sm-4 search-button">
+            <span>&nbsp;</span>
+            <div class="col-sm-12 col-md-offset-1 col-md-11">
+              <div class="col-xs-6 col-sm-6 col-md-8">
+                <button class="simple-search" type="button" name="SIMPLE SEARCH">SIMPLE SEARCH</button>
+              </div>
+              <div class="col-xs-6 col-sm-6 col-md-4">
+                <button class="search" type="button" name="SEARCH">SEARCH</button>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="search-result">
+        <ul>
+          <li>
+            <div class="col-xs-12 col-sm-6">
+               <div class="col-xs-12">
+                 <div class="col-xs-3 col-sm-2">
+                   <img class="avatar" src="assets/images/photo.jpg">
+                 </div>
+                 <div class="col-xs-9 col-sm-10">
+                   <div class="user-name col-xs-12">
+                     Gavin Talbot
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">POSITION TITLE<span>
+                     <p class="content-detail">Payroll Officer</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">PHONE</span>
+                     <p class="content-detail">0412 345 678</p>
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">ORC UNIT<span>
+                     <p class="content-detail">Spring Hign School</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">LOCALITY</span>
+                     <p class="content-detail">Blue Mountains</p>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </li>
+          <li>
+            <div class="col-xs-12 col-sm-6">
+               <div class="col-xs-12">
+                 <div class="col-xs-3 col-sm-2">
+                   <img class="avatar" src="assets/images/photo.jpg">
+                 </div>
+                 <div class="col-xs-9 col-sm-10">
+                   <div class="user-name col-xs-12">
+                     Gavin Talbot
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">POSITION TITLE<span>
+                     <p class="content-detail">Payroll Officer</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">PHONE</span>
+                     <p class="content-detail">0412 345 678</p>
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">ORC UNIT<span>
+                     <p class="content-detail">Spring Hign School</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">LOCALITY</span>
+                     <p class="content-detail">Blue Mountains</p>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </li>
+          <li>
+            <div class="col-xs-12 col-sm-6">
+               <div class="col-xs-12">
+                 <div class="col-xs-3 col-sm-2">
+                   <img class="avatar" src="assets/images/photo.jpg">
+                 </div>
+                 <div class="col-xs-9 col-sm-10">
+                   <div class="user-name col-xs-12">
+                     Gavin Talbot
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">POSITION TITLE<span>
+                     <p class="content-detail">Payroll Officer</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">PHONE</span>
+                     <p class="content-detail">0412 345 678</p>
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">ORC UNIT<span>
+                     <p class="content-detail">Spring Hign School</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">LOCALITY</span>
+                     <p class="content-detail">Blue Mountains</p>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </li>
+          <li>
+            <div class="col-xs-12 col-sm-6">
+               <div class="col-xs-12">
+                 <div class="col-xs-3 col-sm-2">
+                   <img class="avatar" src="assets/images/photo.jpg">
+                 </div>
+                 <div class="col-xs-9 col-sm-10">
+                   <div class="user-name col-xs-12">
+                     Gavin Talbot
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">POSITION TITLE<span>
+                     <p class="content-detail">Payroll Officer</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">PHONE</span>
+                     <p class="content-detail">0412 345 678</p>
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">ORC UNIT<span>
+                     <p class="content-detail">Spring Hign School</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">LOCALITY</span>
+                     <p class="content-detail">Blue Mountains</p>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </li>
+          <li>
+            <div class="col-xs-12 col-sm-6">
+               <div class="col-xs-12">
+                 <div class="col-xs-3 col-sm-2">
+                   <img class="avatar" src="assets/images/photo.jpg">
+                 </div>
+                 <div class="col-xs-9 col-sm-10">
+                   <div class="user-name col-xs-12">
+                     Gavin Talbot
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">POSITION TITLE<span>
+                     <p class="content-detail">Payroll Officer</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">PHONE</span>
+                     <p class="content-detail">0412 345 678</p>
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">ORC UNIT<span>
+                     <p class="content-detail">Spring Hign School</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">LOCALITY</span>
+                     <p class="content-detail">Blue Mountains</p>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </li>
+          <li>
+            <div class="col-xs-12 col-sm-6">
+               <div class="col-xs-12">
+                 <div class="col-xs-3 col-sm-2">
+                   <img class="avatar" src="assets/images/photo.jpg">
+                 </div>
+                 <div class="col-xs-9 col-sm-10">
+                   <div class="user-name col-xs-12">
+                     Gavin Talbot
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">POSITION TITLE<span>
+                     <p class="content-detail">Payroll Officer</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">PHONE</span>
+                     <p class="content-detail">0412 345 678</p>
+                   </div>
+                   <div class="job-title col-xs-6">
+                     <span class="sub-title">ORC UNIT<span>
+                     <p class="content-detail">Spring Hign School</p>
+                   </div>
+                   <div class="mobile col-xs-6">
+                     <span class="sub-title">LOCALITY</span>
+                     <p class="content-detail">Blue Mountains</p>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
+<script>
+    define._amd = define.amd;
+    define.amd = false;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"  ></script>
+<script>
+    define.amd = define._amd;
+</script>
+<style>
+  .slick-slider {
+    width: 88%;
+    margin: 20px auto;
+  }
+  body.staff .my-essentials-home-wrapper, body.portal-popup .my-essentials-home-wrapper {
+    margin-top: 25px;
+  }
+  body.show-marketplace .my-essentials-home-wrapper {
+    margin-top: 155px;
+  }
+  body.staff #marketplace-app .bookmark-details, body.portal-popup #marketplace-app .bookmark-details {
+    margin-left: auto;
+    margin-right: auto;
+    cursor: -webkit-grab;
+    overflow: hidden;
+  }
+  body.staff #marketplace-app .add-btn, body.staff #marketplace-app .remove-btn, body.portal-popup #marketplace-app .add-btn, body.portal-popup #marketplace-app .remove-btn {
+    right: -1px;
+  }
+  body.staff #marketplace-app .description {
+    shape-outside: circle(50%);
+    width: 54px;
+    height: 210px;
+    float: right;
+  }
+  #marketplace-carousel .slick-slider .slick-prev, #marketplace-carousel .slick-slider .slick-next {
+    height: inherit;
+    background-color: #4ab9b8;
+  }
+  #marketplace-carousel .slick-prev:before, .slick-next:before {
+    opacity: 1;
+  }
+  #marketplace-carousel .slick-prev.slick-disabled:before, #marketplace-carousel .slick-next.slick-disabled:before {
+    opacity: 1;
+  }
+  #marketplace-carousel .slick-slider .slick-prev.slick-disabled, #marketplace-carousel .slick-slider .slick-next.slick-disabled {
+    background-color: #e3e3e3;
+  }
+  .slick-prev:before, .slick-next:before {
+    line-height: 1.1;
+  }
+  #marketplace-carousel .slick-slider .slick-prev, #marketplace-carousel .slick-slider .slick-next {
+    height: 20px;
+  }
+
+
+
+</style>
+
+
+<#macro marketplaceEntry portletId title description dataPortletItemId="" >
+
+	<div class="lfr-content-item item">
+    <div>
+        <div class="bookmark-details" drag-content-item=""
+	    	data-instanceable="true"
+			data-draggable="true"
+			data-portlet-id="${portletId}"
+			data-title="${title}"
+			<#if dataPortletItemId??>data-portlet-item-id="${dataPortletItemId}"</#if>
+		>
+	  		<p><span>${title}</span></p>
+        <div class="description"></div>
+	  		<p>${description}</p>
+
+        <span class="add-content-item add-btn" href="#"
+				data-instanceable="true"
+				data-draggable="true"
+				data-portlet-id="${portletId}"
+				data-title="${title}"
+				<#if dataPortletItemId??>data-portlet-item-id="${dataPortletItemId}"</#if>
+	  		>ADD
+        </span>
+
+		    </div>
+
+    </div>
+	</div>
+
+</#macro>
+
+<div id="marketplace-app" class="edit-widget-container collapse">
+<div id="marketplace-carousel">
+  <div class="slider slider-nav">
+    <@marketplaceEntry
+        		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        		 title = "Curriculum Resources"
+        		 description = "Curriculum resources from the NSW Board of Studies and the Curriculum Learning Information Centre (CLIC)."
+        		 dataPortletItemId = "6214831"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        		 title = "Department Resources"
+        		 description = "Essential materials and information for DOE staff, includes a listing of DOE directorates."
+        		 dataPortletItemId = "6214853"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        		 title = "Education Sites"
+        		 description = "Government and non Government education sites."
+        		 dataPortletItemId = "6214876"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        		 title = "Employment - Corporate"
+        		 description = "Pay and leave information for corporate staff, DEC job search, and information about working for NSW Government."
+        		 dataPortletItemId = "6214902"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        		 title = "Employment - Schools"
+        		 description = "Pay and leave information, DEC job search, and information about working for NSW Government."
+        		 dataPortletItemId = "6214765"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        		 title = "Policy Library"
+        		 description = "Search for policies alphabetically or by group. Everything you need to know about the DoE's policies, procedures and guidelines."
+        		 dataPortletItemId = "6214526"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
+        		 title = "RSS Feeds"
+        		 description = "Create a feed of the latest news from across the DEC as well as the outside world."
+        		 dataPortletItemId = "6137039"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        		 title = "School Administration"
+        		 description = "Contains information and resources needed for the management and administration of schools and their staff. Find the links to school’s regional intranet pages."
+        		 dataPortletItemId = "6214787"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
+        		 title = "SchoolBiz"
+        		 description = "SchoolBiz has all the important weekly news and tasks to help schools plan and keep up to date. Produced weekly during the school term SchoolBiz includes information from the state and your regional office."
+        		 dataPortletItemId = "6144081"
+  	/>
+  	<@marketplaceEntry
+        		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+        		 title = "Staff Directory"
+        		 description = "Find contact details for DEC staff."
+        		 dataPortletItemId = "6215056"
+  	/>
+  </div>
+</div>
+</div>
+
+
+<script>
+  setTimeout( function() {
+      window.showMarketplace = function() {
+          $( "body" ).addClass( "show-marketplace" );
+          $('.slider-nav').slick({
+              dots: false,
+              infinite: false,
+              speed: 300,
+              slidesToShow: 6,
+              slidesToScroll: 6,
+              touchMove:false,
+              responsive: [
+                  {
+                    breakpoint: 1400,
+                    settings: {
+                      slidesToShow: 5,
+                      slidesToScroll: 5,
+                    }
+                  },
+                  {
+                    breakpoint: 1150,
+                    settings: {
+                      slidesToShow: 4,
+                      slidesToScroll: 4,
+                    }
+                  },
+                  {
+                    breakpoint: 928,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3
+                    }
+                  },
+                  {
+                    breakpoint: 690,
+                    settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 2
+                    }
+                  },
+                  {
+                    breakpoint: 480,
+                    settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1
+                    }
+                  }
+                ]
+              });
+      }
+  }, 500 );
+
+
+</script>

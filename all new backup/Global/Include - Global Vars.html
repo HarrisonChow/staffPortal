@@ -1,0 +1,111 @@
+<#-- Include - Global Vars -->
+
+<#assign dateFormat = "dd MMM yyyy - HH:mm" />
+<#assign states = ["", "pending", "draft", "expired", "denied", "inactive", "incomplete", "scheduled", "deleted"] />
+<#assign LIVE = 0 />
+<#assign PENDING = 1 />
+<#assign DRAFT = 2 />
+<#assign EXPIRED = 3 />
+<#assign DENIED = 4 />
+<#assign INACTIVE = 5 />
+<#assign INCOMPLETE = 6 />
+<#assign SCHEDULED = 7 />
+<#assign DELETED = 8 />
+
+<#assign isWCM = true />
+<#if themeDisplay?has_content>
+	<#assign isWCM = false />
+</#if>
+
+<#assign iconPrefix  = "my" />
+
+<#-- Services and global objects -->
+<#assign JournalArticleLocalService = serviceLocator.findService("com.liferay.journal.service.JournalArticleLocalService") />
+<#assign JournalArticleResourceLocalService = serviceLocator.findService("com.liferay.journal.service.JournalArticleResourceLocalService") />
+<#assign JournalArticleService = serviceLocator.findService("com.liferay.journal.service.JournalArticleService") />
+<#assign AssetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
+<#assign UserGroupRoleLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserGroupRoleLocalService") />
+
+<#if isWCM>
+	<#assign ServiceContextThreadLocal = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"] />
+	<#assign themeDisplay = ServiceContextThreadLocal.getServiceContext().getThemeDisplay() />
+
+	<#assign srcArticle = JournalArticleLocalService.getArticle(articleGroupId, .vars['reserved-article-id'].data, getterUtil.getDouble(.vars['reserved-article-version'].data)) />
+
+	<#if !srcArticle.isApproved() && srcArticle.getVersion() != 1.0 >
+		<#assign srcAssetEntry = AssetEntryLocalService.fetchEntry("com.liferay.journal.model.JournalArticle", srcArticle.getPrimaryKey())!"" />
+    <#else>
+		<#assign srcAssetEntry = AssetEntryLocalService.fetchEntry("com.liferay.journal.model.JournalArticle", srcArticle.getResourcePrimKey())!"" />
+    </#if>
+
+	<#if srcAssetEntry?has_content>
+		<#assign srcAssetEntryCategoryIds = srcAssetEntry.getCategoryIds() />
+		<#assign viewCount = srcAssetEntry.getViewCount() />
+		<#assign editAvailable = srcAssetEntry.getAssetRenderer().hasEditPermission(permissionChecker) />
+	<#else>
+		<#assign srcAssetEntryCategoryIds = [] />
+		<#assign viewCount = 0/>
+		<#assign editAvailable = false />
+	</#if>
+
+	<#setting time_zone = themeDisplay.getUser().getTimeZone().ID>
+
+	<#assign viewableState = false />
+	<#if srcArticle.getStatus() == PENDING || srcArticle.getStatus() == LIVE || srcArticle.getStatus() == DRAFT || srcArticle.getStatus() == SCHEDULED>
+		<#assign viewableState = true />
+	<#else>
+	</#if>
+<#else>
+	<#assign editAvailable = true />
+	<#setting time_zone = timeZone.ID>
+</#if>
+
+<#assign isEditor = UserGroupRoleLocalService.hasUserGroupRole(themeDisplay.getUserId(), scopeGroupId, "SITE_EDITOR") />
+
+<#-- Notification References -->
+<#assign notificationFolderId = 0 />
+<#assign notificationStructureId = 220775 />
+<#assign notificationStructureKey = "220774" />
+<#assign notificationTemplateKey = "220782" />
+<#assign notificationEditScriptTemplateKey = "5395261"/>
+<#assign notificationReactFormTemplateKey = "5395277"/>
+
+<#-- Bookmark References -->
+<#assign bookmarkFolderId = 0 />
+<#assign bookmarkStructureId = "220638" />
+<#assign bookmarkStructureKey = "220637" />
+<#assign bookmarkTemplateKey = "220641" />
+<#assign bookmarkEditScriptTemplateKey = "5413490"/>
+<#assign bookmarkReactFormTemplateKey = "5413515"/>
+
+<#-- Shared Templates and References-->
+
+<#-- Shared Editor templates -->
+<#assign editorTemplateKey = "5395265" />
+<#assign editorCssTemplateKey = "5395269" />
+<#assign adtViewTemplateKey = "5395257" />
+<#assign layoutUuid = themeDisplay.getLayout().getUuid() />
+
+<#-- Vocabularies -->
+<#assign studentPortalVocab = 244596 />
+<#assign staffPortalVocab = 240672 />
+<#assign extranetPortalVocab = 240673 />
+<#assign launchTypesVocab = 244615 />
+
+<#if structureType == "Notification">
+	<#assign defaultFolderId = notificationFolderId />
+	<#assign contentStructureId = notificationStructureId />
+	<#assign contentStructureKey = notificationStructureKey />
+	<#assign contentTemplateKey = notificationTemplateKey />
+	<#assign editorScriptTemplateKey = notificationEditScriptTemplateKey />
+	<#assign reactFormTemplateKey = notificationReactFormTemplateKey />
+	<#assign structureLabel = "Notification" />
+<#elseif structureType == "Bookmark">
+	<#assign defaultFolderId = bookmarkFolderId />
+	<#assign contentStructureId = bookmarkStructureId />
+	<#assign contentStructureKey = bookmarkStructureKey />
+	<#assign contentTemplateKey = bookmarkTemplateKey />
+	<#assign editorScriptTemplateKey = bookmarkEditScriptTemplateKey />
+	<#assign reactFormTemplateKey = bookmarkReactFormTemplateKey />
+	<#assign structureLabel = "Bookmark" />
+</#if>

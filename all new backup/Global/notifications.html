@@ -1,0 +1,232 @@
+<#attempt>
+
+<#assign NotificationsService = serviceLocator.findService("au.gov.nsw.doe.search.service.content.NotificationsService") />
+<#assign notifications = NotificationsService.getUsersUnreadNotifications(themeDisplay.getUserId()) />
+
+<style>
+
+#notifications-banner {
+	display: none!important;
+}
+
+.notifications-container{
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.notifications-list h2 {
+	height: 48px;
+	font-family: Montserrat;
+	font-size: 20px;
+	font-weight: 300;
+	text-align: center;
+	color: #0e3f51;
+}
+.notifications-list ul {
+	-webkit-padding-start: 0px ;
+}
+.notifications-list li {
+	border-radius: 5px;
+	background-color: #ffffff;
+	border: solid 1px #ededed;
+	max-width: 800px;
+	list-style: none;
+	padding: 0 15px 15px 15px;
+	margin-bottom: 15px;
+	position: relative;
+}
+.notifications-list li h3{
+	font-family: Montserrat;
+	font-size: 15px;
+	font-weight: 500;
+	text-align: left;
+	color: #0e3f51;
+}
+.notifications-list li span{
+	font-family: Montserrat;
+	font-size: 12px;
+	font-weight: 600;
+	text-align: right;
+	color: #9b9b9b;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+}
+.notifications-list li button {
+	width: 127px;
+	height: 33px;
+	border-radius: 5px 0 5px 0;
+	background-color: #4ab9b8;
+	border: solid 1px #ededed;
+	border-bottom: 0;
+	border-right: 0;
+	font-size: 12px!important;
+	font-weight: 600;
+	color: #ffffff;
+	font-family: Montserrat;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+}
+
+.learn-more {
+	border-bottom: 0!important;
+}
+
+.notifications-list li.has-learn-more button {
+	border-radius: 0 0 5px 0;
+}
+
+
+.notifications-list li.has-learn-more a.learn-more {
+	position: absolute;
+	right: 126px;
+	bottom: 0;
+	border-radius: 5px 0 0 0;
+	background-color: #0e3f51;
+	border: solid 1px #ededed;
+	font-size: 12px;
+	font-weight: 600;
+	width: 100px;
+	color: #ffffff;
+	height: 33px;
+	line-height: 33px;
+	text-align: center;
+}
+
+.notifications-list li.has-learn-more a.learn-more:hover {
+	text-decoration: none;
+}
+
+.notifications-list li article {
+	font-family: Montserrat;
+	font-size: 12px;
+	font-weight: 300;
+	text-align: left;
+	color: #343441;
+	width: 80%;
+}
+.notifications-list .fa-circle {
+	font-size: 13px;
+	color: #ff3b30;
+	padding-right: 10px;
+}
+
+.empty-message {
+	text-align: center;
+}
+@media (max-width:767px) {
+	.notifications-container{
+		padding: 0 15px;
+	}
+}
+@media (max-width:576px) {
+	.notifications-list li button{
+		width: 100%;
+		border-radius: 0 0 5px 5px;
+	}
+	.notifications-list li article {
+		width: 100%;
+		margin-bottom: 25px;
+	}
+}
+</style>
+
+<div id="notifications-container" class="notifications-container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-offset-2 col-sm-8 notifications-list">
+			<h2>Notifications</h2>
+			<ul>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$( document ).ready( function() {
+
+	window.getStructureId = function( result ) {
+		return result ? result[ "_source" ][ "classTypeId" ] : undefined;
+	}
+
+	window.getFieldName = function( structureId, fieldName, locale ) {
+		return "ddm__keyword__" + structureId + "__" + fieldName + "_" + locale
+	}
+
+	function parseDate( date ) {
+		var momentDate = moment( date ).tz( 'Australia/Sydney' );
+		var calDay = momentDate.calendar();
+		if (!!~calDay.indexOf('Today')) {
+			return momentDate.format( "h:MM A" ).toUpperCase();
+		}
+		if (!!~calDay.indexOf('Yesterday')) {
+			return 'YESTERDAY';
+		}
+		/* default */
+		return momentDate.format( 'DD/MM/YYYY' );
+	}
+
+    function loadNotifications(results) {
+    	$( '#notifications-banner' ).remove();
+    	if ( results.hits.total > 0 ) {
+			var ul = $( "#notifications-container ul" );
+			$( "#notifications-container .empty-message" ).remove();
+			sortedResults = results.hits.hits.sort( function( r1, r2 ) {
+				var pDate1 = r1._source.publishDate_sortable;
+				var pDate2 = r2._source.publishDate_sortable;
+				return pDate1 > pDate2 ? -1 : ( pDate1 < pDate2 ? 1 : 0 );
+			});
+			sortedResults.forEach( function( result ) {
+				console.log( result );
+				var source = result._source;
+				var structureId = getStructureId( result );
+				var li = $( "<li />" );
+				var heading = $( '<h3><i class="fa fa-circle" aria-hidden="true"></i>' + source.title_en_AU  + '</h3>' );
+				var time = $( '<span>' + parseDate( source.publishDate_sortable ) + '</span>' );
+				var body = $('<article>' + source.description_en_AU + '</article>');
+				var button = $( '<button>MARK AS READ</button>' );
+				button.attr( 'data-article-id', source.articleId );
+
+				var learnMoreUrl = source[ getFieldName( getStructureId( result ), 'LearnMoreURL', 'en_AU' ) ];
+
+				ul.append( li );
+				li.append( heading );
+				li.append( time );
+				li.append( body );
+
+				if ( learnMoreUrl ) {
+					li.addClass( 'has-learn-more' );
+					var learnMoreLink = $("<a class='learn-more' href='" + learnMoreUrl + "' title='Go To Page'>GO TO PAGE</a>");
+					li.append( learnMoreLink );
+				}
+
+				li.append( button );
+			} );
+	    }	else	{
+			$( "#notifications-container .notifications-list" ).append( "<h5 class='empty-message'>You have no unread notifications</h5>" );
+		}
+    }
+
+	var locale = Liferay.ThemeDisplay.getLanguageId();
+
+    var notifications = ${notifications};
+
+    loadNotifications(notifications);
+
+	$( "#notifications-container" ).off( 'click', 'button' ).on( 'click', 'button', function( event ) {
+	    $.ajax( {
+			type: 'post',
+			url: '/o/rest/notifications/ack/' + $( event.target ).attr( 'data-article-id' )
+		} ).then( function() {
+			$( event.target ).closest( 'li' ).remove();
+			checkNotifications();
+		} );
+	} );
+
+} );
+</script>
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

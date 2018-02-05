@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Staff Portal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.12/jquery.bxslider.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.12/jquery.bxslider.js"></script>
+    <style media="screen">
+      .notifications-containers{
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .notifications-list h2 {
+        height: 48px;
+        font-family: Montserrat;
+        font-size: 20px;
+        font-weight: 300;
+        text-align: center;
+        color: #0e3f51;
+      }
+      .old-notifications-list h2 {
+        font-family: Montserrat;
+      	font-size: 12px;
+      	font-weight: 600;
+      	color: #a2a2a2;
+      }
+      .old-notifications-list ul, .notifications-list ul {
+        -webkit-padding-start: 0px ;
+      }
+      .old-notifications-list li, .notifications-list li {
+        border-radius: 5px;
+        background-color: #ffffff;
+        border: solid 1px #ededed;
+        max-width: 800px;
+        list-style: none;
+        padding: 0 15px 15px 15px;
+        margin-bottom: 15px;
+        position: relative;
+      }
+      .old-notifications-list li h3, .notifications-list li h3{
+        font-family: Montserrat;
+        font-size: 15px;
+        font-weight: 500;
+        text-align: left;
+        color: #0e3f51;
+      }
+      .old-notifications-list li span , .notifications-list li span{
+        font-family: Montserrat;
+      	font-size: 12px;
+      	font-weight: 600;
+      	text-align: right;
+      	color: #9b9b9b;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
+      .notifications-list li button{
+        width: 127px;
+      	height: 33px;
+      	border-radius: 5px 0 5px 0;
+      	background-color: #4ab9b8;
+      	border: solid 1px #ededed;
+        font-size: 12px;
+        font-weight: 600;
+        color: #ffffff;
+        font-family: Montserrat;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+      }
+      .old-notifications-list li article, .notifications-list li article {
+        font-family: Montserrat;
+        font-size: 12px;
+        font-weight: 300;
+        text-align: left;
+        color: #343441;
+        width: 80%;
+      }
+      .notifications-list .fa-circle {
+        font-size: 13px;
+      	color: #ff3b30;
+        padding-right: 10px;
+      }
+      @media (max-width:767px) {
+        .notifications-containers{
+          padding: 0 15px;
+        }
+      }
+      @media (max-width:576px) {
+        .notifications-list li button{
+          width: 100%;
+        	border-radius: 0 0 5px 5px;
+        }
+        .old-notifications-list li article, .notifications-list li article {
+          width: 100%;
+          margin-bottom: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--header content-->
+    <div class="header">
+      <div class="logo">
+        <i class="fa fa-bars" id="nav-home" aria-hidden="true"></i>
+      </div>
+      <div class="search">
+        <div>
+          <input class='input-style' placeholder='&#xF002; What are you looking for...'/>
+        </div>
+        <div>
+          <input class="seach-btn" type="button" value="search">
+        </div>
+      </div>
+    </div>
+
+    <div id="wrapper" class="wrapper">
+      <!--sidebar menu part-->
+      <div id="sidebar-wrapper" class="sidebar-wrapper">
+        <div class="dashboard-menu-title">
+          Dashboard
+        </div>
+        <div class="dashboard-menu-item">
+          My Essentials
+        </div>
+        <div class="dashboard-menu-item">
+          Quick Links
+        </div>
+        <div class="dashboard-menu-item">
+          Manage my Links
+        </div>
+        <div class="dashboard-menu-notification">
+          Notifications
+        </div>
+
+        <div class="bottom-menu">
+          <div class="bottom-menu-content">
+            <div class="bottom-menu-title">
+              <span class="login">LOGGED IN AS</span>
+              <p class="username">Michael Alexander</p>
+            </div>
+            <div class="bottom-menu-item">
+              Update your profile
+            </div>
+            <div class="bottom-menu-item">
+              Change Password
+            </div>
+            <div class="bottom-menu-item">
+              Help Desk
+            </div>
+            <div class="bottom-menu-item">
+              Manage Dashboards
+            </div>
+            <div class="logout">
+              LOG OUT
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--contents part-->
+      <div id="page-content-wrapper">
+        <div class="notification">
+          <div class="notifications-containers">
+            <div class="row">
+              <div class="col-xs-12 col-sm-offset-2 col-sm-8 notifications-list">
+                <h2>Notifications</h2>
+                <ul>
+                  <li>
+                    <h3><i class="fa fa-circle" aria-hidden="true"></i>Payroll Cutoff Times</h3>
+                    <span>12:15PM</span>
+                    <article>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </article>
+                    <button type="button">MARK AS READ</button>
+                  </li>
+                  <li>
+                    <h3><i class="fa fa-circle" aria-hidden="true"></i>Payroll Cutoff Times</h3>
+                    <span>12:15PM</span>
+                    <article>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </article>
+                    <button type="button">MARK AS READ</button>
+                  </li>
+                  <li>
+                    <h3><i class="fa fa-circle" aria-hidden="true"></i>Payroll Cutoff Times</h3>
+                    <span>12:15PM</span>
+                    <article>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </article>
+                    <button type="button">MARK AS READ</button>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-xs-12 col-sm-offset-2 col-sm-8 old-notifications-list">
+                <h2>OLD NOTIFICATIONS</h2>
+                <ul>
+                  <li>
+                    <h3>Payroll Cutoff Times</h3>
+                    <span>5TH JULY 17</span>
+                    <article>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </article>
+                  </li>
+                  <li>
+                    <h3>Payroll Cutoff Times</h3>
+                    <span>5TH JULY 17</span>
+                    <article>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </article>
+                  </li>
+                  <li>
+                    <h3>Payroll Cutoff Times</h3>
+                    <span>5TH JULY 17</span>
+                    <article>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </article>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+    </div>
+
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    <script type="text/javascript">
+      current_width = $(window).width();
+      if(current_width < 576){
+        $('.all-links .col-xs-12').css("margin-bottom", "20px");
+        $("#quick-links").removeClass('in');
+        $("#quick-links-context .links-btn").text('SHOW');
+        $("#my-links").removeClass('in');
+        $("#my-links-text .links-btn").text('SHOW');
+        $(".links-header.row").css({"border-bottom": "solid 1px #ededed"});
+      } else {
+        $("#quick-links").addClass('in');
+        $("#quick-links-context .links-btn").text('HIDE');
+        $("#my-links").addClass('in');
+        $("#my-links-text .links-btn").text('HIDE');
+        $(".links-header.row").css({"border-bottom": "0"});
+      }
+
+      $("#nav-home").click(function() {
+        if(current_width < 768){
+          $('#sidebar-wrapper').toggleClass("sidebar-wrapper sidebar-wrapper-Open");
+          $('#wrapper').toggleClass("wrapper wrapper-down");
+        } else {
+          $('#sidebar-wrapper').toggleClass("sidebar-wrapper sidebar-wrapper-down");
+          $('#wrapper').toggleClass("wrapper wrapper-down");
+        }
+      });
+
+      $(window).resize(function(){
+        current_width = $(window).width();
+        if(current_width < 576){
+          $('.all-links .col-xs-12').css("margin-bottom", "20px");
+          $("#quick-links").removeClass('in');
+          $("#quick-links-context .links-btn").text('SHOW');
+          $("#my-links").removeClass('in');
+          $("#my-links-text .links-btn").text('SHOW');
+          $(".links-header.row").css({"border-bottom": "solid 1px #ededed"});
+        } else {
+          $("#quick-links").addClass('in');
+          $("#quick-links-context .links-btn").text('HIDE');
+          $("#my-links").addClass('in');
+          $("#my-links-text .links-btn").text('HIDE');
+          $(".links-header.row").css({"border-bottom": "0"});
+        }
+      });
+
+      $("#edit-widget").click(function() {
+        $(".header").css({
+          "background-image":"none",
+          "background-color": "#4ab9b8",
+        });
+        $('#wrapper').toggleClass("wrapper wrapper-down");
+        $('#sidebar-wrapper').toggleClass("sidebar-wrapper sidebar-wrapper-down");
+
+        $('#myCarousel').carousel({
+          interval: false
+        });
+
+        $('.carousel .item').each(function(){
+          var next = $(this).next();
+          if (!next.length) {
+            next = $(this).siblings(':first');
+          }
+          next.children(':first-child').clone().appendTo($(this));
+
+          for (var i=0;i<4;i++) {
+            next=next.next();
+            if (!next.length) {
+              next = $(this).siblings(':first');
+            }
+            next.children(':first-child').clone().appendTo($(this));
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

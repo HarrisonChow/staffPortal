@@ -1,0 +1,170 @@
+<style>
+  #marketplace-app #marketplace-carousel .carousel-inner {
+    display: inline-flex;
+  }
+  #marketplace-app #marketplace-carousel .carousel-inner .item {
+    display: none;
+  }
+  #marketplace-app #marketplace-carousel .carousel-inner .item.active {
+    display: inline-flex;
+  }
+  #marketplace-app #marketplace-carousel .carousel-inner .item .bookmark-details {
+    overflow: hidden;
+  }
+  #marketplace-app #marketplace-carousel .carousel-inner .item .add-btn {
+    position: relative;
+    bottom: 26px;
+    right: -68px;
+    padding: 5px 20px;
+  }
+
+  body.show-marketplace #wrapper #content {
+    margin-top: 205px!important;
+  }
+</style>
+
+<#macro marketplaceEntry portletId title description dataPortletItemId="" >
+
+	<div class="lfr-content-item item">
+    <div>
+        <div class="bookmark-details" drag-content-item""
+	    	data-instanceable="true"
+			data-draggable="true"
+			data-portlet-id="${portletId}"
+			data-title="${title}"
+			<#if dataPortletItemId??>data-portlet-item-id="${dataPortletItemId}"</#if>
+		>
+	  		<p><span>${title}</span></p>
+	  		<p>${description}</p>
+
+		    </div>
+		    <span class="add-content-item add-btn" href="#"
+				data-instanceable="true"
+				data-draggable="true"
+				data-portlet-id="${portletId}"
+				data-title="${title}"
+				<#if dataPortletItemId??>data-portlet-item-id="${dataPortletItemId}"</#if>
+	  		>ADD
+        </span>
+    </div>
+	</div>
+
+</#macro>
+
+<div id="marketplace-app" class="edit-widget-container collapse">
+  <div id="marketplace-carousel" class="carousel slide">
+    <div class="carousel-inner list-group-panel" role="listbox">
+
+
+	<@marketplaceEntry
+      		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+      		 title = "Curriculum Resources"
+      		 description = "Curriculum resources from the NSW Board of Studies and the Curriculum Learning Information Centre (CLIC)."
+      		 dataPortletItemId = "6214831"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+      		 title = "Department Resources"
+      		 description = "Essential materials and information for DOE staff, includes a listing of DOE directorates."
+      		 dataPortletItemId = "6214853"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+      		 title = "Education Sites"
+      		 description = "Government and non Government education sites."
+      		 dataPortletItemId = "6214876"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+      		 title = "Employment - Corporate"
+      		 description = "Pay and leave information for corporate staff, DEC job search, and information about working for NSW Government."
+      		 dataPortletItemId = "6214902"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+      		 title = "Employment - Schools"
+      		 description = "Pay and leave information, DEC job search, and information about working for NSW Government."
+      		 dataPortletItemId = "6214765"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+      		 title = "Policy Library"
+      		 description = "Search for policies alphabetically or by group. Everything you need to know about the DoE's policies, procedures and guidelines."
+      		 dataPortletItemId = "6214526"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
+      		 title = "RSS Feeds"
+      		 description = "Create a feed of the latest news from across the DEC as well as the outside world."
+      		 dataPortletItemId = "6137039"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+      		 title = "School Administration"
+      		 description = "Contains information and resources needed for the management and administration of schools and their staff. Find the links to school’s regional intranet pages."
+      		 dataPortletItemId = "6214787"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet"
+      		 title = "SchoolBiz"
+      		 description = "SchoolBiz has all the important weekly news and tasks to help schools plan and keep up to date. Produced weekly during the school term SchoolBiz includes information from the state and your regional office."
+      		 dataPortletItemId = "6144081"
+	/>
+	<@marketplaceEntry
+      		 portletId = "com_liferay_journal_content_web_portlet_JournalContentPortlet"
+      		 title = "Staff Directory"
+      		 description = "Find contact details for DEC staff."
+      		 dataPortletItemId = "6215056"
+	/>
+
+    </div>
+    <a class="left carousel-control" href="#marketplace-carousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    </a>
+    <a class="right carousel-control" href="#marketplace-carousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    </a>
+  </div>
+
+</div>
+<script>
+$( document ).ready( function() {
+  var plid = Liferay.ThemeDisplay.getPlid();
+  $( ".bookmark-details.drag-content-item, .add-content-item.add-btn" ).each( function() {
+
+    var $this = $( this );
+    var portletId = $this.attr( "data-portlet-id" );
+    var portletItemId = $this.attr( "data-portlet-item-id" );
+
+    var dataId = portletId + "_" + plid + "_" + ( portletItemId || "" );
+    $this.attr( "data-plid", plid );
+    $this.attr( "data-id", dataId )
+  } );
+
+  $('#marketplace-carousel').carousel({
+    interval: false
+  });
+  $('.carousel .item').first().addClass('active');
+  console.log($('.carousel .item'));
+  $('.carousel .item').each(function(){
+    var next = $(this).next();
+    if (!next.length) {
+      next = $(this).siblings(':first');
+    }
+    next.children(':first-child').clone().appendTo($(this));
+
+    for (var i=0;i<2;i++) {
+      next=next.next();
+      if (!next.length) {
+        next = $(this).siblings(':first');
+      }
+      next.children(':first-child').clone().appendTo($(this));
+    }
+  });
+
+
+
+} );
+
+
+</script>

@@ -1,0 +1,183 @@
+<style>
+.top-stories {
+  border-radius: 5px;
+  background-color: #fafafa;
+  border: solid 1px #ededed;
+  min-height: 220px;
+}
+.top-stories .top-stories-title {
+  font-family: Montserrat;
+	font-size: 15px;
+	font-weight: 500;
+	color: #343441;
+  padding: 15px 25px 0 25px;
+}
+
+.top-stories h5 {
+  font-family: Montserrat;
+  font-size: 14px !important;
+  color: #343441;
+}
+.top-stories .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.top-stories .col-xs-12{
+  padding-left: 0;
+  padding-right: 0;
+}
+.top-stories-list li a{
+  font-size: 14px !important;
+  font-weight: 400;
+
+}
+.top-stories-list li a:hover{
+  text-decoration: none;
+}
+.top-stories-list li {
+  list-style: none;
+  border-bottom: solid 1px #ededed;
+  padding: 5px 25px;
+  color: #343441;
+}
+.top-stories-list ul p {
+  opacity: 0.6;
+	font-family: Montserrat;
+	font-size: 12px;
+	font-weight: 300;
+	text-align: left;
+	color: #343441;
+}
+.top-stories-list ul, menu, dir {
+  -webkit-padding-start: 0px;
+}
+</style>
+
+
+
+<div class="top-stories">
+  <div class="row top-stories-title">
+    Top Stories
+    <i class="fa fa-cog pull-right" aria-hidden="true"></i>
+  </div>
+  <hr/>
+  <div class="top-stories-list">
+    <ul>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+    </ul>
+  </div>
+</div>
+
+
+<style>
+.top-stories {
+  border-radius: 5px;
+  background-color: #fafafa;
+  border: solid 1px #ededed;
+  min-height: 220px;
+}
+.top-stories .top-stories-title {
+  font-family: Montserrat;
+	font-size: 15px;
+	font-weight: 500;
+	color: #343441;
+  padding: 15px 25px 0 25px;
+}
+
+.top-stories h5 {
+  font-family: Montserrat;
+  font-size: 14px !important;
+  color: #343441;
+}
+.top-stories .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.top-stories .col-xs-12{
+  padding-left: 0;
+  padding-right: 0;
+}
+.top-stories-list li a{
+  font-size: 14px !important;
+  font-weight: 400;
+
+}
+.top-stories-list li a:hover{
+  text-decoration: none;
+}
+.top-stories-list li {
+  list-style: none;
+  border-bottom: solid 1px #ededed;
+  padding: 5px 25px;
+  color: #343441;
+}
+.top-stories-list ul p {
+  opacity: 0.6;
+	font-family: Montserrat;
+	font-size: 12px;
+	font-weight: 300;
+	text-align: left;
+	color: #343441;
+}
+.top-stories-list ul, menu, dir {
+  -webkit-padding-start: 0px;
+}
+</style>
+
+
+
+<div class="top-stories">
+  <div class="row top-stories-title">
+    Top Stories
+    <i class="fa fa-cog pull-right" aria-hidden="true"></i>
+  </div>
+  <hr/>
+  <div class="top-stories-list">
+    <ul>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+      <li><a href="#">Lorem ipsum dolor sit amet, consectetur </a><p>10 minutes ago</p></li>
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+
+
+
+  $.ajax({
+    type: "GET",
+    url:'https://liferaydxp.test.det.nsw.edu.au/documents/221085/0/rss.xml/64722ae9-4b06-6c91-5dcc-837818bcfe31',
+    dataType: "jsonp",
+    success: function(xml) {
+    console.log("success");
+    console.log(xml);
+    }
+
+});
+
+
+$.get('https://liferaydxp.test.det.nsw.edu.au/documents/221085/0/rss.xml/64722ae9-4b06-6c91-5dcc-837818bcfe31', function (data) {
+    $(data).find("entry").each(function () { // or "item" or whatever suits your feed
+        var el = $(this);
+
+        console.log("------------------------");
+        console.log("title      : " + el.find("title").text());
+        console.log("author     : " + el.find("author").text());
+        console.log("description: " + el.find("description").text());
+    });
+});
+
+
+});
+
+</script>

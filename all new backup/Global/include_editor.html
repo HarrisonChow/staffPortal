@@ -1,0 +1,481 @@
+<#attempt>
+
+<#assign UserGroupRoleLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserGroupRoleLocalService") />
+
+<#-- Include - Editor -->
+
+<#-- Load template includes -->
+<#assign cssTemplate = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, editorCssTemplateKey) />
+<#assign cssContent = cssTemplate.script?interpret>
+
+<#assign scriptTemplate = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, editorScriptTemplateKey) />
+<#assign scriptContent = scriptTemplate.script?interpret>
+
+<#assign reactTemplate = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, reactFormTemplateKey) />
+<#assign reactForm = reactTemplate.script?interpret>
+
+<#-- Include css -->
+<@cssContent />
+
+<#-- Editor Popup HTML -->
+<div id="contentItemPopup">
+	<button id="contentItemPopupX">X</button>
+	<div id="content-root"></div>
+</div>
+<div id="selectIconPopup">
+	<button id="selectIconPopupX">X</button>
+	<div class="icon-tool" >
+		<h2>Select an Icon</h2>
+		<ul id="icons"></ul>
+	</div>
+</div>
+
+<input id="studentPortalCategorySelectorHiddenInput_proxy" type="hidden"/>
+<input id="staffPortalCategorySelectorHiddenInput_proxy" type="hidden"/>
+<input id="extranetPortalCategorySelectorHiddenInput_proxy" type="hidden"/>
+<input id="launchTypeCategorySelectorHiddenInput_proxy" type="hidden"/>
+
+<#-- Liferay Article master js object -->
+<script type="text/javascript">
+var LiferayArticle = {
+	contentItem: {
+<#if isWCM>
+		editorTitle: "Edit ${structureType}",
+		title: "${.vars['reserved-article-title'].data?json_string}",
+		description: "${.vars['reserved-article-description'].data?json_string}",
+		displayDate: <#if .vars['reserved-article-display-date']?has_content>new Date("${.vars['reserved-article-display-date'].data}")<#else> null </#if>,
+		publishDate: <#if srcAssetEntry.getPublishDate()?has_content>new Date("${srcAssetEntry.getPublishDate()?datetime?iso_local}")<#else> null </#if>,
+		modifiedDate: <#if .vars['reserved-article-modified-date']?has_content>new Date("${.vars['reserved-article-modified-date'].data}")<#else> null </#if>,
+		createDate: <#if .vars['reserved-article-create-date']?has_content>new Date("${.vars['reserved-article-create-date'].data}")<#else> null </#if>,
+		expiryDate: <#if srcArticle.getExpirationDate()?has_content>new Date("${srcArticle.getExpirationDate()?datetime?iso_local}")<#else> null </#if>,
+		articleId: "${.vars['reserved-article-id'].data?json_string}",
+		version: ${.vars['reserved-article-version'].data?json_string},
+		folder: ${srcArticle.getFolderId()},
+		urlTitle: "${.vars['reserved-article-url-title'].data?json_string}",
+		authorId: "${.vars['reserved-article-author-id'].data?json_string}",
+		authorName: "${.vars['reserved-article-author-name'].data?json_string}",
+		type: "${structureType}",
+		layoutUuid: "${srcArticle.getLayoutUuid()}",
+		scopeGroupId: ${srcArticle.getGroupId()},
+		userId: ${themeDisplay.getUserId()},
+		status: ${srcArticle.getStatus()},
+		ddmStructureKey: "${srcArticle.getDDMStructureKey()}",
+		ddmTemplateKey: "${srcArticle.getDDMTemplateKey()}",
+		isEditor: ${UserGroupRoleLocalService.hasUserGroupRole(themeDisplay.getUserId(), scopeGroupId, "SITE_EDITOR")?string("true","false")}
+<#else>
+		editorTitle: "New ${structureType}",
+		title: "",
+		description: "",
+		displayDate: null,
+		publishDate: null,
+		modifiedDate: null,
+		createDate: null,
+		expiryDate: null,
+		articleId: "",
+		version: 1.0,
+		folder: ${defaultFolderId},
+		urlTitle: "",
+		authorId: "",
+		authorName: "",
+		type: "${structureType}",
+		layoutUuid: "${layoutUuid}",
+		scopeGroupId: ${scopeGroupId},
+		userId: ${themeDisplay.getUserId()},
+		status: 2,
+		ddmStructureKey: "${contentStructureKey}",
+		ddmTemplateKey: "${contentTemplateKey}",
+		isEditor: ${UserGroupRoleLocalService.hasUserGroupRole(themeDisplay.getUserId(), scopeGroupId, "SITE_EDITOR")?string("true","false")}
+</#if>
+	},
+
+	getSourceContentItem: function() {
+		LiferayArticle.unloadContent(LiferayArticle.contentItem);
+		return LiferayArticle.contentItem;
+	},
+
+	upsertContentItem: function(title, description, displayDate, expiryDate, finalContent, urlTitle, assetCategoryIds, isPublish) {
+		if (LiferayArticle.contentItem.articleId == "") {
+			LiferayArticle.addContentItem(title, description, displayDate, expiryDate, finalContent, urlTitle, assetCategoryIds, isPublish?1:2);
+		}
+		else {
+			LiferayArticle.updateContentItem(title, description, displayDate, expiryDate, finalContent, urlTitle, assetCategoryIds, isPublish?1:2);
+		}
+	},
+
+	updateContentItem: function(title, description, displayDate, expiryDate, finalContent, urlTitle, assetCategoryIds, workflowAction) {
+		if (title != null) {
+			LiferayArticle.contentItem.title = title;
+		}
+		if (description != null) {
+			LiferayArticle.contentItem.description = description;
+		}
+		if (displayDate != null) {
+			LiferayArticle.contentItem.displayDate = displayDate;
+		}
+		if (expiryDate != null) {
+			LiferayArticle.contentItem.expiryDate = expiryDate;
+		}
+		if (urlTitle != null) {
+			LiferayArticle.contentItem.urlTitle = urlTitle;
+		}
+
+		Liferay.Service(
+			'/journal.journalarticle/update-article',
+			{
+				userId: LiferayArticle.contentItem.userId,
+				groupId: LiferayArticle.contentItem.scopeGroupId,
+				folderId: LiferayArticle.contentItem.folder,
+				articleId: LiferayArticle.contentItem.articleId,
+				version: LiferayArticle.contentItem.version,
+				titleMap: {"en_AU": LiferayArticle.contentItem.title},
+				descriptionMap: {"en_AU": LiferayArticle.contentItem.description},
+				content: finalContent,
+				ddmStructureKey: LiferayArticle.contentItem.ddmStructureKey,
+				ddmTemplateKey: LiferayArticle.contentItem.ddmTemplateKey,
+				layoutUuid: LiferayArticle.contentItem.layoutUuid,
+				displayDateMonth: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getMonth() : 0,
+				displayDateDay: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getDate() : 1,
+				displayDateYear: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getFullYear() : 2000,
+				displayDateHour: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getHours() : 0,
+				displayDateMinute: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getMinutes() : 0,
+				expirationDateMonth: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getMonth() : 0,
+				expirationDateDay: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getDate() : 0,
+				expirationDateYear: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getFullYear() : 0,
+				expirationDateHour: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getHours() : 0,
+				expirationDateMinute: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getMinutes() : 0,
+				neverExpire: (LiferayArticle.contentItem.expiryDate == null),
+				reviewDateMonth: 0,
+				reviewDateDay: 0,
+				reviewDateYear: 0,
+				reviewDateHour: 0,
+				reviewDateMinute: 0,
+				neverReview: true,
+				indexable: true,
+				smallImage: false,
+				smallImageURL: "",
+				smallFile: null,
+				images: null,
+				articleURL: LiferayArticle.contentItem.urlTitle,
+				serviceContext: {
+					"urlTitle": LiferayArticle.contentItem.urlTitle,
+					"assetCategoryIds": assetCategoryIds,
+					"scopeGroupId": LiferayArticle.contentItem.scopeGroupId,
+					"userId": LiferayArticle.contentItem.userId,
+					"workflowAction": workflowAction}
+			},
+			setTimeout("location.reload(true);",1000)
+		)
+	},
+
+	addContentItem: function(title, description, displayDate, expiryDate, finalContent, urlTitle, assetCategoryIds, workflowAction) {
+		LiferayArticle.contentItem.title = title || "";
+		LiferayArticle.contentItem.description = description || "";
+		LiferayArticle.contentItem.displayDate = displayDate;
+		LiferayArticle.contentItem.expiryDate = expiryDate;
+		LiferayArticle.contentItem.urlTitle = urlTitle || "";
+
+		Liferay.Service(
+			'/journal.journalarticle/add-article',
+			{
+				groupId: LiferayArticle.contentItem.scopeGroupId,
+				folderId: LiferayArticle.contentItem.folder,
+				classNameId: 0,
+				classPK: 0,
+				articleId: LiferayArticle.contentItem.articleId,
+				autoArticleId: (LiferayArticle.contentItem.articleId == ""),
+				titleMap:{"en_AU": LiferayArticle.contentItem.title},
+				descriptionMap: {"en_AU": LiferayArticle.contentItem.description},
+				content: finalContent,
+				ddmStructureKey: LiferayArticle.contentItem.ddmStructureKey,
+				ddmTemplateKey: LiferayArticle.contentItem.ddmTemplateKey,
+				layoutUuid: LiferayArticle.contentItem.layoutUuid,
+				displayDateMonth: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getMonth() : 0,
+				displayDateDay: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getDate() : 1,
+				displayDateYear: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getFullYear() : 2000,
+				displayDateHour: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getHours() : 0,
+				displayDateMinute: LiferayArticle.contentItem.displayDate != null ? LiferayArticle.contentItem.displayDate.getMinutes() : 0,
+				expirationDateMonth: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getMonth() : 0,
+				expirationDateDay: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getDate() : 0,
+				expirationDateYear: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getFullYear() : 0,
+				expirationDateHour: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getHours() : 0,
+				expirationDateMinute: LiferayArticle.contentItem.expiryDate != null ? LiferayArticle.contentItem.expiryDate.getMinutes() : 0,
+				neverExpire: (LiferayArticle.contentItem.expiryDate == null),
+				reviewDateMonth: 0,
+				reviewDateDay: 0,
+				reviewDateYear: 0,
+				reviewDateHour: 0,
+				reviewDateMinute: 0,
+				neverReview: true,
+				indexable: true,
+				articleURL: LiferayArticle.contentItem.urlTitle,
+				serviceContext: {
+					"assetCategoryIds": assetCategoryIds,
+					"scopeGroupId": LiferayArticle.contentItem.scopeGroupId,
+					"userId": LiferayArticle.contentItem.userId,
+					"workflowAction": workflowAction}
+			  },
+			setTimeout("location.reload(true);",1000)
+		)
+	},
+
+	filterCategoryIds: function(a, b, c, d) {
+		var allIds = a.split(",").concat(b.split(",")).concat(c.split(",")).concat(d.split(",")).map(Number);
+		var assetCategoryIds = allIds.reduce(function(filtered, option) {
+			if (option != 0) {
+				filtered.push(option);
+			}
+			return filtered;
+		}, []);
+		return assetCategoryIds;
+	},
+
+	expireArticle: function() {
+		Liferay.Service(
+		  '/journal.journalarticle/expire-article',
+		  {
+			groupId: LiferayArticle.contentItem.scopeGroupId,
+			articleId: LiferayArticle.contentItem.articleId,
+			articleURL: LiferayArticle.contentItem.urlTitle
+		  },
+		  function(obj) {
+			window.location.href=themeDisplay.getLayoutURL();
+		  }
+		);
+	},
+
+	registerRedactorEditor: function() {
+		$(".redactor-content:not('.redactor-active')").redactor({
+			callbacks: {
+				keyup: function(e)
+				{
+					var target = this.$element[0];
+					target.value  = this.code.get();
+					LiferayArticle.forceClickEvent( target, 'click' );
+				}
+			}
+		});
+		$(".redactor-content:not('.redactor-active')").addClass('redactor-active');
+	},
+
+	registerCategorySelector: function(contentBox, hiddenInput, inputProxy, groupIds, vocabs, entryIds, entryNames) {
+		AUI().use("liferay-language", "liferay-asset-categories-selector", function( A ) {
+			var selector = new Liferay.AssetCategoriesSelector(
+				{
+					contentBox: contentBox,
+					hiddenInput: inputProxy,
+					singleSelect: false,
+					vocabularyGroupIds: groupIds,
+					vocabularyIds: vocabs,
+					curEntryIds: entryIds,
+					curEntries: entryNames
+				}
+			);
+			selector.render();
+		} );
+
+		LiferayArticle.trackChange( inputProxy );
+
+		$(inputProxy).change(function(event) {
+			var target = document.getElementById($(hiddenInput).prop('id'));
+
+			target.value = event.target.value;
+
+			LiferayArticle.forceClickEvent(target, 'click');
+		});
+	},
+
+	registerBookmarkSelector: function() {
+		AUI().use(
+			'liferay-item-selector-dialog',
+			'liferay-portlet-url',
+			function(A) {
+				<#assign getSelectFileURL = portletURLFactory.create(themeDisplay.getRequest(), "com_liferay_asset_browser_web_portlet_AssetBrowserPortlet", portalUtil.getControlPanelPlid(companyId), "0") />
+
+				${getSelectFileURL.setParameter("groupId", scopeGroupId+"")}
+				${getSelectFileURL.setParameter("selectedGroupIds", scopeGroupId+"")}
+				${getSelectFileURL.setParameter("typeSelection", "com.liferay.journal.model.JournalArticle")}
+				${getSelectFileURL.setParameter("showNonindexable", "false")}
+				${getSelectFileURL.setParameter("showScheduled", "false")}
+				${getSelectFileURL.setParameter("eventName", "selectContent")}
+				${getSelectFileURL.setParameter("subtypeSelectionId", bookmarkStructureId)}
+				${getSelectFileURL.setPortletMode("view")}
+				${getSelectFileURL.setWindowState("pop_up")}
+
+				$("body").on(
+					"click",
+					".select-album-button",
+					function(a) {
+						var portletURL = "${getSelectFileURL}";
+						var target = document.getElementById($(this).attr('data-pk'));
+						var targetDisplay = document.getElementById($(this).attr('data-label'));
+						Liferay.Util.selectEntity(
+							{
+								dialog : {
+									constrain : !0,
+									destroyOnHide : !0,
+									modal : !0
+								},
+								eventName : "selectContent",
+								id : "selectContent",
+								title : "Select Application",
+								uri : portletURL
+							},
+							function(selection) {
+								targetDisplay.value = selection.assettitle;
+								LiferayArticle.forceClickEvent(targetDisplay, 'click');
+
+								target.value = selection.assetclasspk;
+								LiferayArticle.forceClickEvent(target, 'click');
+							}
+						)
+						$("iframe").ready(
+							function() {
+								setTimeout(LiferayArticle.checkIframe("#_com_liferay_asset_browser_web_portlet_AssetBrowserPortlet_menuItem",0),100);
+							}
+						);
+					}
+				);
+			}
+		);
+	},
+
+	formatDate: function(date) {
+		var monthNames = [ "January", "February", "March", "April", "May",
+				"June", "July", "August", "September", "October", "November",
+				"December" ];
+
+		var day = date.getDate();
+		var monthIndex = date.getMonth();
+		var year = date.getFullYear();
+
+		return day + ' ' + monthNames[monthIndex] + ' ' + year;
+	},
+
+	forceClickEvent: function(obj, event) {
+		var event = new MouseEvent('click', {
+			'view' : window,
+			'bubbles' : true,
+			'cancelable' : false
+		});
+		obj.dispatchEvent(event);
+	},
+
+	dynamicSort: function(property) {
+	   return function(a, b) {
+		   return (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+	   }
+	},
+
+	trackChange: function(src) {
+		var element = document.querySelector(src);
+		MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+		var observer = new MutationObserver(function(mutations, observer) {
+			if(mutations[0].attributeName == "value") {
+				$(element).trigger("change");
+			}
+		});
+		observer.observe(element, {
+			attributes: true
+		});
+	},
+
+	generateInstanceId: function(key) {
+        var instanceId = '';
+
+        for (var i = 0; i < 8; i++) {
+            var pos = Math.floor(Math.random() * key.length);
+
+            instanceId += key.substring(pos, pos + 1);
+        }
+        return instanceId;
+    },
+
+	getIcons: function(prefix) {
+		for ( var i in document.styleSheets ) {
+			var rules = undefined;
+			var ss = document.styleSheets[i];
+			try {
+				if ( !ss.cssRules ) {
+					continue;
+				}
+
+				rules = ss.cssRules;
+			} catch ( e ) {
+				if( e.name !== 'SecurityError' ) {
+					throw e;
+				}
+			}
+
+			if ( rules )
+
+			for ( var j in rules ) {
+				var selector = rules[j].selectorText;
+				if ( selector && selector.indexOf( '.' + prefix + '-' ) !== -1 && selector.indexOf(":") != -1) {
+					var cssClass = selector.substring(0, selector.indexOf(":")).replace( /\./g, "" );
+					if (cssClass != "") {
+						var li = $( "<li/>" );
+						var icon = $( "<i />" );
+
+						icon.addClass( cssClass );
+						icon.addClass( prefix );
+						var span = $( "<span/>" );
+						span.text( cssClass );
+
+						icon.appendTo( li );
+						span.appendTo( li );
+
+						$( "#icons" ).append( li );
+					}
+				}
+			}
+		}
+	},
+
+	<@scriptContent />
+
+	checkIframe: function(itmName, nbCalls) {
+	    function timeoutHandler(){
+		    if (nbCalls < 100) {
+				nbCalls += 1;
+				try {
+					var itm = $('iframe')[0].contentWindow.$(itmName);
+					if (itm.length) {
+						itm.hide();
+					} else {
+						setTimeout( timeoutHandler, 200 );
+					}
+				}
+				catch (ex) {
+					setTimeout( timeoutHandler, 200 );
+				}
+			}
+	    }
+	    timeoutHandler();
+	}
+};
+</script>
+
+<#-- General editor js includes -->
+
+<script>
+	define._amd = define.amd;
+	define.amd = false;
+</script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.1/react-bootstrap.min.js"></script>
+<#if structureType == "Notification">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+</#if>
+
+<script>
+	define.amd = define._amd;
+	<@reactForm />
+</script>
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

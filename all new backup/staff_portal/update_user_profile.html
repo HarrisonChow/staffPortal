@@ -1,0 +1,372 @@
+<#attempt>
+<#assign
+	propsUtil = serviceLocator.findService( "com.liferay.portal.kernel.util.Props" )
+	functions = propsUtil.getProperties( "doe.user.profile.function.", true )
+/>
+
+<style>
+.center {
+	text-align: center;
+}
+
+.update-profile-title {
+	font-size: 20px;
+	font-weight: 300;
+	text-align: center;
+	color: #0e3f51;
+}
+
+.update-profile-title p {
+	font-size: 12px;
+	font-weight: 300;
+	text-align: center;
+	color: #343441;
+}
+
+.personal-details, .work-contact-details, .assistant-details,
+	.emergency-contanct-details, .additional-information {
+	margin: 15px 0;
+	border-radius: 5px;
+	background-color: #fafafa;
+	border: solid 1px #ededed;
+	padding: 15px 25px;
+}
+
+.details-title {
+	font-size: 18px;
+	font-weight: 600;
+	text-align: left;
+	color: #4ab9b8;
+}
+
+.details-title img {
+	padding: 0 15px;
+}
+
+#update-profile-form hr {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#update-profile-form select {
+	height: 200px;
+}
+
+#update-profile-form option, #update-profile-form textarea {
+	border-radius: 5px;
+}
+
+#update-profile-form label {
+	font-size: 12px !important;
+	font-weight: 600 !important;
+	color: #343441 !important;
+}
+
+#update-profile-form p {
+	font-size: 15px !important;
+	font-weight: 300 !important;
+	color: #343441 !important;
+}
+
+#update-profile-form input {
+	height: 42px !important;
+	border-radius: 4px !important;
+	background-color: #ffffff !important;
+	border: solid 1px #ededed !important;
+}
+
+#update-profile-form input:focus {
+	outline: none;
+}
+
+#update-profile-form button {
+	width: 98px!important;
+}
+.details-title a:focus {
+	outline: none;
+}
+
+.personal-details .row:not ( .details-title ) div {
+	margin-top: 10px !important;
+}
+
+#personal-details-questions .modal-dialog, #contact-details-questions .modal-dialog {
+	width: 70vw;
+}
+</style>
+<form id="update-profile-form" action="#">
+	<div class="update-profile-title">Update your Profile</div>
+	<div class="personal-details">
+		<div class="row details-title">
+			Personal Details
+		</div>
+		<hr />
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<label>FRIST NAME</label>
+				<p data-profile-bind="First Name"></p>
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label>SURNAME</label>
+				<p data-profile-bind="Last Name"></p>
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label>GENDER</label>
+				<p data-profile-bind="Gender"></p>
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label>DATE OF BIRTH</label>
+				<p data-profile-bind="Date Of Birth"></p>
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label class="pull-left">PREFERRED FIRST NAME</label> <input class="col-xs-12" data-profile-bind="Preferred First Name" type="text" value="" />
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label class="pull-left">PREFERRED SURNAME</label> <input data-profile-bind="Preferred Last Name" class="col-xs-12" type="text" value="" />
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label class="pull-left">EMAIL DISPLAY NAME TAG</label> <input data-profile-bind="Email Display Tag" class="col-xs-12" type="text" value="" />
+			</div>
+		</div>
+	</div>
+
+	<div class="work-contact-details">
+		<div class="row details-title">
+			<img src="assets/images/location.png" alt="">Work Contact Details <a href="#" data-toggle="modal" data-target="#contact-details-questions"><img class="pull-right"
+				src="assets/images/question.png" alt=""></a>
+		</div>
+		<hr />
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>BUSINESS PHONE</label> <input data-profile-bind="Business Phone" class="col-xs-12" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>BUSINESS FAX</label> <input data-profile-bind="Business Fax" class="col-xs-12" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>MOBILE PHONE</label> <input data-profile-bind="Business Mobile" class="col-xs-12" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>BUSINESS TITLE / ROLE</label> <input data-profile-bind="Title/Role" class="col-xs-12" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>COMPANY</label> <input class="col-xs-12" data-profile-bind="Company" type="text" value="">
+			</div>
+
+
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>PHYSICAL SITE</label> <input class="col-xs-12" data-profile-bind="Physical Site" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>DEPARTMENT/SCHOOL/COLLEGE</label> <input class="col-xs-12" data-profile-bind="Department/School/College" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>STREET ADDRESS</label> <input class="col-xs-12" data-profile-bind="Business Street Address" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>SUBURB</label> <input class="col-xs-12" data-profile-bind="Business Suburb" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>POSTAL CODE</label> <input class="col-xs-12" data-profile-bind="Business Post Code" type="text" value="">
+			</div>
+
+		</div>
+	</div>
+
+	<div class="assistant-details">
+		<div class="row details-title">
+			Assistant Details
+		</div>
+		<hr />
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>ASSISTANT NAME</label> <input class="col-xs-12" data-profile-bind="Assistant Name" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>ASSISTANT PHONE NUMBER</label> <input class="col-xs-12" data-profile-bind="Assistant Phone" type="text" value="">
+			</div>
+		</div>
+	</div>
+
+	<!-- teachers only  -->
+	<div class="emergency-contanct-details">
+		<div class="row details-title">
+			Vacation / Emergency Contact Details
+		</div>
+		<hr />
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>PHONE</label> <input class="col-xs-12" data-profile-bind="Emergency Telephone Numbers" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>EMAIL</label> <input class="col-xs-12" data-profile-bind="Emergency Email Address" type="text" value="">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>ADDRESS</label> <input class="col-xs-12" data-profile-bind="Emergency Address 1" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label pull-left>CITY</label> <input class="col-xs-12" data-profile-bind="Emergency City" type="text" value="">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-4">
+				<label pull-left>STATE</label> <input class="col-xs-12" data-profile-bind="Emergency State" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<label pull-left>POSTAL CODE</label> <input class="col-xs-12" data-profile-bind="Emergency Post Code" type="text" value="">
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<label pull-left>COUNTRY</label> <input class="col-xs-12" data-profile-bind="Emergency Country" type="text" value="">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<label pull-left>EMERGENCY MESSAGE</label>
+				<textarea class="col-xs-12" data-profile-bind="Emergency Message" rows="5"></textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="additional-information">
+		<div class="row details-title">
+			Additional Information
+		</div>
+		<hr />
+		<div class="row">
+			<label pull-left>EXTRA FUNCTIONS</label>
+			<select multiple data-profile-bind="Extra Functions" >
+				<#list functions?keys as key>
+					<option value="${key}">${functions[key]}</option>
+				</#list>
+			</select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-6 center">
+			<button class="btn-secondary" onclick="resetUpdateProfileForm(); return false;">CANCEL</button>
+		</div>
+		<div class="col-xs-6 center">
+			<button class="btn-primary" onclick="updateProfileDetails();">SAVE</button>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+
+	function resetUpdateProfileForm() {
+		initFormData();
+		$( '#update-profile-form input' ).attr( 'data-changed', 'false' );
+	}
+
+	function updateProfileDetails() {
+		var profileElements = $( '#update-profile-form [data-changed=true]' ).map( function( ) {
+			var $this = $( this );
+			var value;
+
+			if ( $this.is( 'select' ) ) {
+
+				value = $this.find( 'option:selected' ).map( function() {
+					return this.value;
+				} ).toArray().join( ", " );
+
+			}	else {
+				value = $this.val();
+			}
+
+			return {
+				'Name' : $this.attr( 'data-profile-bind' ),
+				'Value' : $this.val(),
+				'action' : 'Replace'
+			}
+		} );
+
+		var profileRequestBody = {
+				'staffProfiles' : profileElements.toArray()
+		}
+
+		$.ajax( {
+			'type' : 'post',
+			'url' : '/o/rest/profile/details',
+			'data' : JSON.stringify( profileRequestBody ),
+			'contentType' : 'application/json; charset=utf-8',
+			'dataType' : 'json'
+		} ).done( function() {
+			new Liferay.Notification( {
+				  "message" : "Your profile has been updated.",
+				  "render" : "true",
+				  "type" : "info"
+			  } );
+		} ).fail( function() {
+			new Liferay.Notification( {
+				"message" : "An error occurred while updating your profile. Please, try again later.",
+				"render" : "true",
+				"type" : "danger"
+  			  } );
+		} );
+
+	}
+
+	function renderProfile(response) {
+		var staffProfile = response.staffProfile;
+
+		$( '#update-profile-form option' ).each( function() {
+			this.selected = false;
+		} );
+
+		$("#update-profile-form [data-profile-bind]").each(
+				function(index, element) {
+					var $element = $(element);
+					var dataBind = $element.attr("data-profile-bind");
+					var profileElement = staffProfile.find(function(it) {
+						return it.Name === dataBind;
+					});
+
+					if ( !profileElement ) {
+						console.log( 'Element with Name "' + dataBind + '" not found in the response' );
+						return;
+					}
+
+					var value = (profileElement.Value || "").toString()
+							.split(",").join(", ");
+
+					if ($element.is("input")) {
+						$element.val(value);
+					} else if ( $element.is( "select" ) ){
+						var selectedOpts = profileElement.Value.split( ',' ).map( function( val ) { return val.trim() } );
+						selectedOpts.forEach( function( val ) {
+							var target = $element.find( 'option[value="' + val + '"]' );
+							if ( target ) {
+								target[ 0 ].selected = true;
+							}
+						} );
+					}	else	{
+						$element.text(value);
+					}
+				});
+	}
+
+	function initFormData() {
+		return $.ajax({
+			'type' : 'get',
+			'url' : '/o/rest/profile/details/' + window.screenName
+		}).then( renderProfile );
+	}
+
+	$( document ).ready( function() {
+
+		$( '#update-profile-form input, #update-profile-form select, #update-profile-form textarea' ).change( function() {
+			$( this ).attr( 'data-changed', 'true' );
+		} );
+
+		initFormData();
+
+	} );
+</script>
+
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

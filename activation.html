@@ -1,0 +1,896 @@
+<style media="screen">
+  .container .activation-header {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 300;
+    color: #0e3f51;
+    margin-bottom: 50px;
+    margin-top: 25px;
+  }
+  .activation-option {
+    text-align: center;
+    font-size: 14px;
+    color: #0e3f51;
+    padding-bottom: 27px;
+  }
+  .activation-option .col-xs-12{
+    border-bottom: solid 1px #ededed;
+    padding-bottom: 12px;
+  }
+  .verify {
+    border: none;
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 98px;
+    height: 34px;
+    border-radius: 100px;
+    background-color: #26ca50;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .verify:focus {
+    outline: none;
+  }
+  .verify:disabled {
+    opacity: 0.4;
+  }
+  .verify-action {
+    text-align: center;
+  }
+  .input-style {
+    position: relative;
+  }
+  .input-style .right-question-mark {
+    float: right;
+  }
+  .input-style span {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: left;
+    color: #343441;
+  }
+  .input-style input {
+    height: 42px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: solid 1px #ededed;
+    width: 100%;
+    margin-bottom: 18px;
+    margin-top: 7px;
+    font-size: 15px;
+    font-weight: 300;
+    text-align: left;
+    color: #343441;
+    padding-left: 16px;
+    padding-right: 30px;
+  }
+  .input-style input:focus {
+    outline: none;
+  }
+  .activation-info {
+    text-align: center;
+    margin-bottom: 27px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+  .activation-info h1 {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    color: #29c940;
+  }
+  .activation-info span {
+    font-size: 12px;
+    font-weight: 300;
+    color: #343441;
+  }
+  .verify-action p {
+    font-size: 12px;
+    font-weight: 300;
+    text-align: center;
+    color: #616380;
+  }
+  .activation-icons {
+    height: 20px;
+    width: auto;
+  }
+  .activation-option .col-xs-4, .activation-option .col-xs-12 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .activation-option .verified {
+    color: #29c940;
+  }
+  .inactivated {
+    color: rgba(0, 0, 0, .3);
+  }
+  .secretQuestions .input-style .form-group {
+    margin-top: 7px;
+  }
+  .secretQuestions .input-style .form-group .form-control {
+    border: solid 1px #ededed;
+    border-radius: 4px;
+    opacity: 0.7;
+    font-size: 15px;
+    font-weight: 300;
+    text-align: left;
+    color: #343441;
+    padding-left: 16px;
+  }
+  .input-style a .question-mark {
+    position: absolute;
+    top: 44px;
+    right: 26px;
+  }
+  #activation .modal .modal-dialog {
+    position: relative;
+    margin: 150px auto;
+
+  }
+  #activation .modal .modal-body {
+    min-height: 150px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    color: #ff6159;
+    padding-top: 20px;
+  }
+  #activation .modal .modal-header {
+    background-color: #f5f8f8;
+    border-bottom: 0;
+    padding: 0;
+  }
+  #activation .modal .modal-header .modal-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #0e3f51;
+  }
+  #activation .modal .modal-header .close:focus {
+    outline: none;
+  }
+  #activation .modal-backdrop.in {
+    opacity: 0.5;
+  }
+  #activation .tokenInvalid {
+    border-radius: 4px;
+  	background-color: #ffffff;
+  	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
+    margin-top: 50px;
+    min-height: 220px;
+    text-align: center;
+    padding-top: 21px;
+  }
+  #activation .tokenInvalid span {
+    font-size: 20px;
+    font-weight: 500;
+    color: #0e3f51;
+  }
+  #activation .tokenInvalid p {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    color: #ff6159;
+    padding-top: 20px;
+  }
+</style>
+
+<script>
+    define._amd = define.amd;
+    define.amd = false;
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.1/react-bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+
+<script>
+    define.amd = define._amd;
+</script>
+<script type='text/babel'>
+
+  class ConfirmIdentityHead extends React.Component {
+      constructor(props) {
+          super(props);
+      }
+      render() {
+          return (
+          <div className="activation-option">
+            <img className="activation-icons"
+            src={
+              this.props.identityStepProp === 'processing' ? '/o/doe-staff-theme/images/user.svg' : '/o/doe-staff-theme/images/tick.svg'
+            }
+            alt=""/>
+            <div className={
+              this.props.identityStepProp === 'processing' ? 'col-xs-12' : 'col-xs-12 verified'
+            }>
+              Confirm Identity
+            </div>
+
+          </div>
+          );
+      }
+  }
+
+  class PasswordHead extends React.Component {
+      constructor(props) {
+          super(props);
+      }
+      render() {
+          return (
+          <div className="activation-option">
+            <img className="activation-icons"
+            src={
+              this.props.passwordStepProp === 'processing' ? '/o/doe-staff-theme/images/lock.svg' : this.props.passwordStepProp === 'successful' ? '/o/doe-staff-theme/images/tick.svg' : '/o/doe-staff-theme/images/lock-grey.svg'
+            } alt=""/>
+            <div className={
+              this.props.passwordStepProp === 'processing' ? 'col-xs-12' : this.props.passwordStepProp === 'successful' ? 'col-xs-12 verified' : 'col-xs-12 inactivated'
+            }>
+              Password
+            </div>
+          </div>
+          );
+      }
+  }
+
+  class SecretQuestionsHead extends React.Component {
+      constructor(props) {
+          super(props);
+      }
+      render() {
+          return (
+            <div className="activation-option">
+              <img className="activation-icons"
+              src={
+                this.props.secretQuestionsStepProp === 'processing' ? '/o/doe-staff-theme/images/key.svg' : this.props.secretQuestionsStepProp === 'successful' ? '/o/doe-staff-theme/images/tick.svg' : '/o/doe-staff-theme/images/key-grey.svg'
+              } alt=""/>
+              <div className={
+                this.props.secretQuestionsStepProp === 'processing' ? 'col-xs-12' : this.props.secretQuestionsStepProp === 'successful' ? 'col-xs-12 verified' : 'col-xs-12 inactivated'
+              }>
+                Secret Questions
+              </div>
+            </div>
+          );
+      }
+  }
+
+  class ActivationHead extends React.Component {
+      constructor(props) {
+          super(props);
+      }
+      render() {
+          return (
+            <div className="container">
+              <div className="activation-header">
+                Account Activation
+              </div>
+              <div className="activation-option">
+                <div className="col-xs-offset-0 col-sm-offset-2 col-xs-4 col-sm-3">
+                  <ConfirmIdentityHead identityStepProp={this.props.confirmIdentityStatus}/>
+                </div>
+                <div className="col-xs-4 col-sm-2">
+                  <PasswordHead passwordStepProp={this.props.passwordStatus}/>
+                </div>
+                <div className="col-xs-4 col-sm-3">
+                  <SecretQuestionsHead secretQuestionsStepProp={this.props.secretQuestionsStatus}/>
+                </div>
+              </div>
+            </div>
+          );
+      }
+  }
+
+  class ConfirmIdentity extends React.Component {
+      constructor() {
+          super();
+          this.state = {
+              buttonIsDisabled: true,
+              showError: false,
+              errorMessage: '',
+              counter: 0,
+              identityData: {
+                username: '',
+                emailAddress: '',
+                firstName: '',
+                familyName: '',
+                dob: ''
+              }
+          };
+      }
+
+      componentWillMount() {
+        var current_counter;
+        if (localStorage.getItem('activation_counter')) {
+          current_counter = parseInt(localStorage.getItem('activation_counter'));
+          this.setState({ counter: current_counter});
+        } else {
+          localStorage.setItem("activation_counter", 3);
+          current_counter = parseInt(localStorage.getItem('activation_counter'));
+          this.setState({ counter: current_counter});
+        }
+      }
+
+      inputCheck() {
+        for (var i in this.state.identityData)
+          if (this.state.identityData[i] === '')  return false;
+        return true;
+      }
+
+      changeInput(event) {
+        this.state.identityData[event.target.name] = event.target.value;
+        this.setState({ identityData: this.state.identityData});
+        if (this.inputCheck() && this.state.counter>0) {
+          this.setState({ buttonIsDisabled: false});
+        }
+      }
+
+      closePopup() {
+        this.setState({ showError: false});
+      }
+
+
+
+      verifyIdentity(e){
+        e.preventDefault();
+        var datas = this;
+        axios({
+            method: 'post',
+            url: '/o/rest/profile/verify-identity',
+            data: {
+                "userid" : datas.state.identityData.username,
+                "firstName" : datas.state.identityData.firstName,
+                "lastName" : datas.state.identityData.familyName,
+                "email" : datas.state.identityData.emailAddress,
+                "dateOfBirth" : datas.state.identityData.dob
+            }
+        }).then(function(response){
+          datas.props.updateProcessing(2, 'successful', 'processing','inactivated',datas.state.identityData.username);
+        })
+        .catch(function(error) {
+          if (datas.state.counter > 1) {
+            datas.setState({ counter: datas.state.counter-1});
+            localStorage.setItem("activation_counter", datas.state.counter);
+            var word = datas.state.counter===1 ? " try":" tries";
+            var message = "Unable validation:One or more items entered is incorrect. You have "+datas.state.counter+word+" remaining";
+          } else if (datas.state.counter === 1){
+            datas.setState({ buttonIsDisabled: true});
+            datas.setState({ counter: datas.state.counter-1});
+            localStorage.setItem("activation_counter", datas.state.counter);
+            var message = "Unable validation:Account activation Confirmation Failed. Unable to confirm your identity. Please contact DEC Help Desk to assist you in activating your account.";
+          }
+
+          datas.setState({ errorMessage: message});
+          datas.setState({ showError: true});
+        });
+      }
+
+      render() {
+          var underMessage = this.state.counter === 3 ? "You can only try a maximum of 3 times":this.state.counter === 2 ? "You have 2 tries remaining" : this.state.counter === 1 ? "You have 1 try remaining" : "Account activation Confirmation Failed. Unable to confirm your identity. Please contact DEC Help Desk to assist you in activating your account.";
+          return (
+          <div>
+              <ReactBootstrap.Grid>
+                  <ReactBootstrap.Row className=''>
+                      <ReactBootstrap.Col xsOffset={1} smOffset={3} xs={9} sm={6} className='activation-info'>
+                          <span>The Department needs to confirm your identity before activating your account and granting access to your personal information</span>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={4} className='input-style'>
+                          <span>USERNAME</span>
+                          <a href="" title="help"><img className="question-mark" src="/o/doe-staff-theme/images/question-mark.svg" /></a>
+                          <input name='username' className='' type='text' placeholder='' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={0} sm={4} className='input-style'>
+                          <span>EMAIL ADDRESS</span>
+                          <input name='emailAddress' className='' type='text' placeholder='' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={4} className='input-style'>
+                          <span>FIRST NAME</span>
+                          <input name='firstName' className='' type='text' placeholder='' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={0} sm={4} className='input-style'>
+                          <span>FAMILY NAME</span>
+                          <input name='familyName' className='' type='text' placeholder='' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={4} className='input-style'>
+                          <span>DATE OF BIRTH</span>
+                          <input name='dob' className='' type='text' placeholder='DD/MM/YYYY' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+                  <ReactBootstrap.Row className='verify-action'>
+                      <button className="verify" disabled={this.state.buttonIsDisabled} onClick={this.verifyIdentity.bind(this)}>VERIFY</button>
+                      <p>{underMessage}</p>
+
+
+                  </ReactBootstrap.Row>
+                  {this.state.showError === true &&
+                  <ReactBootstrap.Row >
+                    <ErrorMessage showStatus={this.state.showError} closePopup ={this.closePopup.bind(this)} message = {this.state.errorMessage}/>
+                    <div className="modal-backdrop fade in"></div>
+                  </ReactBootstrap.Row>}
+              </ReactBootstrap.Grid>
+
+
+          </div>
+          );
+      }
+  }
+
+  class Password extends React.Component {
+      constructor() {
+          super();
+          this.state = {
+              buttonIsDisabled: true,
+              showError: false,
+              errorMessage:'',
+              passwordData: {
+                newPassword: '',
+                confirmPassword: '',
+              }
+          };
+      }
+
+      inputCheck() {
+          for (var i in this.state.passwordData)
+              if (this.state.passwordData[i] === '')  return false;
+          return true;
+      }
+
+      closePopup() {
+        this.setState({ showError: false});
+      }
+
+      passwordCompare() {
+          if (this.state.passwordData.newPassword === this.state.passwordData.confirmPassword) return true;
+          return false;
+      }
+
+      changeInput(event) {
+          this.state.passwordData[event.target.name] = event.target.value;
+          this.setState({ passwordData: this.state.passwordData});
+          if (this.inputCheck() && this.passwordCompare()) {
+            this.setState({ buttonIsDisabled: false});
+          } else {
+            this.setState({ buttonIsDisabled: true});
+          }
+      }
+
+      passwordChecking(e) {
+          e.preventDefault();
+          var message = "Password Criteria:\
+          Password must be at least eight(8) characters long. \
+          At least one(1) digit(s) (0-9). \
+          At least one(1) special character(s) (~!@#$%^&*)";
+          var datas = this;
+          var regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,32}$/;
+
+          if (!regularExpression.test(this.state.passwordData.newPassword)) {
+            datas.setState({ errorMessage: message});
+            datas.setState({ showError: true});
+          } else {
+            this.props.updateProcessing(3, 'successful', 'successful','processing', this.props.userId, this.state.passwordData.newPassword);
+          }
+      }
+
+      render() {
+          return (
+          <div>
+              <ReactBootstrap.Grid>
+                  <ReactBootstrap.Row className=''>
+                      <ReactBootstrap.Col xsOffset={1} smOffset={3} xs={9} sm={6} className='activation-info'>
+                          <span>Please enter and confirm your new password. Your new password will take up to 30 mins to become active after completing the activation process</span>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={4} className='input-style'>
+                          <span>NEW PASSWORD</span>
+                          <a href="" title="help"><img className="question-mark" src="/o/doe-staff-theme/images/question-mark.svg" /></a>
+                          <input name='newPassword' className='' type='password' placeholder='' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={0} sm={4} className='input-style'>
+                          <span>CONFIRM PASSWORD</span>
+                          <input name='confirmPassword' className='' type='password' placeholder='' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+
+                  <ReactBootstrap.Row className='verify-action'>
+                      <button className="verify" disabled={this.state.buttonIsDisabled} onClick={this.passwordChecking.bind(this)}>CONTINUE</button>
+                  </ReactBootstrap.Row>
+
+                  {this.state.showError === true &&
+                  <ReactBootstrap.Row >
+                    <ErrorMessage showStatus={this.state.showError} closePopup ={this.closePopup.bind(this)} message = {this.state.errorMessage}/>
+                    <div className="modal-backdrop fade in"></div>
+                  </ReactBootstrap.Row>}
+              </ReactBootstrap.Grid>
+          </div>
+          );
+      }
+  }
+
+  class SecretQuestions extends React.Component {
+      constructor() {
+          super();
+          this.state = {
+              buttonIsDisabled: true,
+              questions: [],
+              showError: false,
+              errorMessage:'',
+              secretQuestionsData: {
+                secretQuestions1: '',
+                answer1: '',
+                verify1: '',
+                secretQuestions2: '',
+                answer2: '',
+                verify2: '',
+                secretQuestions3: '',
+                answer3: '',
+                verify3: '',
+              }
+          };
+      }
+
+      inputCheck() {
+          for (var i in this.state.secretQuestionsData)
+              if (this.state.secretQuestionsData[i] === '')  return false;
+          return true;
+      }
+
+      getParameter(theParameter) {
+        var params = window.location.search.substr(1).split('&');
+
+        for (var i = 0; i < params.length; i++) {
+          var p=params[i].split('=');
+        	if (p[0] == theParameter) {
+        	  return decodeURIComponent(p[1]);
+        	}
+        }
+        return false;
+      }
+
+      closePopup() {
+        this.setState({ showError: false});
+      }
+
+
+      answerCompare() {
+          if ((this.state.secretQuestionsData.answer1 === this.state.secretQuestionsData.verify1) && (this.state.secretQuestionsData.answer2 === this.state.secretQuestionsData.verify2) && (this.state.secretQuestionsData.answer3 === this.state.secretQuestionsData.verify3)) return true;
+          return false;
+      }
+
+      changeInput(event) {
+          this.state.secretQuestionsData[event.target.name] = event.target.value;
+          this.setState({ secretQuestionsData: this.state.secretQuestionsData});
+          if (this.inputCheck() && this.answerCompare()) {
+            this.setState({ buttonIsDisabled: false});
+          } else {
+            this.setState({ buttonIsDisabled: true});
+          }
+      }
+
+      saveAndActivation(e) {
+          e.preventDefault();
+          var datas = this;
+          axios({
+              method: 'post',
+              url: '/o/rest/profile/activation-questions',
+              data: {
+                  "password" : datas.props.password,
+                  "token" : datas.getParameter("token"),
+                  "questions" : [
+                    {
+                       "question" : datas.state.secretQuestionsData.secretQuestions1,
+                       "answer" : datas.state.secretQuestionsData.answer1,
+                       "position" : "1"
+                    },
+                    {
+                       "question" : datas.state.secretQuestionsData.secretQuestions2,
+                       "answer" : datas.state.secretQuestionsData.answer2,
+                       "position" : "2"
+                    },
+                    {
+                       "question" : datas.state.secretQuestionsData.secretQuestions3,
+                       "answer" : datas.state.secretQuestionsData.answer3,
+                       "position" : "3"
+                    }
+                  ]
+              }
+          }).then(function(response){
+            console.log(response);
+            datas.props.updateProcessing(4, 'successful', 'successful','successful');
+          })
+          .catch(function(error) {
+            console.log(error);
+            var message = "Activation Error:Oops! Something wrong. Please try later.";
+            datas.setState({ errorMessage: message});
+            datas.setState({ showError: true});
+          });
+      }
+
+      componentWillMount() {
+        let userid = this.props.userId;
+        let questionthis = this;
+        axios({
+            method: 'get',
+            url: '/o/rest/profile/activation-questions/'+userid,
+        }).then(function(response){
+          let allQuestions = [];
+          let dataQuestions = response.data.questions;
+          dataQuestions.forEach( function(questionItem){
+            allQuestions.push(questionItem.question);
+          });
+          questionthis.setState({ questions: allQuestions});
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      }
+
+
+      render() {
+          return (
+          <div className='secretQuestions'>
+              <ReactBootstrap.Grid>
+                  <ReactBootstrap.Row className=''>
+                      <ReactBootstrap.Col xsOffset={1} smOffset={3} xs={9} sm={6} className='activation-info'>
+                          <span>Secret questions and answers are provided to enable you reset your password anywhere and at any time. You will need to set up three secret questions and answers.</span>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={8} className='input-style'>
+                          <span>CHOOSE QUESTION1</span>
+                          <a href="" title="help"><img className="right-question-mark" src="/o/doe-staff-theme/images/question-mark.svg" /></a>
+                          <ReactBootstrap.FormGroup controlId="formControlsSelect">
+                            <ReactBootstrap.FormControl componentClass="select" name="secretQuestions1" onChange={this.changeInput.bind(this)}>
+                            <option value=''>Choose a question...</option>
+                            { this.state.questions.map(function(question, index) {
+                                return <option value={question} key={ index }>{question}</option>;
+                              })
+                            }
+                            </ReactBootstrap.FormControl>
+                          </ReactBootstrap.FormGroup>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={4} className='input-style'>
+                          <span>ANSWER</span>
+                          <input name='answer1' className='' type='text' placeholder='Example: Billy...' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={0} sm={4} className='input-style'>
+                          <span>VERIFY</span>
+                          <input name='verify1' className='' type='text' placeholder='Example: Billy...' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={8} className='input-style'>
+                          <span>CHOOSE QUESTION2</span>
+                          <ReactBootstrap.FormGroup controlId="formControlsSelect">
+                            <ReactBootstrap.FormControl componentClass="select" name="secretQuestions2" onChange={this.changeInput.bind(this)}>
+                              <option value=''>Choose a question...</option>
+                              { this.state.questions.map(function(question, index) {
+                                  return <option value={question} key={ index }>{question}</option>;
+                                })
+                              }
+                            </ReactBootstrap.FormControl>
+                          </ReactBootstrap.FormGroup>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={4} className='input-style'>
+                          <span>ANSWER</span>
+                          <input name='answer2' className='' type='text' placeholder='Example: Billy...' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={0} sm={4} className='input-style'>
+                          <span>VERIFY</span>
+                          <input name='verify2' className='' type='text' placeholder='Example: Billy...' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={8} className='input-style'>
+                          <span>CHOOSE QUESTION3</span>
+                          <ReactBootstrap.FormGroup controlId="formControlsSelect">
+                            <ReactBootstrap.FormControl componentClass="select" name="secretQuestions3" onChange={this.changeInput.bind(this)}>
+                            <option value=''>Choose a question...</option>
+                            { this.state.questions.map(function(question, index) {
+                                return <option value={question} key={ index }>{question}</option>;
+                              })
+                            }
+                            </ReactBootstrap.FormControl>
+                          </ReactBootstrap.FormGroup>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+                  <ReactBootstrap.Row>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={2} sm={4} className='input-style'>
+                          <span>ANSWER</span>
+                          <input name='answer3' className='' type='text' placeholder='Example: Billy...' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                      <ReactBootstrap.Col xsOffset={1} xs={10} smOffset={0} sm={4} className='input-style'>
+                          <span>VERIFY</span>
+                          <input name='verify3' className='' type='text' placeholder='Example: Billy...' onChange={this.changeInput.bind(this)}/>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+
+                  <ReactBootstrap.Row className='verify-action'>
+                      <button className="verify" disabled={this.state.buttonIsDisabled} onClick={this.saveAndActivation.bind(this)}>SAVE</button>
+                  </ReactBootstrap.Row>
+
+                  {this.state.showError === true &&
+                  <ReactBootstrap.Row >
+                    <ErrorMessage showStatus={this.state.showError} closePopup ={this.closePopup.bind(this)} message = {this.state.errorMessage}/>
+                    <div className="modal-backdrop fade in"></div>
+                  </ReactBootstrap.Row>}
+              </ReactBootstrap.Grid>
+          </div>
+          );
+      }
+  }
+
+  class ActivationSuccess extends React.Component {
+      constructor() {
+          super();
+          this.state = {
+              token: '',
+          };
+      }
+
+      render() {
+          return (
+          <div>
+              <ReactBootstrap.Grid>
+                  <ReactBootstrap.Row className=''>
+                      <ReactBootstrap.Col xsOffset={1} smOffset={3} xs={9} sm={6} className='activation-info'>
+                          <h1>Account Activation Successful</h1>
+                          <span>Your DEC Portal Account has now been activated. Please click the button below to login and gain access to your DEC Portal applications</span>
+                      </ReactBootstrap.Col>
+                  </ReactBootstrap.Row>
+
+                  <ReactBootstrap.Row className='verify-action'>
+                      <button className="verify">GO TO LOGIN</button>
+                  </ReactBootstrap.Row>
+              </ReactBootstrap.Grid>
+          </div>
+          );
+      }
+  }
+
+  class Main extends React.Component {
+      constructor() {
+          super();
+          this.state = {
+              confirmIdentityStatus: 'processing',
+              passwordStatus: 'inactivated',
+              secretQuestionsStatus: 'inactivated',
+              userId:'',
+              password:'',
+              processStep: 1,
+              token:null
+          };
+      }
+
+      getParameter(theParameter) {
+        var params = window.location.search.substr(1).split('&');
+
+        for (var i = 0; i < params.length; i++) {
+          var p=params[i].split('=');
+          if (p[0] == theParameter) {
+            return decodeURIComponent(p[1]);
+          }
+        }
+        return false;
+      }
+
+      tokenValidation() {
+          var datas = this;
+          axios({
+              method: 'get',
+              url: '/o/rest/profile/validate-token/'+datas.getParameter("token"),
+          }).then(function(response){
+            datas.setState({token: true});
+          })
+          .catch(function(error) {
+            datas.setState({token: false});
+            console.log(error);
+          });
+      }
+
+      componentWillMount() {
+        this.tokenValidation();
+      }
+
+      updateProcessing(newStep, confirmIdentityNewStatus, passwordNewStatus, secretQuestionsNewStatus, userId, password) {
+        if (password && userId) {
+          this.setState({processStep: newStep, confirmIdentityStatus: confirmIdentityNewStatus, passwordStatus: passwordNewStatus, secretQuestionsStatus: secretQuestionsNewStatus, userId: userId, password:password})
+        } else if(userId) {
+          this.setState({processStep: newStep, confirmIdentityStatus: confirmIdentityNewStatus, passwordStatus: passwordNewStatus, secretQuestionsStatus: secretQuestionsNewStatus, userId: userId})
+        } else {
+          this.setState({processStep: newStep, confirmIdentityStatus: confirmIdentityNewStatus, passwordStatus: passwordNewStatus, secretQuestionsStatus: secretQuestionsNewStatus})
+        }
+      }
+
+      render() {
+          return (
+
+            <div>
+              { this.state.token === true &&
+                <ActivationHead confirmIdentityStatus={this.state.confirmIdentityStatus} secretQuestionsStatus={this.state.secretQuestionsStatus} passwordStatus={this.state.passwordStatus} />
+              }
+              { this.state.token === true && this.state.processStep === 1 &&
+                <ConfirmIdentity updateProcessing={this.updateProcessing.bind(this)}/>
+              }
+              { this.state.token === true && this.state.processStep === 2 &&
+                <Password updateProcessing={this.updateProcessing.bind(this)} userId={this.state.userId} />
+              }
+              { this.state.token === true && this.state.processStep === 3 &&
+                <SecretQuestions updateProcessing={this.updateProcessing.bind(this)} userId={this.state.userId} password={this.state.password}/>
+              }
+              { this.state.token === true && this.state.processStep === 4 &&
+                <ActivationSuccess/>
+              }
+              { this.state.token === false &&
+                <TokenInvalid/>
+              }
+            </div>
+          );
+      }
+  }
+
+  class ErrorMessage extends React.Component {
+      closeWindow() {
+        this.props.closePopup()
+      }
+      render() {
+        var title = this.props.message.split(':')[0];
+        var content = this.props.message.split(':')[1];
+          return (
+            <div className="modal fade in" id="myModal" role="dialog">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <button type="button" className="close" onClick={this.closeWindow.bind(this)}>&times;</button>
+                    <span className="modal-title">{title}</span>
+                  </div>
+                  <div className="modal-body">
+                    {content}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+      }
+  }
+
+  class TokenInvalid extends React.Component {
+      render() {
+          return (
+            <div>
+              <div className="tokenInvalid">
+                <span>Token Invalid</span>
+                <p>Your token for activation has expired or is invalid. Please request a new token and try again.</p>
+              </div>
+            </div>
+          );
+      }
+  }
+
+
+
+  ReactDOM.render(
+      <Main />,
+      document.getElementById('activation')
+  );
+</script>
+
+<div id="activation" ></div>

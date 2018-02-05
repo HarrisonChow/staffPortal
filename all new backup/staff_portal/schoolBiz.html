@@ -1,0 +1,305 @@
+<#attempt>
+<#assign
+	namespace = themeDisplay.portletDisplay.namespace
+	selectedFeed = ""
+	selectedRole = ""
+	globalGroupId = 20152
+/>
+
+<#-- fetching portlet prefs -->
+<#assign
+	selectedFeeds = portletPreferences["selected-feed"]!""
+	selectedRoles = portletPreferences["selected-role"]!""
+/>
+
+<#if selectedFeeds?has_content >
+	<#assign selectedFeed = selectedFeeds[ 0 ] />
+</#if>
+<#if selectedRoles?has_content >
+	<#assign selectedRole = selectedRoles[ 0 ] />
+</#if>
+
+
+
+<style>
+    #${namespace}schoolBiz {
+      border-radius: 5px;
+      background-color: #fafafa;
+      border: solid 1px #ededed;
+    }
+    #${namespace}schoolBiz .schoolBiz-title {
+      font-family: Montserrat;
+    	font-size: 15px;
+    	font-weight: 500;
+    	color: #343441;
+      padding: 15px 25px 0 25px;
+    }
+    #${namespace}schoolBiz .region {
+      padding: 0 25px;
+    }
+    #${namespace}schoolBiz .region .col-xs-8 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    #${namespace}schoolBiz .region .dropdown-menu {
+      width: 300px;
+      font-size: 12px !important;
+    	font-weight: 400;
+    	color: #343441;
+    }
+    #${namespace}schoolBiz .region .dropdown-menu li{
+      border-bottom: 1px solid #EFEFEF;
+      cursor: pointer;
+      padding: 15px;
+    }
+    #${namespace}schoolBiz .region .col-xs-9, #${namespace}schoolBiz .region .col-xs-3{
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    #${namespace}schoolBiz .region span{
+      font-size: 14px !important;
+    }
+    #${namespace}schoolBiz .region span p{
+      font-size: 12px !important;
+      color: #343441;
+    }
+    #${namespace}schoolBiz .row {
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 20px;
+    }
+    #${namespace}schoolBiz .col-xs-12{
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .schoolBiz-list li{
+      list-style: none;
+      padding: 5px 25px;
+    }
+    .schoolBiz-list li a{
+      font-size: 14px !important;
+      text-align: left;
+      color: #343441;
+    }
+    .schoolBiz-list li a:hover{
+      text-decoration: none;
+    }
+    .schoolBiz-list ul, menu, dir {
+      -webkit-padding-start: 0px;
+    }
+
+    a.selected {
+      background-color:#1F75CC;
+      color:white;
+      z-index:100;
+    }
+
+    .checkbox-pop {
+      background-color:#FFFFFF;
+      border:1px solid #999999;
+      cursor:default;
+      display:none;
+      margin-top: 15px;
+      position:absolute;
+      text-align:left;
+      width:394px;
+      z-index:50;
+      padding: 25px 25px 20px;
+    }
+
+    .checkbox-pop p, .checkbox-pop.div {
+      border-bottom: 1px solid #EFEFEF;
+      margin: 8px 0;
+      padding-bottom: 8px;
+    }
+
+    #${namespace}message_submit{
+      width: 50% !important;
+      padding-left: 0px !important;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    #${namespace}contact i {
+      position: absolute;
+      top: 16px;
+      right: 70px;
+    }
+
+	#${namespace}schoolBizControls {
+		padding: 0 20px;
+	}
+    </style>
+
+	    <section id="${namespace}schoolBiz" class="tile">
+	      <header class="tile-title">
+	          <h2 class="tile-heading">SchoolBiz</h2>
+	          <a data-toggle="collapse" data-target="#${namespace}schoolBizControls" class="controls-toggle"><i class="fa fa-cog" aria-hidden="true"></i></a>
+	          <button aria-expanded="false" aria-controls="tileContent" class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+	      </header>
+
+	      <div class="accordion-content accordionItem tile-content is-expanded animateIn" id="tileContent" aria-expanded="true">
+	      	<div class="row <#if !(selectedFeed?has_content && selectedRole?has_content)>in<#else>collapse</#if>" id="${namespace}schoolBizControls" >
+		      <form class="">
+		        <div class="">
+		        	<div class="col-xs-12">
+			        	<label class="col-xs-12" for="${namespace}schoolBizFeeds">YOUR REGION</label>
+			          	<select class="col-xs-12" name="feeds" id="${namespace}schoolBizFeeds">
+			          		<option>...</option>
+			          	</select>
+					</div>
+					<div class="col-xs-12">
+			        	<label class="col-xs-12" for="${namespace}schoolBizRoles">YOUR ROLE</label>
+			          	<select class="col-xs-12" name="roles" id="${namespace}schoolBizRoles">
+			          		<option>...</option>
+			          	</select>
+					</div>
+		          <div class="">
+		            <button class="btn btn-default col-xs-12" type="button" onclick="${namespace}savePrefs();">SAVE</button>
+		          </div>
+		        </div>
+		      </form>
+		  </div>
+
+	        <div class="row region" id="${namespace}region">
+
+
+	        </div>
+	        <hr/>
+	        <div class="schoolBiz-list">
+	          <ul id="${namespace}schoolBiz-item">
+
+	          </ul>
+	        </div>
+	      </div>
+	    </section>
+
+
+
+
+    <script>
+
+    	function ${namespace}savePrefs() {
+    		var selectedFeed = $( "#${namespace}schoolBizFeeds" ).val();
+    		var selectedRole = $( "#${namespace}schoolBizRoles" ).val();
+    	    var portletId = $("#${namespace}schoolBiz").closest( "section.portlet" ).attr( "id" ).replace( "portlet_", "" );
+
+
+    		$.ajax( {
+	  	          'type' : 'post',
+	  	          'url' : '/o/rest/portlet-prefs',
+	  	          'data' : JSON.stringify( {
+	  	              'portletId' : portletId,
+	  	              'plid' : Liferay.ThemeDisplay.getPlid(),
+	  	              'portletPreferences' : [
+	  	            	  { 'key' : 'selected-feed', 'value' : selectedFeed},
+	  	            	  { 'key' : 'selected-role', 'value' : selectedRole}
+	  	            	  ]
+	  	          } ),
+	  	          'contentType' : "application/json"
+	  	      } ).done( function( result ) {
+	  	          location.reload();
+	  	      } ).error( function( error ) {
+	  	    	  console.log( "Error while saving prefs", error );
+
+	  	      } );
+    	}
+
+        AUI().use('aui-base', function(A){
+        	var selectedFeed = "${selectedFeed}";
+        	var selectedRole = "${selectedRole}";
+
+        	function capitalize(string) {
+        	    return string.charAt(0).toUpperCase() + string.slice(1);
+        	}
+
+
+        	/* init dropdowns */
+        	Liferay.Service(
+ 			'/journal.journalarticle/get-article',
+ 			{
+         		groupId: ${globalGroupId},
+         		articleId: 'SCHOOLBIZ-FEED-LIST'
+       		},
+       		function( article ) {
+       				var xmlContent = $( $.parseXML( article.content ) );
+       				var rssContentString = xmlContent.find( 'dynamic-content' ).text();
+       				var rssContent = $( $.parseXML( rssContentString ) );
+
+       				var feeds = rssContent.find( "url" ).each( function( index, element ) {
+       					var url = $( element ).text();
+       					var feedName = url.replace( /(.*)\/([^\/]+)(\.xml)/, '$2' );
+       					var feedId = feedName.replace( '-', '_' ).toUpperCase().trim();
+       					var feedNameReadable = feedName.split( '-' ).map( capitalize ).join( " " );
+
+       					var selectedAttr = selectedFeed && feedId === selectedFeed ? 'selected' : '';
+       					var option = $("<option value='" + feedId + "' " + selectedAttr + " >" + feedNameReadable + "</option>");
+
+
+       					$( "#${namespace}schoolBizFeeds" ).append( option );
+       				} );
+
+
+       				var roles = rssContent.find( "role" ).each( function( index, element ) {
+       					var role = $( element );
+       					var roleId = role.attr( "id" ).trim();
+       					var roleName = role.attr( "name" );
+       					var selectedAttr = selectedRole && selectedRole === roleId  ? 'selected' : '';
+       					var option = $("<option value='" + roleId + "' " + selectedAttr + " >" + roleName + "</option>");
+       					$( "#${namespace}schoolBizRoles" ).append( option );
+       				} );
+       		} );
+
+
+			if ( selectedFeed && selectedRole) {
+		          Liferay.Service( "/journal.journalarticle/get-article", {
+		              groupId: ${globalGroupId},
+		              articleId: selectedFeed
+		            },
+		            function( article ) {
+	       				var xmlContent = $( $.parseXML( article.content ) );
+	       				var rssContentString = xmlContent.find( "dynamic-content" ).text();
+
+	       				var rssContent = new DOMParser().parseFromString(rssContentString, "text/html");
+	       				var rssContentDocument = $($.parseXML($( rssContent ).text()));
+						var feedElement = rssContentDocument.find( "feed" );
+
+						var feedName = feedElement.attr( "name" );
+						var feedIssue = feedElement.attr( "issue" );
+	       				var issuedetails = feedIssue.split(",");
+	       				$("#${namespace}region").prepend("<div class=\"col-xs-8\">"+ feedName +" Region </div><div class=\"col-xs-3\"><span class=\"pull-right\">"+issuedetails[0]+"<p>"+issuedetails[1]+"</p></span></div>");
+
+	       				var readings = rssContentDocument.find( "critical-reading" );
+
+	       				$( readings ).each( function( index, reading ) {
+	       					var $reading = $( reading );
+	       					var roles = $reading.attr( "roles" );
+	       					var url = $reading.attr( "url" );
+	       					var title = $reading.attr( "name" );
+	       					console.log( selectedRole, roles, url, title );
+	       					if ( selectedRole === "all" || roles.indexOf( selectedRole ) !== -1 ) {
+	       						$( "#${namespace}schoolBiz-item" ).append( "<li><a href=\""+ url +"\">"+ title +"</a></li>" );
+	       					}
+	       				} );
+
+		              /*
+		              var xml = obj.content;
+		              var urls = (xml.match(/url="([^"]+)"/g)).map(function(e){e.match(/url="([^"]+)"/); return RegExp.$1});
+		              var names = (xml.match(/name="([^"]+)"/g)).map(function(e){e.match(/name="([^"]+)"/); return RegExp.$1});
+		              var issuedetails = (xml.match(/issue="([^"]+)"/g)).map(function(e){e.match(/issue="([^"]+)"/); return RegExp.$1});
+
+		              issuedetails = issuedetails[0].split(',');
+
+
+		              for (var i = 1; i < urls.length; i++) {
+		                $('#${namespace}schoolBiz-item').append('<li><a href=\"'+urls[i]+'\">'+names[i+1]+'</a></li>');
+		              }
+*/
+		            });
+			}
+        });
+    </script>
+	<#recover>
+	  <div>Sorry, we were unable to process this request.</div>
+	  <div class="hidden-error">${.error}</div>
+	</#attempt>

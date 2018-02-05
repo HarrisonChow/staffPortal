@@ -1,0 +1,196 @@
+<#attempt>
+
+<#-- Include - ADT -->
+
+<#assign title = portletPreferences["portletSetupTitle_en_AU"][0]!"Notifications" />
+
+<style>
+body.staff #content ul.adt-article-container {
+    list-style: none;
+    padding-left: 0;
+}
+
+body.staff #content .adt-article {
+    border: solid 1px #869CAF;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+body.staff #content .adt-article:focus {
+    outline: none;
+}
+
+body.staff #content .adt-article:hover {
+    opacity: 0.6;
+    transition: opacity 0.35s ease;
+}
+
+body.staff #content .state-style {
+    text-align: center;
+    width: 180px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    padding-right: 20px;
+}
+
+body.staff #content .state-style.draft {
+    border: solid 1px #869CAF;
+    color: #869CAF;
+}
+
+body.staff #content .state-style.draft:before {
+	content: '\f044\ ';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	margin: 0px 0px 0px 10px;
+	text-decoration: none;
+}
+
+body.staff #content .state-style.pending {
+    border: solid 1px #869CAF;
+    color: #869CAF;
+}
+
+body.staff #content .state-style.pending:before {
+	content: '\f017\ ';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	margin: 0px 0px 0px 10px;
+	text-decoration: none;
+}
+
+body.staff #content .state-style.live {
+    border: solid 1px #869CAF;
+    color: #869CAF;
+}
+
+body.staff #content .state-style.live:before {
+	content: '\f046\ ';
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	margin: 0px 0px 0px 10px;
+	text-decoration: none;
+}
+
+body.staff #content .portlet-body h1 {
+    margin-bottom: 5px;
+    font-size: 1.3rem;
+    color: #0e3f51;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+body.staff #content .adt-article h2 {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #0e3f51;
+}
+
+body.staff #content .adt-article .description {
+    padding: 10px;
+    font-size: 0.8rem;
+    color: #666666;
+}
+
+body.staff #content .adt-article .btn.view {
+    text-align: center;
+    width: 180px;
+    height: 32px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #fff;
+    padding-top: 5px;
+    border: 1px solid rgba(92,184,92,0.8);
+    background-color: rgba(92,184,92,0.8);
+}
+
+body.staff #content .adt-article .metadata span {
+    display: block;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+body.staff #content .add-edit-stories {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+body.staff #addContentItemButton .add-new-story {
+    height: 52px;
+    width: 52px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    background: url(${themeDisplay.getCDNBaseURL()}/o/cfa-theme/images/author/add.svg);
+}
+
+body.staff #addContentItemButton .add-content {
+    color: #AAB8C2;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    margin: 15px auto;
+    text-transform: uppercase;
+}
+
+body.staff #addContentItemButton .add-new-story:hover {
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+body.staff #addContentItemButton {
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px;
+}
+</style>
+	<h1>${title}</h1>
+	<#if entries?has_content>
+		<ul class="adt-article-container live">
+		<#list entries as entry>
+			<#assign
+				assetRenderer = entry.getAssetRenderer()
+				entryTitle = htmlUtil.escape(assetRenderer.getTitle(locale))
+				viewURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, assetRenderer, entry, true)
+			/>
+
+			<li>
+				<a href="${viewURL}" target="_blank" role="menuItem">
+					<div class="adt-article">
+						<span class="pull-right state-style live">LIVE</span>
+						<h2>${entryTitle}</h2>
+						<div class="description">${entry.getDescription(locale)}</div>
+						<span class="btn view pull-right">View</span>
+						<div class="metadata">
+							<span class="created">Created: <time>${entry.createDate?datetime?string('dd/MM/yyyy HH:mm')}</time></span>
+							<span class="modified">Modified: <time>${entry.modifiedDate?datetime?string('dd/MM/yyyy HH:mm')}</time></span>
+						</div>
+					</div>
+				</a>
+			</li>
+		</#list>
+		</ul>
+	<#else>
+		<p class="portlet-msg-info">There are currently no notifications</p>
+	</#if>
+
+	<div class="add-edit-stories">
+		<div id="addContentItemButton">
+			<div class="add-new-story"></div>
+			<p class="add-content">Add ${structureType}</p>
+		</div>
+	</div>
+
+  <#recover>
+    <div>Sorry, we were unable to process this request.</div>
+    <div class="hidden-error">${.error}</div>
+  </#attempt>

@@ -1,0 +1,102 @@
+<#attempt>
+<#assign categoryId=240682 namespace=categoryId categoryIdList=[ categoryId?long ] userId=themeDisplay.userId />
+
+<style>
+  #categorised-bookmarks {
+  	border-radius: 5px;
+  	background-color: #fafafa;
+  	border: solid 1px #ededed;
+  }
+  #categorised-bookmarks .categorised-bookmarks-title {
+  	font-size: 15px;
+  	font-weight: 500;
+  	color: #343441;
+  	padding: 15px 25px 0 25px;
+  }
+  #categorised-bookmarks .row {
+  	margin-left: 0;
+  	margin-right: 0;
+  }
+  #categorised-bookmarks .col-xs-12 {
+  	padding-left: 0;
+  	padding-right: 0;
+  }
+  .categorised-bookmarks-list a li {
+  	font-size: 14px;
+  	font-weight: 400;
+  }
+  .categorised-bookmarks-list a:hover {
+  	text-decoration: none;
+  }
+  .categorised-bookmarks-list a:hover li {
+  	background-color: #f5f5f5;
+  }
+  .categorised-bookmarks-list li {
+  	list-style: none;
+  	padding: 10px 25px;
+  	color: #343441;
+  }
+  .categorised-bookmarks-list ul p {
+  	opacity: 0.6;
+  	font-size: 12px;
+  	font-weight: 300;
+  	text-align: left;
+  	color: #343441;
+  }
+  .categorised-bookmarks-list ul, menu, dir {
+  	-webkit-padding-start: 0px;
+  }
+  #categorised-bookmarks hr {
+    margin-top: 15px;
+    margin-bottom: 0;
+  }
+  #categorised-bookmarks .categorised-bookmarks-list ul {
+    margin: 0;
+  }
+</style>
+
+
+  <section id="categorised-bookmarks" class="tile">
+    <header class="tile-title">
+        <h2 class="tile-heading">Categorised Bookmarks</h2>
+        <button aria-expanded="false" aria-controls="tileContent" class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+    </header>
+
+    <div class="categorised-bookmarks-list accordion-content accordionItem tile-content is-expanded animateIn" id="tileContent" aria-expanded="true">
+      <ul id="categorised-bookmarks-item-${namespace}">
+
+      </ul>
+    </div>
+  </section>
+
+
+<#assign links=serviceLocator.findService( "au.gov.nsw.doe.search.service.content.LinksSearchService" ).getByAnyCategoryId( userId, categoryIdList ) />
+
+<script type="text/javascript">
+$( document ).ready( function() {
+	var results = ${links};
+	var hits = results.hits.hits;
+	for (var i = 0; i < hits.length; i++) {
+		var source = hits[ i ]._source;
+
+		var title = source.title_en_AU;
+		var url = source[ "ddm__keyword__" + source.classTypeId + "__URL_en_AU" ];
+		var categoryNames = source["assetCategoryTitles_en_AU"] || source["assetCategoryTitles"] || "";
+
+		var link = $( "<li />" );
+		link.text( title );
+
+		var listItem = $( "<a />" );
+    listItem.attr( "href", url );
+    listItem.attr( "data-categories", Array.isArray( categoryNames ) ? categoryNames.join( " " ) : categoryNames );
+
+		listItem.append( link );
+
+		$('#categorised-bookmarks-item-${namespace}').append( listItem );
+	}
+} );
+</script>
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

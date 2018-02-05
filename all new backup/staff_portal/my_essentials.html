@@ -1,0 +1,116 @@
+<#attempt>
+<#assign linksService=serviceLocator.findService( "au.gov.nsw.doe.search.service.content.LinksSearchService" ) listsService=serviceLocator.findService(
+	"au.gov.nsw.doe.search.service.lists.UserListsService" ) userId=themeDisplay.userId />
+
+<#assign links=linksService.getMyEssentials( userId ) whitelist=listsService.getEssentialsArticleIds( userId ) />
+
+<style>
+  .my-all-essentials {
+  	margin-top: 60px;
+  }
+
+  .my-all-essentials .my-all-essentials-title {
+  	font-size: 20px;
+  	font-weight: 300;
+  	text-align: center;
+  	color: #0e3f51;
+  	margin-bottom: 40px;
+  }
+
+  .my-all-essentials .my-all-essentials-title .pull-right a:hover {
+  	text-decoration: none;
+  }
+
+  .my-all-essentials .my-all-essentials-title .fa {
+  	font-size: 18px;
+  }
+
+  .my-all-essentials .my-all-essentials-title .edit-essentials {
+  	font-size: 10px;
+  	font-weight: 600;
+  	text-align: center;
+  	color: #0e3f51;
+  	vertical-align: middle;
+  	margin-right: 25px;
+  }
+
+  .my-all-essentials .essential-item {
+  	height: 55px;
+  	line-height: 55px;
+  	border-radius: 2px;
+  	background-color: #fafafa;
+  	border: solid 1px #ededed;
+  	margin: 6px;
+  	overflow: hidden;
+  	padding-left: 20px;
+  }
+
+  .my-all-essentials .essential-item a {
+  	font-size: 14px;
+  	color: #343441;
+  	display: block;
+  }
+
+  .my-all-essentials .essential-item a:hover, .my-all-essentials .essential-item a:focus {
+  	text-decoration: none;
+  }
+
+  .my-all-essentials .essential-item i {
+  	padding-right: 5px;
+  }
+
+  .my-all-essentials .col-sm-4 {
+  	padding-left: 0;
+  	padding-right: 0;
+  }
+</style>
+
+<div class="my-all-essentials">
+	<div class="my-all-essentials-title">
+		All Essentials
+		<div class="row pull-right">
+			<a href='/group/staff-portal/manage-my-essentials'><i class="fa fa-cog" aria-hidden="true"></i><span class="edit-essentials"> Edit Essentials</span></a>
+		</div>
+	</div>
+
+	<div class="row">
+		<#if links?has_content>
+			<#assign
+				linksJSON=links?eval hits=linksJSON.hits.hits! ""
+			/>
+			<#list whitelist as articleId>
+				<#list hits as hit>
+					<#assign
+						source=hit[ "_source"]
+						currArticleId=source[ "articleId"] />
+
+					<#if articleId == currArticleId>
+						<#assign
+							classTypeId=source.classTypeId title=source[ "title_en_AU"]!""
+							URL=source[ "ddm__keyword__" + classTypeId + "__URL_en_AU"]!""
+							icon=source[ "ddm__keyword__" + classTypeId + "__Icon_en_AU"]!"fa fa-link"
+							assetCategoryTitles=source[ "assetCategoryTitles_en_AU"]!source["assetCategoryTitles"]!""
+						/>
+						<#if assetCategoryTitles?is_sequence>
+							<#assign assetCategoryTitles=assetCategoryTitles?join( " " ) />
+						</#if>
+
+						<div class="col-xs-12 col-sm-4 col-md-3">
+							<div class="essential-item">
+								<a data-categories="${assetCategoryTitles}" href="${URL}"><i class="${icon}"></i>${title}</a>
+							</div>
+						</div>
+					</#if>
+				</#list>
+			</#list>
+		<#else>
+			No linksfound.
+		</#if>
+	</div>
+</div>
+
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

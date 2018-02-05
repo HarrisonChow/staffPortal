@@ -1,0 +1,1315 @@
+<#attempt>
+
+<style>
+#my-essentials .container-fluid .personal-essentials ul li,
+	.container-fluid .all-essentials ul li {
+	float: left;
+}
+
+#my-essentials .container-fluid .row {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#my-essentials .essentials-title h2, #my-essentials .essentials-title p
+	{
+	text-align: center;
+	font-weight: 300;
+}
+
+#my-essentials .essentials-title h2 {
+	font-size: 20px;
+	color: #0e3f51;
+}
+
+#my-essentials .essentials-title p {
+	font-size: 12px;
+	color: #343441;
+}
+
+#my-essentials .all-essentials, #my-essentials .personal-essentials {
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 1200px;
+}
+
+#my-essentials .personal-essentials {
+	margin-bottom: 15px;
+}
+
+#my-essentials #personal-essentials, #my-essentials #all-essentials {
+	width: 100%;
+	list-style-type: none;
+	float: left;
+	position: relative;
+	min-height: 250px;
+}
+
+#my-essentials #personal-essentials li, #my-essentials #all-essentials li
+	{
+	padding: 5px;
+	padding-bottom: 0;
+}
+
+#my-essentials .middle-bar {
+	margin-left: -15px;
+	margin-right: -15px;
+	background-color: #4ab9b8;
+	height: 58px;
+	border-radius: 100px;
+}
+
+#my-essentials .middle-bar-right {
+	float: right;
+}
+
+#my-essentials .middle-bar-content {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1200px;
+}
+
+#my-essentials .middle-bar-right .btn-plus {
+	background: none;
+	border: none;
+	vertical-align: middle;
+	background: none;
+	border: none;
+	vertical-align: middle;
+	position: relative;
+	right: -25px;
+	line-height: 56px;
+}
+
+#my-essentials .middle-bar-right .btn-plus:focus {
+	outline: none;
+}
+
+#my-essentials .middle-bar-right button {
+	margin: 0 15px;
+}
+
+#my-essentials .middle-bar-right input {
+	margin: 0 5px;
+}
+
+#my-essentials .category-select {
+	float: left;
+}
+
+#my-essentials .category-select select {
+	width: 167px;
+	border-radius: 100px !important;
+	background-color: #fff;
+	height: 34px;
+	border-radius: 100px;
+	background-color: #ffffff;
+	border: solid 1px #ededed;
+}
+
+#my-essentials .category-select select, #my-essentials .category-select select option
+	{
+	font-size: 10px;
+	font-weight: 600;
+}
+
+#my-essentials .middle-bar .middle-bar-control {
+	margin-top: 11px
+}
+
+#my-essentials .has-feedback .form-control {
+	border-radius: 100px;
+}
+
+#my-essentials select.form-control {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+#my-essentials .middle-bar-control {
+	border-radius: 100px;
+	background-color: #ffffff;
+	border: solid 1px #ededed;
+	margin-top: 12px;
+	height: 34px;
+}
+
+#my-essentials .form-control-feedback {
+	position: absolute;
+	padding: 10px;
+	pointer-events: none;
+	left: 0px;
+	top: 2px;
+	color: #4ab9b8;
+}
+
+#my-essentials .has-feedback {
+	width: 185px;
+	float: left;
+	margin-left: 15px;
+}
+
+#my-essentials .has-feedback input {
+	padding-left: 30px;
+}
+
+#my-essentials .btn-save, #my-essentials .btn-cancel {
+	font-size: 10px !important;
+	font-weight: 600 !important;
+	border-radius: 100px !important;
+	border: solid 1px #ededed !important;
+}
+
+#my-essentials .btn-save {
+	color: #26ca50 !important;
+}
+
+#my-essentials .btn-cancel {
+	color: #979797 !important;
+}
+
+#my-essentials .drag-drop-container {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#my-essentials .essential {
+	padding: 15px;
+}
+
+#my-essentials .essential-placeholder {
+	position: relative;
+	width: 100%;
+}
+
+#my-essentials .essential-placeholder:after {
+	/*content: " ";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 35px;
+        background-color: #fafafa;*/
+
+}
+
+#my-essentials .essential-container {
+	height: 55px;
+	line-height: 55px;
+	border-radius: 2px;
+	background-color: #fafafa;
+	border: solid 1px #ededed;
+	font-size: 14px;
+	color: #343441;
+	margin: 6px;
+	padding-left: 10px;
+}
+
+#my-essentials .essential-container:hover {
+	cursor: move;
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
+
+#my-essentials .essential-container:active {
+	cursor: grabbing;
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+}
+
+#my-essentials .essential-container .essential-title {
+	font-size: 14px;
+	color: #343441;
+	width: 86%;
+	height: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	white-space: nowrap;
+	z-index: 9999;
+	line-height: 25px;
+	margin-left: 5px;
+}
+
+#my-essentials .essential-container img {
+	padding-right: 10px;
+	height: 21px;
+	width: auto;
+}
+
+#my-essentials .essential-container .btn-group {
+	line-height: 12px;
+}
+
+#my-essentials .essential-container .btn-group button {
+	padding: 0 !important;
+	border: none !important;
+	background-color: rgba(0, 0, 0, 0) !important;
+}
+
+#my-essentials .essential-container .btn-group.open .dropdown-toggle {
+	box-shadow: none;
+}
+
+#my-essentials .essential-container .dropdown-toggle i:before {
+	color: black;
+	font-size: 14px;
+	opacity: 0.35;
+}
+
+.dropdown-menu a {
+	padding: 8px;
+}
+
+#my-essentials .dropdown-menu a img {
+	width: 15px;
+	height: 15px;
+	padding: 0;
+	margin-right: 8px;
+}
+
+#my-essentials .essential-container .editing-btn {
+	position: absolute;
+}
+
+#my-essentials-search-input::-webkit-input-placeholder {
+	/* WebKit, Blink, Edge */
+	font-size: 10px;
+	font-weight: 600;
+	text-align: left;
+	color: #9d9d9d;
+}
+
+#my-essentials-search-input:-moz-placeholder {
+	/* Mozilla Firefox 4 to 18 */
+	font-size: 10px;
+	font-weight: 600;
+	text-align: left;
+	color: #9d9d9d;
+	opacity: 1;
+}
+
+#my-essentials-search-input::-moz-placeholder {
+	/* Mozilla Firefox 19+ */
+	font-size: 10px;
+	font-weight: 600;
+	text-align: left;
+	color: #9d9d9d;
+	opacity: 1;
+}
+
+#my-essentials-search-input:-ms-input-placeholder {
+	/* Internet Explorer 10-11 */
+	font-size: 10px;
+	font-weight: 600;
+	text-align: left;
+	color: #9d9d9d;
+}
+
+#my-essentials-search-input::-ms-input-placeholder {
+	/* Microsoft Edge */
+	font-size: 10px;
+	font-weight: 600;
+	text-align: left;
+	color: #9d9d9d;
+}
+
+#my-essentials .essential-container .dropdown-menu .shared {
+	background-color: #4ab9b8;
+	font-weight: 400;
+	color: #ffffff;
+	height: 32px;
+	line-height: 32px;
+	padding: 0 10px !important;
+}
+
+#my-essentials .essential-container .dropdown-menu li {
+	width: 100%;
+	font-size: 10px;
+}
+
+#my-essentials .essential-container .dropdown-menu {
+	padding: 0 !important;
+	padding-bottom: 5px !important;
+}
+
+#my-essentials .manage-shared-essentials {
+	font-size: 10px;
+	font-weight: 600;
+	text-align: left;
+	color: #ffffff;
+	line-height: 58px;
+}
+
+#my-essentials .btn-add, #my-essentials .btn-remove {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	border-radius: 3px;
+	border: solid 1px #ededed;
+	width: 62px;
+	height: 19px;
+	text-align: center;
+	color: #fff;
+	line-height: 19px;
+	font-size: 10px;
+	font-weight: 700;
+	padding: 0 !important;
+}
+
+#my-essentials .btn-add {
+	background-color: #26ca50;
+}
+
+#my-essentials .btn-remove {
+	background-color: #ff5b5b;
+}
+
+#my-essentials .dropdown-toggle {
+	height: auto!important;
+	right: 5px;
+	top: 3px;
+}
+
+
+#my-essentials .all-essentials .glyphicon, #my-essentials .personal-essentials .glyphicon
+	{
+	padding-top: 3px;
+	padding-right: 3px;
+}
+
+#my-essentials .all-essentials .glyphicon-cog, #my-essentials .personal-essentials .glyphicon-cog
+	{
+	color: #c2c2c2;
+	font-size: 12px;
+}
+
+#my-essentials .glyphicon-plus-sign {
+	color: #fff;
+	font-size: 32px;
+	padding-top: 4px;
+}
+
+#my-essentials .deleteWarning {
+	width: 100%;
+	height: 100%;
+	line-height: 400px;
+	padding-top: 60px;
+	font-size: 2.5rem;
+	color: #fff;
+	/*background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 55%, rgba(255, 255, 255, 0.2) 40%);*/
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 988;
+	position: absolute;
+	text-align: center;
+	left: 0;
+	display: none;
+}
+
+#my-essentials .deleteWarning:after {
+	content: "\f014";
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	position: absolute;
+	text-align: center;
+	top: 20%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 80px;
+	color: #fff;
+	z-index: 9999;
+}
+
+.contacts {
+	border-radius: 5px !important;
+	border: solid 1px #ededed;
+}
+
+.action {
+	text-align: center;
+}
+
+#add-contacts-block {
+	position: absolute;
+	bottom: -28px;
+	right: 20px;
+}
+
+#my-essentials .modal-title {
+	font-weight: 300;
+	text-align: left;
+	color: #343441;
+	height: 22px;
+	font-size: 18px;
+}
+
+#my-essentials label {
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  color: #c2c2c2;
+  display: block;
+}
+
+.modal-title i {
+	margin-right: 5px;
+}
+
+#my-essentials .modal-body a {
+	color: #00a6fb;
+}
+
+#my-essentials h4.modal-title {
+	height: 50px;
+	display: block;
+	min-height: 30px;
+	border-bottom: 1px solid #dadada;
+	margin-top: 15px;
+}
+
+#my-essentials .model-content {
+	padding-left: 32px;
+	padding-right: 32px;
+}
+
+.is-shared .modal-title:after {
+    content: 'SHARED';
+    height: 20px;
+    font-family: Montserrat;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    color: #ffffff;
+    background-color: #4ab9b8;
+    position: absolute;
+    top: 0;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 60px;
+    padding: 5px;
+    border-radius: 0 0 5px 5px;
+    padding-top: 3px;
+}
+
+#my-essentials .bookmarks-data {
+    line-height: 12px;
+    margin-bottom: 20px;
+}
+
+#my-essentials .main-info {
+	border-bottom: 1px solid #dadada;
+	margin-bottom: 15px;
+}
+
+#my-essentials button.close {
+	border-radius: 100px;
+    background-color: #0e3f51;
+    color: white;
+    font-size: 10px;
+    font-weight: 400;
+    text-align: center;
+    border: none;
+    position: absolute;
+    right: 44px;
+    top: 25px;
+    font-style: normal;
+    height: 34px;
+    width: 98px;
+}
+
+#my-essentials .modal-content {
+	padding-left: 32px;
+	padding-right: 32px;
+}
+
+
+#my-essentials .dropdown-menu {
+	overflow: visible;
+	z-index: 9996;
+	right: 3px;
+	left: auto;
+	top: 22px;
+}
+
+#my-essentials .dropdown-menu a {
+	font-size: 10px;
+	padding: 10px;
+	color: #0e3f51;
+	font-weight: 500;
+}
+
+#my-essentials .dropdown-menu a:hover {
+	background-color: #f5f5f5;
+}
+
+#my-essentials .dropdown-menu a i {
+	font-size: 14px;
+	margin-right: 10px;
+}
+
+
+#my-essentials .dropdown-menu:before, #my-essentials .dropdown-menu:after {
+	content: ' ';
+	position: absolute;
+	width: 0;
+  	height: 0;
+}
+
+#my-essentials .dropdown-menu:after {
+	top: -4px ;
+	right: 4px;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid white;
+	z-index: 9999;
+}
+
+#my-essentials .is-shared .dropdown-menu:after {
+  border-bottom: 5px solid #4ab9b8;
+}
+
+
+#my-essentials .essential-container .creator {
+	font-size: 10px;
+	font-weight: 400!important;
+	padding: 10px!important;
+	color: white!important;
+	background-color: #4ab9b8;
+}
+
+
+#my-essentials .essential-container:not(.is-shared) .creator {
+	display: none;
+}
+
+
+#my-essentials .dropdown-menu:before {
+	top: -6px ;
+	right: 3px;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-bottom: 6px solid rgba(0, 0, 0, 0.15);
+	z-index: 9997;
+}
+
+#my-essentials .dropdown-menu i {
+	width: 10px;
+	text-align: center;
+}
+
+
+#my-essentials .share-button {
+	border-radius: 5px;
+	height: 32px;
+	border-radius: 5px !important;
+	border: solid 1px #ededed;
+	font-size: 14px;
+	text-align: left;
+	background-color: white;
+	color: #343441;
+	padding: 7px 12px;
+	line-height: 1;
+	margin: 3px;
+	font-weight: 400;
+}
+
+#my-essentials .share-button:disabled {
+	background-color: #4ab9b8;
+  	color: #ffffff;
+
+}
+
+
+@media only screen and (min-width: 1200px) {
+	#my-essentials .middle-bar-content .col-xs-7 {
+		padding-right: 0;
+	}
+	.middle-bar-content .col-xs-5 {
+		padding-left: 0;
+	}
+}
+
+@media only screen and (max-width: 1199px) and (min-width: 400px) {
+	#my-essentials .middle-bar-content .col-xs-7 {
+		padding-right: 20px;
+	}
+	#my-essentials .middle-bar-content .col-xs-5 {
+		padding-left: 20px;
+	}
+}
+
+.close-icon {
+	position: absolute;
+	top: 11px;
+	left: 16px;
+	font-size: 14px !important;
+}
+
+@media ( max-width :992px) {
+	#my-essentials .has-feedback {
+		display: none;
+	}
+}
+
+@media ( max-width :768px) {
+	#my-essentials .manage-shared-essentials, .btn-cancel {
+		display: none !important;
+	}
+	#my-essentials .btn-save {
+		margin-top: 6px !important;
+	}
+	#my-essentials .glyphicon-plus-sign {
+		padding-top: 10px;
+	}
+}
+</style>
+
+<div id="my-essentials">
+	<div class="container-fluid">
+		<div class="row essentials-title">
+			<div class="col-xs-offset-0 col-xs-12 col-sm-offset-3 col-sm-6">
+				<h2>Editing Essentials</h2>
+				<p>Simply drag & drop your essentials from the library below to create your personal collection. You can also manage your sharing using the setting button on an essential.</p>
+			</div>
+		</div>
+		<div class="row personal-essentials">
+			<ul id="personal-essentials" class="drag-drop-container">
+			</ul>
+		</div>
+		<div class="middle-bar">
+			<div class="col-xs-5">
+				<div class="category-select middle-bar-control">
+					<select id="my-essentials-categories-selector">
+						<option value="all" selected="selected">All Essentials</option>
+						<option value="shared">Shared with me</option>
+						<option value="Removed">Removed</option>
+						<option value="Curriculum Resources">Curriculum Resources</option>
+						<option value="Department Resources">Department Resources</option>
+						<option value="Education Sites">Education Sites</option>
+						<option value="Employment - Corporate">Employment - Corporate</option>
+						<option value="Employment - Schools">Employment - Schools</option>
+						<option value="My Applications">My Applications</option>
+						<option value="My Learning Tools">My Learning Tools</option>
+						<option value="My TSO">My TSO</option>
+						<option value="My Training">My Training</option>
+						<option value="My Websites">My Websites</option>
+						<option value="School Administration">School Administration</option>
+					</select>
+				</div>
+				<div class="form-group has-feedback">
+					<i class="form-control-feedback glyphicon glyphicon-search"></i> <input type="text" class="form-control middle-bar-control" id="my-essentials-search-input" placeholder="Find Essential..." />
+				</div>
+			</div>
+			<div class="col-xs-7">
+				<div class="middle-bar-right">
+					<button data-toggle="modal" data-target="#add-bookmark-popup" type="button" class="btn-plus">
+						<img src="/o/doe-staff-theme/images/add.png" title="Add"/>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="row all-essentials">
+			<div class="deleteWarning">DROP HERE TO REMOVE</div>
+			<ul id="all-essentials" class="drag-drop-container">
+			</ul>
+		</div>
+	</div>
+
+	<div class="modal fade doe-modal-form" id="add-bookmark-popup" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+	  			<div class="modal-header">
+	    			<button type="button" class="close" data-dismiss="modal"><span class='close-icon'>X</span>&nbsp;&nbsp;&nbsp;&nbsp;CLOSE</button>
+	    			<h4 class="modal-title">CREATE LINK</h4>
+	  			</div>
+	  			<div class="modal-body">
+	  				<form action="#" id="add-bookmark-form" role="form" data-toggle="validator" data-disable="true" >
+	     				<div class="row">
+							<div class="form-group">
+								<div class="col-md-offset-1 col-md-10">
+						           <label for="add-bookmark-form-name">NAME</label>
+								</div>
+						       	<div class="col-md-offset-1 col-md-10">
+						           <input id="add-bookmark-form-name" type="text" placeholder="Name" required />
+								<div class="help-block with-errors"></div>
+					        	</div>
+						   	</div>
+							<div class="form-group">
+								<div class="col-md-offset-1 col-md-10">
+					         		<label for="add-bookmark-form-url">URL</label>
+					       		</div>
+					       		<div class="col-md-offset-1 col-md-10">
+					         		<input id="add-bookmark-form-url" placeholder="URL" type="text" required />
+					         		<div class="help-block with-errors"></div>
+					       		</div>
+							</div>
+						   	<div class="form-group">
+								<div class="col-md-offset-1 col-md-10">
+						           <label for="add-bookmark-form-description">DESCRIPTION</label>
+								</div>
+						       	<div class="col-md-offset-1 col-md-10">
+						           <input id="add-bookmark-form-description" type="text" placeholder="Description" required />
+								<div class="help-block with-errors"></div>
+					        	</div>
+						   	</div>
+  						</div>
+  						<div class="col-xs-6 action">
+    							<button class="cancel-btn" data-dismiss="modal">CANCEL</button>
+  						</div>
+  						<div class="col-xs-6 action">
+    						<button class="confirm-btn" type="submit" id="add-bookmark-btn">CONFIRM</button>
+  						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="/o/doe-staff-theme/js/ext/jquery-ui.js"></script>
+<#assign
+		groupLocalService = serviceLocator.findService( "com.liferay.portal.kernel.service.GroupLocalService" )
+		userSitesString = themeDisplay.user.expandoBridge.getAttribute( "user-sites", false )!""
+		userSitesIds = userSitesString?split( "," )
+		userSites = []
+/>
+
+<#list userSitesIds as userSiteId>
+	<#assign userSites = userSites + [ groupLocalService.getGroup( userSiteId?number ) ] />
+</#list>
+
+<script>
+	$( document ).ready(function() {
+		var sharedCategoryId = "3682957";
+		var userSites = [
+			<#list userSites as userSite>
+				<#if userSite.name != "Guest">
+					<#if userSite.groupId == themeDisplay.user.groupId>
+						<#assign isPersonalSite = "true" />
+					<#else>
+						<#assign isPersonalSite = "false" />
+					</#if>
+					{
+						"groupId" : "${userSite.groupId}",
+						"name" : "${userSite.getName( themeDisplay.locale )}",
+						"isPersonalSite" : ${isPersonalSite}
+					}<#sep>,</#sep>
+				</#if>
+			</#list>
+		];
+
+
+		var userPersonalSite = userSites.find( function( site ) {
+			return site.isPersonalSite;
+		} );
+
+
+		/*
+		* Saves what's currenty in my essentials on the server
+		*/
+		function updateMyEssentials() {
+			var articleIds = $("#personal-essentials li").map( function() { return $(this).attr( 'data-article-id' ); } ).toArray();
+			var articleIdsParam = articleIds.join( "," );
+
+			$.ajax( {
+				"type" : "post",
+				"url" : "/o/rest/my-essentials",
+				data : {
+					"myEssentials" : articleIdsParam
+				}
+			} );
+
+		}
+
+
+		/*
+		* Creates the <li> element for a bookmark
+		*/
+		function createEssentialItem( result, articleId, articleTitle, isAdd, isBlacklisted ) {
+			var li = $( "<li class='essential col-md-3 col-sm-6 col-xs-12' id='essentials-" + articleId + "' />" );
+			li.attr( "data-article-id", articleId );
+
+			var locale = Liferay.ThemeDisplay.getLanguageId();
+
+			var structureId = result._source.classTypeId;
+			var information = result._source.description || result._source.description_en_AU || "";
+			var url = result._source[ "ddm__keyword__" + structureId + "__URL_" + locale ] || result._source[ "ddm__keyword__" + structureId + "__URL_en_US" ];
+			var creatorName = result._source.userName;
+
+			var isShared = result._source.assetCategoryIds && ( result._source.assetCategoryIds === sharedCategoryId || result._source.assetCategoryIds.indexOf( sharedCategoryId ) !== -1 );
+			var isSharedCssClass = isShared ? 'is-shared' : ''
+			var liContent = $(
+				"<div class='essential-container  " + isSharedCssClass + " '>" +
+				"    <i class='essential-icon fa fa-link'></i>" +
+				"    <span class='essential-title'>" + articleTitle + "</span>" +
+				"    <div class='pull-right btn-group editing-btn'>" +
+              	"    	<button type='button' class='btn dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" +
+                "    		<i class='df df-cog'></i>" +
+              	"    	</button>" +
+              	"    	<ul class='dropdown-menu'>" +
+              	"			<li class='creator'>Shared by: " + creatorName + "</li>" +
+                "    		<li><a href='#' class='remove-from-essentials' ><img src='/o/doe-staff-theme/images/remove.png' />Remove from My Essentials</a></li>" +
+                "    		<li><a href='#' data-toggle='modal' data-target='#link-details-" + articleId + "' ><img src='/o/doe-staff-theme/images/details.png' />View Link Details</a></li>" +
+              	"		</ul>" +
+            	"	</div>" +
+				"	<button type='button' class='"+ ( isAdd ? "btn-add" : "btn-remove" )  +"'>" + ( isAdd ? "ADD" : "REMOVE" ) + "</button>" +
+				"</div>" +
+				"<div class='modal " + isSharedCssClass + " fade doe-modal-form essential-details-dialog' id='link-details-"+ articleId +"' role='dialog'>	"+
+				"	<div class='modal-dialog'>                                                           			"+
+				"    	<div class='modal-content'>                                                      "+
+				"      		<div class='modal-header'>                                                   "+
+				"        		<button type='button' class='close' data-dismiss='modal'><span class='close-icon'>X</span>&nbsp;&nbsp;&nbsp;&nbsp;CLOSE</button>"+
+				"        		<h4 class='modal-title'><i class='fa fa-link'></i>" + articleTitle + "</h4>"+
+				"      		</div>                                                                       "+
+				"      	<div class='modal-body'>                                                         "+
+				"			<div class='main-info'> " +
+				"				<div class='bookmarks-data'><label>INFORMATION</label><div>" + information + "</div></div>"+
+				"				<div class='bookmarks-data'><label>URL</label><div><a href='" + url + "'>" + url + "</a></div></div>"+
+				"      		</div>                                                                           "+
+				"			<div class='bookmarks-data'><label>CREATOR</label><div>" + creatorName + "</div></div>"+
+				"      	</div>                                                                           "+
+				"	</div>                                                                               "+
+				"</div>                                                                                  "
+			);
+
+			if( result._source.groupId == userPersonalSite.groupId ) {
+				liContent.find( ".dropdown-menu" ).append( "<li><a href='#' data-toggle='modal' data-target='#manage-sharing-" + articleId + "'><img src='/o/doe-staff-theme/images/manage.png' />Manage Sharing</a></li>" );
+
+				var manageSharing = $(
+				'<div class="modal fade doe-modal-form" id="manage-sharing-'+ articleId +'" role="dialog">'+
+				'	<div class="modal-dialog">                                                           '+
+				'    	<div class="modal-content">                                                      '+
+				'      		<div class="modal-header">                                                   '+
+				'        		<button type="button" class="close" data-dismiss="modal"><span class="close-icon">X</span>&nbsp;&nbsp;&nbsp;&nbsp;CLOSE</button>'+
+				'        		<h4 class="modal-title"><i class="fa fa-link"></i>' + articleTitle + '</h4>'+
+				'      		</div>                                                                       '+
+				'      	<div class="modal-body">                                                         '+
+				'      	</div>                                                                           '+
+				'	</div>                                                                               '+
+				'</div>                                                                                  ');
+
+				var sharedTo = ( result._source["expando__custom_fields__shared-to"] || "" ).split( "," );
+
+				userSites.forEach( function( userSite ) {
+
+					if( userSite.isPersonalSite || userSite.name === 'Guest' || userSite.name === 'Global') {
+						return;
+					}
+
+					var button = $( "<button class='share-button' data-group-id='" + userSite.groupId + "' >" + userSite.name + "</button>" );
+					if( sharedTo.indexOf( userSite.groupId ) !== -1 ) {
+						button.attr( "disabled", "disabled" );
+					}
+
+					manageSharing.find( ".modal-body" ).append( button );
+				} );
+
+				liContent.append( manageSharing );
+			}
+
+			if( isBlacklisted ) {
+				liContent.find( ".dropdown-menu" ).append( "<li><a href='#' class='remove-from-blacklist' ><img src='/o/doe-staff-theme/images/remove.png' />Remove from blacklist</a></li>" )
+			}
+
+			li.append( liContent );
+			return li;
+		}
+
+
+		/*
+		* Adds an <li> to the element selected by parentSelector for each link in the results
+		* it supports results.hits.hits or results as the array
+		*/
+		function renderLinks( results, parentSelector, isAdd, isBlacklisted ) {
+			var resultsList = results.hits ? results.hits.hits : results;
+			resultsList.forEach( function( element ) {
+					var source = element._source,
+					articleId = source.articleId,
+					articleTitle = source.title_en_AU || source.title || source.title_en_US;
+					var li = createEssentialItem( element, articleId, articleTitle, isAdd, isBlacklisted );
+					$( parentSelector ).append( li );
+			});
+		}
+
+		/*
+		* Renders my essentials and adds the links to #personal-essentials
+		*/
+		function renderMyEssentials( results ) {
+
+			var myEssentials = myEssentialsIds.map( function( articleId ) {
+
+				var essential = results.hits.hits.find( function( result ) {
+					return result._source.articleId === articleId
+				} );
+
+				return essential || {
+										_source : {
+											"articleId" : articleId,
+											"title_en_AU" : "&nbsp;"
+										}
+									}
+			} );
+
+			renderLinks( myEssentials, "#personal-essentials", false );
+		}
+
+		/*
+		* add links from the results to #all-essentials
+		*/
+		function renderNonSelected( results ) {
+			renderLinks( results, "#all-essentials", true );
+		}
+
+		/*
+		* Init drag and drop
+		*/
+		$("#personal-essentials, #all-essentials").sortable({
+			connectWith : ".drag-drop-container",
+			revert : 300,
+		});
+		$('#all-essentials').droppable( {
+			over : function(event, ui) {
+				var dragingEssential = ui.draggable.attr("id");
+
+				if ($('#all-essentials').has(
+						"#" + dragingEssential + "").length != 1) {
+					$('.deleteWarning').css('display', 'block');
+				}
+
+			},
+			out : function(event, ui) {
+				$('.deleteWarning').css('display', 'none');
+			},
+			drop : function(event, ui) {
+				var dragingEssential = ui.draggable.attr("id");
+				$("#" + dragingEssential + "").effect('puff',
+						500, callback(dragingEssential));
+				$('.deleteWarning').css('display', 'none');
+				$("#" + dragingEssential + "" + " .btn-remove")
+						.replaceWith(
+								"<button type='button' class='btn-add'>ADD</button>");
+			}
+		});
+
+		function callback(id) {
+			setTimeout(function() {
+				$("#" + id + "").removeAttr("style").hide().fadeIn();
+				setTimeout(updateMyEssentials, 500);
+			}, 1000);
+		}
+
+		$('#personal-essentials').droppable( {
+			drop : function(event, ui) {
+				var dragingEssential = ui.draggable.attr("id");
+				$("#" + dragingEssential + "" + " .btn-add")
+					.replaceWith("<button type='button' class='btn-remove'>REMOVE</button>");
+				setTimeout(updateMyEssentials, 500);
+			}
+		});
+
+		/*
+		* Typeahead
+		*/
+		$("#my-essentials-search-input").off( "keyup" ).on("keyup", function( e ) {
+			var input = $( e.target )
+			, value = (input.val() || "").trim().toLowerCase()
+			, allEssentials = $( "#all-essentials li.essential" );
+
+			if ( value === "") {
+				allEssentials.show();
+				return;
+			}
+
+			allEssentials.each( function( i, element ) {
+				var el = $( element );
+				if ( el.find( '.essential-title' ).text().toLowerCase().indexOf( value ) !== -1 ) {
+					el.show();
+				} else {
+					el.hide();
+				}
+			});
+		});
+
+		/* blacklist a bookmark */
+		$('body').off( 'click', '.remove-from-essentials' ).on( 'click', '.remove-from-essentials', function( e ) {
+			var targetLink = $( this ).closest( 'li.essential' );
+			$.ajax( {
+				'type' : 'post',
+				'url' : '/o/rest/my-essentials/blacklist',
+				'data' : {
+					'articleId' : targetLink.attr( "data-article-id" )
+				}
+			} ).then( function() {
+				targetLink.remove();
+				updateMyEssentials();
+			});
+
+			e.preventDefault();
+			return false;
+		} );
+
+		/* remove a bookmark from blacklist*/
+		$('body').off( 'click', '.remove-from-blacklist' ).on( 'click', '.remove-from-blacklist', function( e ) {
+			var targetLink = $( this ).closest( 'li.essential' );
+			$.ajax( {
+				'type' : 'post',
+				'url' : '/o/rest/my-essentials/remove-from-blacklist',
+				'data' : {
+					'articleId' : targetLink.attr( "data-article-id" )
+				}
+			} ).then( function() {
+				targetLink.remove();
+			});
+
+			e.preventDefault();
+			return false;
+		} );
+
+		/*share bookmark */
+		$( 'body' ).off( 'click', '.share-button' ).on( 'click', '.share-button', function() {
+			var $button = $( this );
+			var targetSite = $button.attr( 'data-group-id' );
+			var sourceArticle = $button.closest( 'li.essential' ).attr( 'data-article-id' );
+
+			$.ajax( {
+				'type' : 'post',
+				'url' : '/o/rest/my-essentials/share',
+				'data' : {
+					'articleId' : sourceArticle,
+					'groupId' : targetSite
+				}
+			}).then( function(){
+				$button.attr( 'disabled', 'disabled' );
+			} );
+
+		} );
+
+		$( 'body' ).off( 'click', '#add-contacts-block' ).on( 'click', '#add-contacts-block', function( e ) {
+			var contacts = $( '#add-bookmark-popup .contacts:first' );
+			var clone = contacts.clone();
+			clone.find( 'input' ).val( "" );
+
+			contacts.parent().append( clone );
+
+			e.preventDefault();
+			return false;
+		} );
+
+
+		/*share bookmark */
+		$( 'body' ).off( 'click', '#add-bookmark-btn' ).on( 'click', '#add-bookmark-btn', function() {
+			$.ajax( {
+				'type' : 'post',
+				'url' : '/o/rest/my-essentials/add-link',
+				'contentType': 'application/json; charset=utf-8',
+				'data' : JSON.stringify( {
+					'name' : $( '#add-bookmark-form-name' ).val(),
+					'description' : $( '#add-bookmark-description' ).val(),
+					'url' : $( '#add-bookmark-form-url' ).val(),
+					'icon' : 'fa fa-link'
+				} )
+			} ).then( function() {
+				location.reload();
+			} );
+		} );
+
+
+		/*
+		* categories selector dropdown
+		*/
+		var selectors = {
+			"all" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/non-selected"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"blacklist" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/blacklist"
+					} );
+				},
+				"render" : function( response ) {
+					renderLinks( response, "#all-essentials", true, true );
+				}
+			},
+			"shared" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=" + sharedCategoryId
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"Curriculum Resources" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=5394663"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"Department Resources" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=5394664"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"Education Sites" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=5394665"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"Employment - Corporate" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=5394666"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"Employment - Schools" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=4336545"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"My Applications" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=4336540"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"My Learning Tools" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=4336544"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"My TSO" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=4336543"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"My Training" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=4336542"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"My Websites" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=4336541"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			},
+			"School Administration" : {
+				"fetch" : function() {
+					return $.ajax( {
+						"type" : "get",
+						"url" : "/o/rest/my-essentials/by-any-category?categories=5394667"
+					} );
+				},
+				"render" : function( response ) {
+					renderNonSelected( response );
+				}
+			}
+		}
+
+		$( "#my-essentials-categories-selector" ).change( function() {
+			var selected = $( this ).find( "option:selected" );
+			var selector = selected.val();
+
+			var selectorObject = selectors[ selector ];
+
+			selectorObject.fetch().then( function( response ) {
+				$("#all-essentials").html( "" );
+				selectorObject.render( response );
+			} );
+		});
+
+		/*
+		* init my essentials with a touch of server side code (themeDisplay.user..)
+		*/
+		var myEssentialsIds = '${themeDisplay.user.expandoBridge.getAttribute( "whitelist", false )}'.split( "," );
+		$.ajax( {
+			"type" : "get",
+			"url" : "/o/rest/my-essentials"
+		} ).then( renderMyEssentials );
+
+		var selectAll = selectors[ "all" ];
+		selectAll.fetch().then( selectAll.render );
+
+	});
+</script>
+
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

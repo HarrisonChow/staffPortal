@@ -1,0 +1,417 @@
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Article = function (_React$Component) {
+	_inherits(Article, _React$Component);
+
+	function Article() {
+		_classCallCheck(this, Article);
+
+		var _this = _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this));
+
+		_this.state = LiferayArticle.getSourceContentItem();
+		return _this;
+	}
+
+	_createClass(Article, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			LiferayArticle.initialiseSelectors();
+		}
+	}, {
+		key: "datePicker",
+		value: function datePicker(element) {
+			var thiscomponent = this;
+			$(element).datepicker({ dateFormat: "dd/mm/yy" }).on("input change", function (e) {
+				thiscomponent.setState(_defineProperty({}, e.target.name, e.target.value));
+			});
+		}
+	}, {
+		key: "timePicker",
+		value: function timePicker(element) {
+			var thiscomponent = this;
+			$(element).timepicker({ timeFormat: "H:i" }).on("input change", function (e) {
+				thiscomponent.setState(_defineProperty({}, e.target.name, e.target.value));
+			});
+		}
+	}, {
+		key: "messageInfo",
+		value: function messageInfo() {
+			this.setState({ errors: true });
+			setTimeout(function () {
+				this.setState({ errors: false });
+			}.bind(this), 5000);
+		}
+	}, {
+		key: "handleChange",
+		value: function handleChange(e) {
+			var target = e.target;
+			var value = target.type === 'checkbox' ? target.checked : target.value;
+			var name = target.name;
+			this.setState(_defineProperty({}, name, value));
+		}
+	}, {
+		key: "handleSubmit",
+		value: function handleSubmit(event) {
+			event.preventDefault();
+			var requestAction = event.target.value;
+
+			if (requestAction == "Expire") {
+				LiferayArticle.expireArticle();
+			} else {
+				var publishDay = parseInt(this.state.publishDateStr.split('/')[0]);
+				var publishMonth = parseInt(this.state.publishDateStr.split('/')[1]);
+				var publishYear = parseInt(this.state.publishDateStr.split('/')[2]);
+				var publishHour = parseInt(this.state.publishTimeStr.split(':')[0]);
+				var publishMin = parseInt(this.state.publishTimeStr.split(':')[1]);
+				var expirationDay = parseInt(this.state.expiryDateStr.split('/')[0]);
+				var expirationMonth = parseInt(this.state.expiryDateStr.split('/')[1]);
+				var expirationYear = parseInt(this.state.expiryDateStr.split('/')[2]);
+				var expirationHour = parseInt(this.state.expiryTimeStr.split(':')[0]);
+				var expirationMin = parseInt(this.state.expiryTimeStr.split(':')[1]);
+
+				publishMonth -= 1;
+				expirationMonth -= 1;
+
+				var publishDate = new Date(publishYear, publishMonth, publishDay, publishHour, publishMin, 0, 0);
+				var expiryDate = new Date(expirationYear, expirationMonth, expirationDay, expirationHour, expirationMin, 0, 0);
+
+				var finalContent = '<?xml version="1.0"?>' + '<root available-locales="en_AU" default-locale="en_AU">' + '	<dynamic-element name="LearnMoreURL" type="text" index-type="keyword" instance-id="hnur">' + '		<dynamic-content language-id="en_AU"><![CDATA[' + this.state.learnMoreURL + ']]></dynamic-content>' + '	</dynamic-element>' + '	<dynamic-element name="ApplicationName" type="text" index-type="keyword" instance-id="tgxa">' + '		<dynamic-content language-id="en_AU"><![CDATA[' + this.state.applicationName + ']]></dynamic-content>' + '	</dynamic-element>' + '	<dynamic-element name="ApplicationPK" type="text_area" index-type="text" instance-id="iryx">' + '		<dynamic-content language-id="en_AU"><![CDATA[' + this.state.applicationPK + ']]></dynamic-content>' + '	</dynamic-element>' + '</root>';
+
+				var categoryIds = [];
+
+				LiferayArticle.upsertContentItem(this.state.title, this.state.description, publishDate, expiryDate, finalContent, this.state.urlTitle, categoryIds, requestAction == "Publish");
+			}
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _React$createElement;
+
+			return React.createElement(
+				"div",
+				{ className: "article" },
+				React.createElement(
+					"form",
+					{ className: "content-article-form" },
+					React.createElement(
+						ReactBootstrap.Grid,
+						null,
+						React.createElement(
+							ReactBootstrap.Row,
+							null,
+							React.createElement(
+								ReactBootstrap.Col,
+								{ xs: 12 },
+								React.createElement(
+									"div",
+									{ className: "", id: "id-header" },
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"h2",
+											{ className: "edit-title" },
+											this.state.editorTitle
+										)
+									)
+								)
+							),
+							React.createElement(
+								ReactBootstrap.Col,
+								{ sm: 4, xs: 12, className: "form-controls" },
+								this.state.status === 2 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style draft" },
+											"DRAFT"
+										)
+									),
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"button",
+											{ type: "submit", value: "Publish", className: "publish-btn", onClick: this.handleSubmit.bind(this) },
+											"Publish"
+										)
+									)
+								) : null,
+								this.state.status === 1 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style pending" },
+											"PENDING"
+										)
+									),
+									LiferayArticle.contentItem.isEditor === true ? React.createElement(
+										"div",
+										null,
+										React.createElement(
+											ReactBootstrap.Col,
+											{ xs: 12 },
+											React.createElement(
+												"button",
+												{ type: "submit", value: "Publish", className: "publish-btn", onClick: this.handleSubmit.bind(this) },
+												"Publish Changes"
+											)
+										)
+									) : null
+								) : null,
+								this.state.status === 7 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style scheduled" },
+											"SCHEDULED"
+										)
+									)
+								) : null,
+								this.state.status === 3 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style expired" },
+											"EXPIRED"
+										)
+									)
+								) : null,
+								this.state.status === 6 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style incomplete" },
+											"INCOMPLETE"
+										)
+									)
+								) : null,
+								this.state.status === 5 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style inactive" },
+											"INACTIVE"
+										)
+									)
+								) : null,
+								this.state.status === 8 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style deleted" },
+											"DELETED"
+										)
+									)
+								) : null,
+								this.state.status === 4 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style denied" },
+											"DENIED"
+										)
+									)
+								) : null,
+								this.state.status === 0 ? React.createElement(
+									"div",
+									null,
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement("input", { className: "state-style", hidden: true, type: "text", value: this.state.status, disabled: "disabled" }),
+										React.createElement(
+											"div",
+											{ className: "state-style published" },
+											"PUBLISHED"
+										)
+									),
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"button",
+											{ type: "submit", value: "Publish", className: "publish-btn", onClick: this.handleSubmit.bind(this) },
+											"Publish Changes"
+										)
+									)
+								) : null
+							),
+							React.createElement(
+								ReactBootstrap.Col,
+								{ sm: 8, xs: 12 },
+								React.createElement(
+									ReactBootstrap.Col,
+									{ xs: 12 },
+									React.createElement(
+										"div",
+										{ className: "input-title" },
+										"Title (max 200 chars)"
+									),
+									React.createElement("input", { name: "title", maxLength: "200", className: "input-style", type: "text", value: this.state.title, placeholder: "Enter your title...", onChange: this.handleChange.bind(this) })
+								),
+								React.createElement(
+									ReactBootstrap.Col,
+									{ xs: 12 },
+									React.createElement(
+										"div",
+										{ className: "input-title" },
+										"Message (max 400 chars)"
+									),
+									React.createElement("textarea", (_React$createElement = { name: "description", maxLength: "400", className: "text-content" }, _defineProperty(_React$createElement, "maxLength", "400"), _defineProperty(_React$createElement, "type", "text"), _defineProperty(_React$createElement, "value", this.state.description), _defineProperty(_React$createElement, "placeholder", "Add your message"), _defineProperty(_React$createElement, "onChange", this.handleChange.bind(this)), _React$createElement))
+								)
+							),
+							React.createElement(
+								ReactBootstrap.Col,
+								{ xs: 12 },
+								React.createElement(
+									"div",
+									{ className: "article-header" },
+									React.createElement(
+										ReactBootstrap.Col,
+										{ xs: 12 },
+										React.createElement(
+											"div",
+											{ className: "input-title" },
+											"'Learn More' URL"
+										),
+										React.createElement("input", { name: "learnMoreURL", maxLength: "200", className: "input-style", type: "text", value: this.state.learnMoreURL, placeholder: "URL where people can find out more...", onChange: this.handleChange.bind(this) })
+									),
+									React.createElement(
+										ReactBootstrap.Col,
+										{ sm: 12, xs: 12 },
+										React.createElement(
+											"div",
+											{ className: "input-title" },
+											"Application"
+										),
+										React.createElement(
+											"div",
+											null,
+											React.createElement("input", { name: "applicationName", className: "input-style", id: "applicationName", value: this.state.applicationName, placeholder: "Select an application bookmark...", onClick: this.handleChange.bind(this), onChange: this.handleChange.bind(this) })
+										),
+										React.createElement(
+											"div",
+											null,
+											React.createElement(
+												"label",
+												{ className: "select-button-label featureImage" },
+												"Find Application",
+												React.createElement("input", { "data-label": "applicationName", "data-pk": "applicationPK", className: "select-album-button" })
+											)
+										),
+										React.createElement("input", { id: "applicationPK", readOnly: true, hidden: true, className: "input-style", name: "applicationPK", type: "text", value: this.state.applicationPK, onChange: this.handleChange.bind(this), onClick: this.handleChange.bind(this) })
+									),
+									React.createElement(
+										ReactBootstrap.Row,
+										null,
+										React.createElement(
+											ReactBootstrap.Col,
+											{ xs: 12, sm: 6 },
+											React.createElement(
+												ReactBootstrap.Col,
+												{ xs: 12, sm: 12 },
+												React.createElement(
+													"div",
+													{ className: "input-title" },
+													"Publish Date"
+												)
+											),
+											React.createElement(
+												ReactBootstrap.Col,
+												{ xs: 12, sm: 12 },
+												React.createElement("input", { ref: this.datePicker.bind(this), className: "input-style", value: this.state.publishDateStr, name: "publishDateStr", type: "text", onChange: this.handleChange.bind(this) })
+											),
+											React.createElement(
+												ReactBootstrap.Col,
+												{ xs: 12, sm: 12 },
+												React.createElement("input", { ref: this.timePicker.bind(this), className: "input-style", value: this.state.publishTimeStr, name: "publishTimeStr", type: "text", onChange: this.handleChange.bind(this) })
+											)
+										),
+										React.createElement(
+											ReactBootstrap.Col,
+											{ xs: 12, sm: 6 },
+											React.createElement(
+												ReactBootstrap.Col,
+												{ xs: 12, sm: 12 },
+												React.createElement(
+													"div",
+													{ className: "input-title" },
+													"Expiry Date"
+												)
+											),
+											React.createElement(
+												ReactBootstrap.Col,
+												{ xs: 12, sm: 12 },
+												React.createElement("input", { ref: this.datePicker.bind(this), className: "input-style", type: "text", value: this.state.expiryDateStr, name: "expiryDateStr", onChange: this.handleChange.bind(this) })
+											),
+											React.createElement(
+												ReactBootstrap.Col,
+												{ xs: 12, sm: 12 },
+												React.createElement("input", { ref: this.timePicker.bind(this), className: "input-style", type: "text", value: this.state.expiryTimeStr, name: "expiryTimeStr", onChange: this.handleChange.bind(this) })
+											)
+										)
+									)
+								)
+							)
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return Article;
+}(React.Component);
+
+ReactDOM.render(React.createElement(Article, null), document.getElementById('content-root'));

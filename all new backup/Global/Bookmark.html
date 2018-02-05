@@ -1,0 +1,339 @@
+<#-- Bookmark template -->
+<#-- Use for both WCM Templates and ADTs -->
+<#-- Ensure you set the right structureType, and template variables here -->
+
+<#attempt>
+
+<#assign DDMTemplateLocalService = serviceLocator.findService("com.liferay.dynamic.data.mapping.service.DDMTemplateLocalService") />
+
+<#-- Set the structure type. Available structure types are listed in Include - Global Vars template -->
+<#assign structureType = "Bookmark" />
+
+<#-- Displays on "add" buttons when viewing draft items -->
+<#assign addStructureLabel = "Add Bookmark" />
+
+<#-- Set this to the groupId of the template collection, not the article (i.e. may be global group id) -->
+<#assign templateGroupId = 20152 />
+
+<#-- Set this to the Asset Publisher class name id (normally 20006) -->
+<#assign assetPublisherClassNameId = 20006 />
+
+<#-- Set this to the template key for the global variables include template -->
+<#assign varsTemplateKey = "5395249" />
+
+<#assign template = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, varsTemplateKey) />
+<#assign configTemplate = template.script?interpret>
+<@configTemplate />
+
+<#if isWCM>
+	<@renderWCM />
+<#else>
+	<#assign template = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, adtViewTemplateKey) />
+	<#assign adtTemplate = template.script?interpret>
+	<@adtTemplate />
+</#if>
+
+<#if editAvailable>
+	<#assign template = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, editorTemplateKey) />
+	<#assign editTemplate = template.script?interpret>
+	<@editTemplate />
+</#if>
+
+
+
+
+<#-- WCM Display code - add code for the display of your web content asset -->
+
+<#macro renderWCM>
+<style>
+.h2 .asset-actions {
+	display: none;
+}
+
+.print-action {
+	float: right;
+}
+
+body.staff #bookmark h1 {
+    margin-bottom: 10px;
+    color: #0e3f51;
+    font-size: 1.3rem;
+}
+
+body.staff #bookmark .author span,
+body.staff #bookmark .pot_time span {
+    font-size: 0.8rem;
+}
+
+body.staff #bookmark .meta {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 0.8px solid lightgrey;
+}
+
+body.staff #bookmark .article-intro {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    margin-bottom: 20px;
+	color: #343441;
+    font-size: 1rem;
+}
+
+body.staff #bookmark .section {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+body.staff #bookmark .section p,
+body.staff #bookmark .article-intro p {
+    font-size: 1rem;
+	text-align: left;
+}
+
+body.staff #bookmark .section p.caption,
+body.staff #bookmark .article-intro p.caption {
+    font-size: 0.8rem;
+	text-align: center;
+}
+
+body.staff #bookmark h2.section,
+body.staff #bookmark .section h2 {
+    font-size: 1.25rem;
+	text-align: left;
+}
+
+body.staff #bookmark h3.section,
+body.staff #bookmark .section h3 {
+    font-size: 1.15rem;
+	text-align: left;
+}
+
+body.staff #bookmark .section img,
+body.staff #bookmark .article-intro img {
+    max-height: 400px;
+	max-width: 100%;
+}
+
+body.staff #bookmark .section.body-text li {
+    text-align: left;
+}
+
+@media ( max-width : 669px) {
+	body.staff #bookmark {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+body.staff #bookmark nav.editControls {
+    border: 1px dotted #0e3f51;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    text-align: right;
+    margin-top: 10px;
+}
+
+body.staff #bookmark .editControls h2.article-state {
+    float: left;
+    margin-bottom: 0;
+    font-size: 2rem;
+	margin-top: 0;
+}
+
+body.staff #bookmark #editContentItemButton {
+	margin-top: 5px;
+}
+
+body.staff #bookmark #editContentItemButton,
+body.staff #bookmark #approveContentItemButton,
+body.staff #bookmark #expireContentItemButton {
+    color: #fff;
+    border-color: #c71529;
+    border-radius: 20px;
+    background: #c71529;
+    padding: 10px 15px;
+}
+
+body.staff #bookmark.draft {
+    border: 4px solid #7c15c7;
+	max-width: 1041px;
+}
+
+body.staff #bookmark.draft nav.editControls {
+    border: 1px dotted #7c15c7;
+}
+
+body.staff #bookmark.draft .editControls h2.article-state {
+    color: #7c15c7;
+}
+
+body.staff #bookmark.draft .editControls h2.article-state:after {
+    content: 'DRAFT';
+}
+
+body.staff #bookmark.draft #editContentItemButton,
+body.staff #bookmark.draft #approveContentItemButton,
+body.staff #bookmark.draft #expireContentItemButton {
+    border-color: #7c15c7;
+    background: #7c15c7;
+}
+
+body.staff #bookmark.pending {
+    border: 4px solid #157fc7;
+	max-width: 1041px;
+}
+
+body.staff #bookmark.pending nav.editControls {
+    border: 1px dotted #157fc7;
+}
+
+body.staff #bookmark.pending .editControls h2.article-state {
+    color: #157fc7;
+}
+
+body.staff #bookmark.pending .editControls h2.article-state:after {
+    content: 'PENDING';
+}
+
+body.staff #bookmark.pending #editContentItemButton,
+body.staff #bookmark.pending #approveContentItemButton,
+body.staff #bookmark.pending #expireContentItemButton {
+    border-color: #157fc7;
+    background: #157fc7;
+}
+
+
+body.staff #bookmark.scheduled nav.editControls {
+    border: 1px dotted #88cd5d;
+	min-height: 60px;
+}
+
+body.staff #bookmark.scheduled .editControls h2.article-state {
+    color: #88cd5d;
+}
+
+body.staff #bookmark.scheduled .editControls h2.article-state:after {
+    content: 'SCHEDULED';
+}
+
+body.staff #bookmark.scheduled #editContentItemButton,
+body.staff #bookmark.scheduled #approveContentItemButton,
+body.staff #bookmark.scheduled #expireContentItemButton {
+    border-color: #88cd5d;
+    background: #88cd5d;
+}
+
+body.staff #bookmark.expired,
+body.staff #bookmark.denied,
+body.staff #bookmark.inactive,
+body.staff #bookmark.incomplete,
+body.staff #bookmark.deleted {
+    border: 4px solid #cbbebf;
+	max-width: 1041px;
+}
+
+body.staff #bookmark.expired nav.editControls,
+body.staff #bookmark.denied nav.editControls,
+body.staff #bookmark.inactive nav.editControls,
+body.staff #bookmark.incomplete nav.editControls,
+body.staff #bookmark.deleted nav.editControls {
+    border: 1px dotted #cbbebf;
+	min-height: 60px;
+}
+
+body.staff #bookmark.expired .editControls h2.article-state,
+body.staff #bookmark.denied .editControls h2.article-state,
+body.staff #bookmark.inactive .editControls h2.article-state,
+body.staff #bookmark.incomplete .editControls h2.article-state,
+body.staff #bookmark.deleted .editControls h2.article-state {
+    color: #cbbebf;
+}
+
+body.staff #bookmark.expired .editControls h2.article-state:after {
+    content: 'EXPIRED';
+}
+
+body.staff #bookmark.denied .editControls h2.article-state:after {
+    content: 'DENIED';
+}
+
+body.staff #bookmark.inactive .editControls h2.article-state:after {
+    content: 'INACTIVE';
+}
+
+body.staff #bookmark.incomplete .editControls h2.article-state:after {
+    content: 'INCOMPLETE';
+}
+
+body.staff #bookmark.deleted .editControls h2.article-state:after {
+    content: 'DELETED';
+}
+
+body.staff #bookmark.pending #editContentItemButton {
+    border-color: #157fc7;
+    background: #157fc7;
+}
+
+body.staff #content .journal-article-preview {
+    margin: auto;
+    display: table;
+	width: 100%;
+}
+body.staff .portlet-body div.h2 {
+    display: none!important;
+}
+
+body.staff #bookmark .meta span {
+    display: block;
+    color: #343441;
+    font-size: 1rem;
+	line-height: 2rem;
+}
+
+body.staff #bookmark .meta span i.my {
+    font-size: 1.5rem;
+}
+</style>
+
+<article id="bookmark" class="${states[srcArticle.getStatus()]} col-lg-offset-1 col-lg-10 col-sm-offset-1 col-sm-10 col-md-offset-0 col-md-12">
+	<#if editAvailable || !viewableState>
+		<nav class="editControls">
+			<h2 class="article-state"></h2>
+			<#if viewableState>
+				<button id="editContentItemButton">Edit ${structureLabel}</button>
+			</#if>
+		</nav>
+	</#if>
+
+	<section id="main-article-column" class="col-md-8">
+		<header>
+			<h1>${.vars['reserved-article-title'].data}</h1>
+			<div class="meta">
+				<span class="pot_time">
+					<i class="fa fa-clock-o"></i>&nbsp;<strong>Created: </strong><time>${srcArticle.getCreateDate()?datetime?string('dd MMM yyyy HH:mm')}</time>
+				</span>
+				<span class="pot_time">
+					<i class="fa fa-clock-o"></i>&nbsp;<strong>Modified: </strong><time><#if srcArticle.getModifiedDate()?has_content>${srcArticle.getModifiedDate()?datetime?string('dd MMM yyyy HH:mm')}<#else>not set</#if></time>
+				</span>
+				<span class="author"><i class="fa fa-user-o"></i>&nbsp;<strong>Author: </strong>${.vars['reserved-article-author-name'].data}</span>
+				<span class="author"><i class="fa fa-external-link"></i>&nbsp;<strong>URL: </strong>${URL.data}</span>
+				<span class="author"><i class="fa fa-image"></i>&nbsp;<strong>Icon: </strong>${Icon.data} (<i class="${Icon.data}"></i>)</span>
+			</div>
+		</header>
+
+		<div class="article-intro">
+			${htmlUtil.escape(.vars['reserved-article-description'].data)}
+		</div>
+	</section>
+</article>
+
+</#macro>
+
+<#recover>
+<div style="display: none">${.error}</div>
+</#attempt>

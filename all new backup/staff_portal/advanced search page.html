@@ -1,0 +1,483 @@
+<#attempt>
+
+<#assign
+	propsUtil = serviceLocator.findService( "com.liferay.portal.kernel.util.Props" )
+	functions = propsUtil.getProperties( "doe.user.profile.function.", true )
+/>
+
+<style media="screen">
+      .staff-search .title {
+        font-size: 20px;
+        font-weight: 400;
+        text-align: center;
+        color: #0e3f51;
+        margin-bottom: 17px;
+        margin-top: 25px;
+      }
+      .search-result {
+        margin-left: 15px;
+        margin-right: 15px;
+        display: initial;
+      }
+      .search-result .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+      .search-result .user-name {
+        font-size: 22px;
+        font-weight: 500;
+        color: #0e3f51;
+        padding-left: 15px;
+      }
+      .search-result .job-title .sub-title, .search-result .mobile .sub-title{
+        font-size: 12px;
+        font-weight: 600;
+        color: #c2c2c2;
+      }
+      .search-result .content-detail {
+        font-size: 15px;
+        font-weight: 400;
+        color: #343441;
+        max-height: 24px;
+        overflow: hidden;
+      }
+      .staff-search .col-xs-12 span, .staff-search .col-sm-4 span {
+        font-size: 12px;
+        font-weight: 600;
+        text-align: left;
+        color: #0e3f51;
+        margin-top: 17px;
+      }
+      .staff-search .col-xs-12 input, .staff-search .col-sm-4 input, .staff-search .col-sm-4 select {
+        height: 42px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        margin-top: 7px;
+        margin-bottom: 17px;
+        font-size: 15px;
+        font-weight: 400;
+        text-align: left;
+        color: #343441;
+      }
+      .staff-search .col-xs-12 input:focus, .staff-search .col-sm-4 input:focus {
+        outline: none;
+      }
+      .staff-search .search-inputs .col-sm-4:nth-child(3n-1){
+        padding-right:0px;
+        padding-left:0px;
+      }
+      .staff-search .search-inputs .col-sm-4:nth-child(3n+1){
+        padding-right:15px;
+        padding-left:0px;
+      }
+      .staff-search .search-inputs .col-sm-4:nth-child(3n+3){
+        padding-right:0px;
+        padding-left:15px;
+      }
+      .staff-search .search-inputs .search-button .searchSwap {
+        width: 100%;
+        height: 42px;
+        border-radius: 100px;
+      }
+      .staff-search .search-inputs .search-button .search {
+        width: 100%;
+        height: 42px;
+        border-radius: 100px;
+        background-color: #0e3f51;
+      }
+      .staff-search .search-inputs .search-button .search:focus, .staff-search .search-inputs .search-button .searchSwap:focus {
+        outline: none;
+      }
+      .staff-search .search-inputs .search-button .searchSwap, .staff-search .search-inputs .search-button .search {
+        border-width: 0;
+        font-size: 10px;
+        font-weight: 600;
+        text-align: center;
+        color: #ffffff;
+      }
+      .staff-search .search-inputs .search-button .search:before {
+        content: "\F002";
+        font-family: FontAwesome;
+        position: absolute;
+        left: 15px;
+        top: 12px;
+        font-size: 18px;
+        -webkit-text-stroke: 1px #0e3f51;
+      }
+      .staff-search .search-inputs .search-button .searchSwap img {
+        padding-right: 10px;
+        vertical-align: middle;
+        font-size: 16px;
+      }
+      .search-inputs .search-button {
+        margin-top: 7px;
+      }
+      .search-button .col-sm-12, .search-button .col-md-11, .search-button .col-sm-6, .search-button .col-md-8, .search-button .col-md-4 {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .search-button .col-md-8 {
+        padding-right: 5px;
+      }
+      .search-button .col-md-4 {
+        padding-left: 5px;
+      }
+      .staff-search .search-result ul {
+        -webkit-padding-start:0;
+      }
+      .staff-search .search-result ul li{
+        list-style: none;
+        display: inline-block;
+        width: 50%;
+      }
+      .staff-search .search-result ul li > .col-xs-12{
+        margin-top: 15px;
+        border-radius: 4px;
+        background-color: #fafafa;
+        border: solid 1px #ededed;
+        padding: 15px 0 0 0;
+      }
+      .search-result ul li:nth-child(even){
+        padding-left: 7px;
+        padding-right: 0px;
+      }
+      .search-result ul li:nth-child(odd){
+        padding-right: 8px;
+        padding-left: 0px;
+      }
+      #search-result .row {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      #search-result .no-result {
+        display: inline-block;
+      }
+      #search-result .showmore {
+        text-align: center;
+        text-decoration: none;
+      }
+      #search-result .showmore div{
+        width: 100%;
+        cursor: pointer;
+      }
+      #search-result .showmore div:hover{
+        background-color: #f5f5f5;
+      }
+      #search-result .showmore i {
+        font-size: 24px;
+      }
+      #search-result .showmore p{
+        font-size: 14px;
+      }
+      #show-advanced {
+        background: #9b9b9b url(/o/doe-staff-theme/images/advanced.svg) no-repeat;
+        background-position: left;
+        background-position-x: 15px;
+      }
+      #show-simple {
+        background: #9b9b9b url(/o/doe-staff-theme/images/close.svg) no-repeat;
+        background-position: left;
+        background-position-x: 15px;
+      }
+      @media only screen and (max-width: 992px) and (min-width: 768px) {
+        .search-result .avatar {
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+      @media (max-width: 768px){
+        .staff-search .search-inputs .col-sm-4:nth-child(3n-1), .staff-search .search-inputs .col-sm-4:nth-child(3n+1), .staff-search .search-inputs .col-sm-4:nth-child(3n+3){
+          padding-right: 15px;
+          padding-left: 15px;
+        }
+        .search-result ul li:nth-child(even) {
+          padding-left: 0px;
+          padding-right: 0px;
+        }
+        .search-result ul li:nth-child(odd) {
+          padding-right: 0px;
+          padding-left: 0px;
+        }
+        .staff-search .col-xs-12 .col-xs-12 .col-xs-9 .col-xs-6 {
+          padding-left: 0;
+          padding-right: 0;
+        }
+        .staff-search .search-result ul li{
+          width: 100%;
+        }
+      }
+    </style>
+
+    <div class="staff-search">
+      <div class="title">
+        Staff Search
+      </div>
+      <div class="search-inputs" id="advanced-search">
+        <div class="col-xs-12 col-sm-4">
+            <span>FIRST NAME</span>
+            <input type="text" class="col-xs-12"  data-bind="displayName" name="aFirstName" placeholder="Enter first name here..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter first name here...'">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>SURNAME</span>
+            <input type="text" class="col-xs-12"  data-bind="sn" name="aSurname" placeholder="Enter surname here..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter surname here... '">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>POSITION TITLE</span>
+            <input type="text" class="col-xs-12"  data-bind="title" name="aPositionTitle" placeholder="Enter position title here..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter position title here...'">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>DEC USER ID</span>
+            <input type="text" class="col-xs-12" data-bind="detUserId" name="aDecUserId" placeholder="Enter DEC user id here..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter DEC user id here...'">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>PHONE</span>
+            <input type="text" class="col-xs-12" data-bind="telephoneNumber" name="aPhone" placeholder="Enter phone number here..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter phone number here...'">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>ORG UNIT</span>
+            <input type="text" class="col-xs-12" name="ou" placeholder="Enter org unit here..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter org unit here...'">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <span>LOCALITY</span>
+            <input type="text" class="col-xs-12" name="l" placeholder="Enter locality here..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter locality here...'">
+        </div>
+        <div class="col-xs-12 col-sm-4 form-group">
+            <span>EXTRA FUNCTIONS</span>
+            <select class="form-control" id="aExtraFunctions">
+              <option selected value> -- Choose Function -- </option>
+              <#list functions?keys as key>
+      					<option value="${key}">${functions[key]}</option>
+      				</#list>
+            </select>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 search-button">
+            <span>&nbsp;</span>
+            <div class="col-sm-12">
+              <div class="col-xs-12 col-sm-12 col-md-4">
+                <button class="search" type="button" name="SEARCH" onclick="advancedSearching()">SEARCH</button>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="search-result" id="search-result">
+        <ul>
+
+        </ul>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $("#show-simple").click(function(){
+        $("#advanced-search").removeClass("in");
+      });
+      $("#show-advanced").click(function(){
+        $("#simple-search").removeClass("in");
+      });
+
+      var allresult=[];
+
+      function appendDetails(a,b,c) {
+        for (let i=a; i<b; i++) {
+          var name='N/A',position='N/A',phone='N/A',orgUnit='N/A',locality='N/A',detUserId;
+          c[i].attributes.entry.forEach(function(result) {
+            let showText = result.value;
+            if (result.key === 'cn') name = showText;
+            if (result.key === 'telephoneNumber') phone = showText;
+            if (result.key === 'title') position = showText;
+            if (result.key === 'ou') orgUnit = showText;
+            if (result.key === 'l') locality = showText;
+            if (result.key === 'detUserId') detUserId = showText;
+          });
+
+          $("#search-result ul").append('<li>\
+        	<a href="/group/staff-portal/user-profile?user=' + detUserId + '">\
+              <div class="col-xs-12">\
+                <div class="col-xs-3 col-sm-2"><img class="avatar" src="http://via.placeholder.com/80x80"></div>\
+                <div class="col-xs-9 col-sm-10">\
+                  <div class="user-name co-xs-12">'+ name +'</div>\
+                  <div class="row">\
+                    <div class="job-title col-xs-6">\
+                      <span class="sub-title">POSITION TITLE<span>\
+                      <p class="content-detail">'+position+'</p>\
+                    </div>\
+                    <div class="mobile col-xs-6">\
+                      <span class="sub-title">PHONE</span>\
+                      <p class="content-detail">'+phone+'</p>\
+                    </div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="job-title col-xs-6">\
+                      <span class="sub-title">ORG UNIT<span>\
+                      <p class="content-detail">'+orgUnit+'</p>\
+                    </div>\
+                    <div class="mobile col-xs-6">\
+                      <span class="sub-title">LOCALITY</span>\
+                      <p class="content-detail">'+locality+'</p>\
+                    </div>\
+                  </div>\
+                </div>\
+              </div>\
+            </a>\
+          </li>');
+        }
+      }
+
+      function loadmore(page){
+        let pageResultNumber = 20;
+        let l = (allresult.length - page*pageResultNumber)>pageResultNumber? page*pageResultNumber+pageResultNumber : allresult.length;
+        appendDetails(page*pageResultNumber,l,allresult);
+        if ((allresult.length - page*pageResultNumber)>pageResultNumber) {
+          $("#search-result .showmore").remove();
+          $("#search-result").append("<a class='showmore' onclick=loadmore("+(page+1)+")><div><i class='fa fa-angle-double-down' aria-hidden='true'></i><p>SHOW MORE</p></div></a>");
+        } else {
+          $("#search-result .showmore").remove();
+        }
+      }
+
+      function compare(a,b) {
+        var aName = a.attributes.entry.find( function( it ) {
+  				return it.key === 'cn';
+  			} );
+        var bName = b.attributes.entry.find( function( it ) {
+  				return it.key === 'cn';
+  			} );
+
+        if (aName.value < bName.value)
+          return -1;
+        if (aName.value > bName.value)
+          return 1;
+        return 0;
+      }
+
+      function doSearch(data) {
+    	$("#search-result ul").html( "<li>Searching...</li>" );
+
+        $.ajax( {
+          type : "post",
+          url : "/o/rest/profile/staff-search",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify( data )
+        } ).done( function( response ) {
+          allresult = response;
+          allresult.sort(compare);
+          pageResultNumber = 20;
+          $("#search-result ul").empty();
+          if (response.length>0 && response.length > pageResultNumber) {
+            appendDetails(0,pageResultNumber,response);
+            $("#search-result").append("<a class='showmore' onclick=loadmore(1)><div><i class='fa fa-angle-double-down' aria-hidden='true'></i><p>SHOW MORE</p></div></a>");
+          } else if (response.length>0 && response.length < pageResultNumber) {
+            appendDetails(0,response.length,response);
+          } else {
+            $("#search-result ul").append('<div class="no-result">\
+            <p>Your search did not match any staff.</p>\
+            <p>Suggestions:</p>\
+            <p>Make sure that all words are spelled correctly.</p>\
+            <p>Try different keywords.</p>\
+            <p>Try more general keywords.</p>\
+            </div>')
+          }
+        } ).fail( function( response ) {
+        	$("#search-result ul").html( "<li>An error occurred while searching...</li>" );
+        } );
+      }
+
+      function simpleSearching() {
+        var data=[];
+        var fields = ['displayName', 'sn']
+        $("#simple-search input").each(function(key){
+         if ($(this).val()) {
+           data.push({"name":fields[key], "value":"*"+$(this).val()+"*"});
+         }
+        });
+        var simpleSearchKeywords = {
+          "isAndSearch" : "true",
+          "clauses" : data
+        };
+        doSearch(simpleSearchKeywords);
+      }
+
+      function advancedSearching() {
+          var data=[];
+          var fields = ['displayName', 'sn', 'title','detUserId', 'telephoneNumber','ou', 'l']
+          $("#advanced-search input").each(function(key){
+           if ($(this).val()) {
+             data.push({"name":fields[key], "value":"*"+$(this).val()+"*"});
+           }
+          });
+          var extraFunction = $('#aExtraFunctions').find(":selected").val();
+          if (extraFunction) {
+            data.push({"name":"specialPosition", "value":extraFunction});
+          }
+          var advancedSearchKeywords = {
+            "isAndSearch" : "true",
+            "clauses" : data
+          };
+          doSearch(advancedSearchKeywords);
+      }
+
+      current_width = $(window).width();
+      if(current_width < 991 && current_width > 768){
+        $("#show-simple").html("SIMPLE");
+        $("#show-advanced").html("ADVANCED");
+      } else {
+        $("#show-simple").html("SIMPLE SEARCH");
+        $("#show-advanced").html("ADVANCED SEARCH");
+      }
+
+      $(window).resize(function(){
+        current_width = $(window).width();
+        if(current_width < 991 && current_width > 768){
+          $("#show-simple").html("SIMPLE");
+          $("#show-advanced").html("ADVANCED");
+        } else {
+          $("#show-simple").html("SIMPLE SEARCH");
+          $("#show-advanced").html("ADVANCED SEARCH");
+        }
+      });
+
+      /* this compensates the lack of suppport in IE for the URL object */
+      function getUrlVars() {
+   	    var vars = {};
+   	    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+   	      vars[key] = value;
+   	    });
+   	    return vars;
+   	  }
+
+      $( document ).ready( function() {
+    	  var q = getUrlVars()[ 'q' ];
+    	  if ( !q ) {
+    		  return;
+    	  }
+
+    	  var param = JSON.parse( decodeURIComponent( q ) );
+
+    	  if ( param.clauses ) {
+    		  param.clauses.forEach( function ( clause ) {
+    			  var value = clause.value;
+    			  var valueNoStars = value.substring( 1, value.length - 1 )
+    			  var name = clause.name;
+    			  /* value is in the form *value* */
+    			  if ( name === 'specialPosition' ) {
+
+
+    			  }	else	{
+    				  $( "[data-bind='" + clause.name + "']" ).val( valueNoStars );
+    			  }
+    		  } );
+    	  }
+
+    	  advancedSearching();
+
+      } );
+    </script>
+
+    <#recover>
+      <div>Sorry, we were unable to process this request.</div>
+      <div class="hidden-error">${.error}</div>
+    </#attempt>

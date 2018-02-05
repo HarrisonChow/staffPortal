@@ -12,8 +12,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
   <body>
+    <!--header content-->
     <div class="header">
-      <div class="logo"></div>
+      <div class="logo">
+        <i class="fa fa-bars" id="nav-home" aria-hidden="true"></i>
+      </div>
       <div class="search">
         <div>
           <input class='input-style' placeholder='&#xF002; What are you looking for...'/>
@@ -23,85 +26,419 @@
         </div>
       </div>
     </div>
-
-
-
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-          <div class="dashboard-menu-title">
-            Dashboard
-          </div>
-          <div class="dashboard-menu-item">
-            My Essentials
-          </div>
-          <div class="dashboard-menu-item">
-            Quick Links
-          </div>
-          <div class="dashboard-menu-item">
-            Manage my Links
-          </div>
-          <div class="dashboard-menu-notification">
-            Notifications
-          </div>
-
-          <div class="bottom-menu">
-            <div class="bottom-menu-content">
-              <div class="bottom-menu-title">
-                <span class="login">LOGGED IN AS</span>
-                <p class="username">Michael Alexander</p>
-              </div>
-              <div class="bottom-menu-item">
-                Update your profile
-              </div>
-              <div class="bottom-menu-item">
-                Change Password
-              </div>
-              <div class="bottom-menu-item">
-                Help Desk
-              </div>
-              <div class="bottom-menu-item">
-                Manage Dashboards
-              </div>
-              <div class="logout">
-                LOG OUT
+    <!--widget edit design-->
+    <div id="edit-widget-container" class="edit-widget-container collapse">
+      <div id="myCarousel" class="carousel slide">
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <div class="bookmark-details">
+              <p><span>Bookmarks 1</span></p>
+              <p>Create links to your favourite DEC and external sites</p>
+              <div class="add-btn">
+                ADD
               </div>
             </div>
           </div>
-        </div>
-        <div id="page-content-wrapper">
-            <div class="page-content">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12">
-                          <div class="notifications">
-
-                          </div>
-                          <!-- <div class="col-md-12">
-                            <div class="col-sm-6 col-xs-12">
-
-                            </div>
-                            <div class="col-sm-6 col-xs-12">
-
-                            </div>
-
-                          </div> -->
-                        </div>
-                    </div>
-                </div>
+          <div class="item">
+            <div class="bookmark-details">
+              <span>Bookmarks 2</span>
+              <p>Create links to your favourite DEC and external sites</p>
+              <div class="add-btn">
+                ADD
+              </div>
             </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+              <span>Bookmarks 3</span>
+              <p>Create links to your favourite DEC and external sites</p>
+              <div class="remove-btn">
+                REMOVE
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+              <span>Bookmarks 4</span>
+              <p>Create links to your favourite DEC and external sites</p>
+              <div class="add-btn">
+                ADD
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+              <span>Bookmarks 5</span>
+              <p>Create links to your favourite DEC and external sites</p>
+              <div class="add-btn">
+                ADD
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+              <span>Bookmarks 6</span>
+              <p>Create links to your favourite DEC and external sites</p>
+              <div class="add-btn">
+                ADD
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 7</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 8</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 9</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 10</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 11</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 12</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 13</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 14</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="bookmark-details">
+             <span>Bookmarks 15</span>
+             <p>Create links to your favourite DEC and external sites</p>
+             <div class="add-btn">
+               ADD
+             </div>
+            </div>
+          </div>
         </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        </a>
+      </div>
     </div>
 
+    <div id="wrapper" class="wrapper">
+      <!--sidebar menu part-->
+      <div id="sidebar-wrapper" class="sidebar-wrapper">
+        <div class="dashboard-menu-title">
+          Dashboard
+        </div>
+        <div class="dashboard-menu-item">
+          My Essentials
+        </div>
+        <div class="dashboard-menu-item">
+          Quick Links
+        </div>
+        <div class="dashboard-menu-item">
+          Manage my Links
+        </div>
+        <div class="dashboard-menu-notification">
+          Notifications
+        </div>
 
+        <div class="bottom-menu">
+          <div class="bottom-menu-content">
+            <div class="bottom-menu-title">
+              <span class="login">LOGGED IN AS</span>
+              <p class="username">Michael Alexander</p>
+            </div>
+            <div class="bottom-menu-item">
+              Update your profile
+            </div>
+            <div class="bottom-menu-item">
+              Change Password
+            </div>
+            <div class="bottom-menu-item">
+              Help Desk
+            </div>
+            <div class="bottom-menu-item">
+              Manage Dashboards
+            </div>
+            <div class="logout">
+              LOG OUT
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--contents part-->
+      <div id="page-content-wrapper">
+        <div class="page-content">
+          <div class="containers">
+            <div class="row">
+              <div class="notifications">
+                12 New Notifications!
+                <p>click here to view your unread notifications</p>
+              </div>
+              <div class="my-essentials">
+                <div class="row">
+                  <div class="col-xs-8 col-sm-9">
+                    My Essentials
+                  </div>
+                  <div class="col-xs-4 col-sm-3">
+                    VIEW ALL
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 essential-1">
+                    OMSEE
+                  </div>
+                  <div class="col-xs-12 col-sm-4 essential-2">
+                    Staff Email
+                  </div>
+                  <div class="col-xs-12 col-sm-4 essential-3">
+                    ICE - In Case of Emergency
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 essential-4">
+                    Sentral
+                  </div>
+                  <div class="col-xs-12 col-sm-4 essential-5">
+                    Interpreting and translations
+                  </div>
+                  <div class="col-xs-12 col-sm-4 essential-6">
+                    Learning systems support
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 essential-7">
+                    Link Example Here
+                  </div>
+                  <div class="col-xs-12 col-sm-4 essential-8">
+                    Link Example Here
+                  </div>
+                  <div class="col-xs-12 col-sm-4 essential-9">
+                    Link Example Here
+                  </div>
+                </div>
+              </div>
+              <div class="all-links">
+                <!--quick links part-->
+                <div class="col-xs-12 col-sm-6">
+                  <div class="links-header row">
+                    <div class="col-xs-9">
+                      <div class="links-title">
+                        Quick Links
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                        <ul class="dropdown-menu">
+                          <li><a id="edit-widget" href="#edit-widget-container" class="collapsed" data-toggle="collapse" data-parent="#edit-widget-container">Edit Widget</a></li>
+                          <li><a href="#">Remove Widget</a></li>
+                          <li><a href="#">Edit this Dashboard</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-xs-3">
+                      <a href="#quick-links" id="quick-links-context" class="collapsed" data-toggle="collapse" data-parent="#quick-links" onclick="toggletext('quick-links-context', 'links-btn')">
+                        <div class="links-btn">HIDE</div>
+                      </a>
+                    </div>
+                  </div>
+                  <!--quick links part list-->
+                  <div class="links-list collapse in" id="quick-links">
+                    <div class="row">
+                      Inside the Department
+                    </div>
+                    <div class="row">
+                      Inside the Department A-Z
+                    </div>
+                    <div class="row">
+                      School Administration
+                    </div>
+                    <div class="row">
+                      TAFE & Community Education
+                    </div>
+                    <div class="row">
+                      Policy Library
+                    </div>
+                    <div class="row">
+                      Curriculum Resources
+                    </div>
+                    <div class="row">
+                      Employee Essentials
+                    </div>
+                    <div class="row">
+                      The Buzz
+                    </div>
+                  </div>
+                </div>
+                <!--Manage My links part-->
+                <div class="col-xs-12 col-sm-6">
+                  <div class="links-header row">
+                    <div class="col-xs-9">
+                      <div class="links-title">
+                        Manage My Links
+                        <a href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                      </div>
+                    </div>
+                    <div class="col-xs-3">
+                      <a href="#my-links" id="my-links-text" class="collapsed" data-toggle="collapse" data-parent="#my-links" onclick="toggletext('my-links-text', 'links-btn')">
+                      <div class="links-btn">HIDE</div>
+                      </a>
+                    </div>
+                  </div>
+                  <!--Manage My links list-->
+                  <div class="links-list collapse in" id="my-links">
+                    <div class="row">
+                      My Applications
+                    </div>
+                    <div class="row">
+                      My Websites
+                    </div>
+                    <div class="row">
+                      My Training
+                    </div>
+                    <div class="row">
+                      My Learning Tools
+                    </div>
+                    <div class="row">
+                      Custom 'tab' will appear here
+                    </div>
 
-
-
-
-
-
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="footer">
     </div>
+
     <script type="text/javascript" src="assets/js/main.js"></script>
+    <script type="text/javascript">
+      current_width = $(window).width();
+      if(current_width < 576){
+        $('.all-links .col-xs-12').css("margin-bottom", "20px");
+        $("#quick-links").removeClass('in');
+        $("#quick-links-context .links-btn").text('SHOW');
+        $("#my-links").removeClass('in');
+        $("#my-links-text .links-btn").text('SHOW');
+        $(".links-header.row").css({"border-bottom": "solid 1px #ededed"});
+      } else {
+        $("#quick-links").addClass('in');
+        $("#quick-links-context .links-btn").text('HIDE');
+        $("#my-links").addClass('in');
+        $("#my-links-text .links-btn").text('HIDE');
+        $(".links-header.row").css({"border-bottom": "0"});
+      }
+
+      $("#nav-home").click(function() {
+        if(current_width < 768){
+          $('#sidebar-wrapper').toggleClass("sidebar-wrapper sidebar-wrapper-Open");
+          $('#wrapper').toggleClass("wrapper wrapper-down");
+        } else {
+          $('#sidebar-wrapper').toggleClass("sidebar-wrapper sidebar-wrapper-down");
+          $('#wrapper').toggleClass("wrapper wrapper-down");
+        }
+      });
+
+      $(window).resize(function(){
+        current_width = $(window).width();
+        if(current_width < 576){
+          $('.all-links .col-xs-12').css("margin-bottom", "20px");
+          $("#quick-links").removeClass('in');
+          $("#quick-links-context .links-btn").text('SHOW');
+          $("#my-links").removeClass('in');
+          $("#my-links-text .links-btn").text('SHOW');
+          $(".links-header.row").css({"border-bottom": "solid 1px #ededed"});
+        } else {
+          $("#quick-links").addClass('in');
+          $("#quick-links-context .links-btn").text('HIDE');
+          $("#my-links").addClass('in');
+          $("#my-links-text .links-btn").text('HIDE');
+          $(".links-header.row").css({"border-bottom": "0"});
+        }
+      });
+
+      $("#edit-widget").click(function() {
+        $(".header").css({
+          "background-image":"none",
+          "background-color": "#4ab9b8",
+        });
+        $('#wrapper').toggleClass("wrapper wrapper-down");
+        $('#sidebar-wrapper').toggleClass("sidebar-wrapper sidebar-wrapper-down");
+
+        $('#myCarousel').carousel({
+          interval: false
+        });
+
+        $('.carousel .item').each(function(){
+          var next = $(this).next();
+          if (!next.length) {
+            next = $(this).siblings(':first');
+          }
+          next.children(':first-child').clone().appendTo($(this));
+
+          for (var i=0;i<4;i++) {
+            next=next.next();
+            if (!next.length) {
+              next = $(this).siblings(':first');
+            }
+            next.children(':first-child').clone().appendTo($(this));
+          }
+        });
+      });
+
+    </script>
   </body>
 </html>

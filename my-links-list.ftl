@@ -1,0 +1,349 @@
+<#assign bookmarkStructureKey = "220637" />
+<#assign bookmarkTemplateKey = "220641" />
+
+<style media="screen">
+body.early .tile .tile-content {
+    padding-top: 5px;
+}
+
+.info-content {
+	font-size: 14px;
+	text-align: center;
+	color: #848484;
+}
+
+#add-my-links-container .linklabel {
+	padding-right: 0;
+	margin-right: 0 !important;
+}
+
+#add-my-links-container .linklabel label {
+	font-size: 16px !important;
+	font-weight: 300 !important;
+}
+
+#my-links .mylinks-list {
+	border-radius: 0 0 5px 5px;
+	background-color: #fafafa;
+	height: auto;
+}
+
+#my-links ul, menu, dir {
+	-webkit-padding-start: 25px;
+}
+
+#myLinkUrl, #myLinkName {
+	background-color: rgba(255, 255, 255, 0.75);
+	border: solid 1px #ededed;
+	padding-left: 15px;
+	width: 100%;
+	height: 34px;
+}
+
+#myLinkUrl:focus, #myLinkName:focus {
+	outline: none;
+}
+
+#submitNewMyLink, #closeWindow {
+	margin-top: 10px;
+	height: 47px;
+	width: 50%;
+}
+
+#closeWindow {
+	border-radius: 0 0 0 5px;
+	background: #6b7897;
+	color: white;
+}
+
+#closeWindow:hover {
+	background: white;
+	color: #6b7897;
+}
+
+
+#submitNewMyLink {
+	border-radius: 0 0 5px 0;
+}
+
+#add-my-links-container fieldset {
+    margin-bottom: 0;
+}
+
+#submitNewMyLink:focus, #closeWindow:focus {
+    outline: none;
+}
+
+#add-my-links-container fieldset h3 {
+    padding-left: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #343441;
+    text-align: center;
+    margin-top: 0;
+}
+
+#my-links .mylinks-list #contact-text {
+    font-size: 16px;
+    font-weight: 300;
+    text-align: right;
+    color: #343441;
+    padding-right: 15px;
+    min-width: 100%;
+    display: block;
+}
+#my-links .links-container ul li {
+  margin-right: 10px;
+}
+#my-links .links-container ul li a {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 300;
+    text-align: left;
+    color: #343441;
+    margin: 5px;
+}
+#my-links .links-container ul li i {
+  line-height: 30px;
+  float:right;
+  cursor: pointer;
+}
+
+body.senior .tile ul.links li a {
+    height: 24px;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 85%;
+}
+
+.controls-container {
+	position: relative;
+	bottom: -20px;
+	margin-right: -5px;
+	margin-left: -5px;
+	margin-bottom: -20px;
+}
+
+#add-link-toggle.toggled, #add-link-toggle.toggled i {
+	opacity: 0.2;
+}
+
+#add-link-toggle i {
+	padding-right: 5px;
+}
+
+
+</style>
+
+<section id="my-links" class="tile">
+	<header class='tile-title'>
+		<img
+			src="${themeDisplay.getCDNBaseURL()}/documents/20152/5394348/kids-my-links.svg/bafcb6be-cdb9-ad3f-2bf9-f577f17e0054"
+			title="My Links" />
+		<h2 class="tile-heading">My Links</h2>
+		<button class="show-hide-button pull-right"
+			onclick="$(this).closest( '.tile' ).toggleClass( 'collapsed' ); $( this ).closest( '.tile' ).find( '.show-more-toggle' ).toggle();  "></button>
+    <button class="toolbar-button" id='edit-link-toggle' onclick="">EDIT</button>
+    <button class="toolbar-button" id='add-link-toggle' onclick="$(this).toggleClass( 'toggled' );$(this).closest( '.tile' ).find( '.collapsible' ).toggle(); $( '#my-links .show-more-toggle' ).toggle();"><i class="fa fa-plus"></i>ADD</button>
+	</header>
+	<div class="tile-content">
+		<div class="row mylinks-list">
+			<div id="my-links-container" class="links-container collapsible">
+				<ul class="links"></ul>
+			</div>
+			<div class="collapse collapsible" id="add-my-links-container">
+				<form action="#">
+					<p class='info-content'>Add the website address of places you regularly visit below. Create an easily recognisable name to appear in your list as well.</p>
+					<div class="row">
+						<div class="col-xs-12">
+							<label for="myLinkUrl">URL</label>
+							<input name="url" class="url required focus " id="myLinkUrl" type="text" value=""
+								placeholder='Example: http://www.google.com' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: http://www.google.com'"/>
+							<span class="example"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label for="myLinkName">NAME</label>
+							<input name="name" id="myLinkName" type="text" value=""
+								placeholder='Example: Google' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: Google'"/>
+							<span class="example"></span>
+						</div>
+					</div>
+				</form>
+				<div class="controls-container">
+					<button id="closeWindow" onclick="$('#add-link-toggle').removeClass( 'toggled' );$(this).closest( '.tile' ).find( '.collapsible' ).toggle(); $( '#my-links .show-more-toggle' ).show(); " class="pull-left btn-secondary">CANCEL</button>
+					<button id="submitNewMyLink" class="pull-right">SAVE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$(document).ready(function(){
+		loadLinks();
+
+		$("#submitNewMyLink").off("click").on("click", function(){
+			$(this).attr("disabled", true);
+			$("body").css("cursor", "wait");
+			addBookmark();
+		});
+
+    $("#edit-link-toggle").off("click").on("click", function(){
+      $(this).text(function(i, text){
+        if(text === "EDIT"){
+          $('#my-links-container ul li').append("<i  class='fa fa-trash-o' aria-hidden='true'></i>");
+          $( "#my-links-container ul li i" ).click(function(){
+            var currentId = "#"+$(this).parent().attr('id');
+            var articleId = $(currentId)[0].dataset.articleid;
+            var groupId = parseInt($(currentId)[0].dataset.groupid);
+
+            Liferay.Service( '/journal.journalarticle/get-article', {
+                groupId: groupId,
+                articleId: articleId
+            },
+            function( article ) {
+              Liferay.Service(
+                '/journal.journalarticle/expire-article',
+                {
+                  groupId: groupId,
+                  articleId: articleId,
+                  version: article.version,
+                  articleURL: article.urlTitle
+                },
+                function(obj) {
+                  $(currentId).remove();
+                }
+              );
+            });
+          });
+        } else if(text === "SAVE"){
+          $('#my-links-container ul li i').remove();
+        }
+        return text === "EDIT" ? "SAVE" : "EDIT";
+      })
+    });
+
+	});
+
+
+	function loadLinks() {
+		var usersGroupId = ${themeDisplay.getUser().getGroupId()};
+		var maxVisibleLinks = 5;
+		var counter = 0;
+		allMyLinks.hits.hits.forEach(function(element) {
+			if (element._source.scopeGroupId == usersGroupId) {
+        console.log(element);
+				$('#my-links-container ul').append('<li data-groupId="'+usersGroupId+'" data-articleId = "'+element._source.articleId+'"  id="mylinkid-'+counter+'"' +  ( counter >= maxVisibleLinks ? 'class="default-hidden" style="display: none;" ' : '' )  + '><a target="_blank" href="' + element._source.ddm__keyword__220638__URL_en_AU + '">' + element._source.title_en_AU + '</a></li>');
+				counter++;
+			}
+		});
+
+		if ( counter > maxVisibleLinks ) {
+			var showHideToggle = $(
+				      '<div class="show-more-toggle">'
+				    + '	<a href="#" class="show-more">'
+				    + '		SHOW MORE'
+				    + '		<i class="fa fa-caret-down"></i>'
+				    + '	</a>'
+				    + '	<a href="#" class="show-less" style="display: none;">'
+				    + '		SHOW LESS'
+				    + '		<i class="fa fa-caret-up"></i>'
+				    + '	</a>'
+				    + '</div>'
+			);
+
+			showHideToggle.click( function() {
+				var $this = $( this );
+				$this.find('.show-more, .show-less').toggle();
+				$this.closest( 'section' ).find( 'li.default-hidden' ).toggle();
+				return false;
+			} );
+
+			$( '#my-links' ).append( showHideToggle );
+		}
+	}
+
+	function addBookmark() {
+		var usersGroupId = ${themeDisplay.getUser().getGroupId()};
+		var linkTitle = validateName($('#myLinkName'));
+		var linkUrl = validateUrl($('#myLinkUrl'));
+
+		var finalContent = "<?xml version=\"1.0\"?>"+
+			"<root available-locales=\"en_AU\" default-locale=\"en_AU\">"+
+			"	<dynamic-element name=\"URL\" type=\"text\" index-type=\"keyword\" instance-id=\"ayry\">"+
+			"		<dynamic-content language-id=\"en_AU\"><![CDATA["+linkUrl+"]]></dynamic-content>"+
+			"	</dynamic-element>"+
+			"	<dynamic-element name=\"Icon\" type=\"text\" index-type=\"keyword\" instance-id=\"yjfi\">"+
+			"		<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+			"	</dynamic-element>"+
+			"	<dynamic-element name=\"Separatorrhxd\" type=\"selection_break\" index-type=\"keyword\" instance-id=\"qier\">"+
+			"	<dynamic-element name=\"Contact\" type=\"text\" index-type=\"text\" instance-id=\"ehou\">"+
+			"		<dynamic-element name=\"Phone\" instance-id=\"thub\" type=\"text\" index-type=\"keyword\">"+
+			"			<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+			"		</dynamic-element>"+
+			"		<dynamic-element name=\"Email\" instance-id=\"yxhm\" type=\"text\" index-type=\"keyword\">"+
+			"			<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+			"		</dynamic-element>"+
+			"		<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+			"	</dynamic-element>"+
+			"</dynamic-element></root>";
+
+		Liferay.Service(
+		   '/journal.journalarticle/add-article',
+		   {
+			   groupId: usersGroupId,
+			   folderId: 0,
+			   classNameId: 0,
+			   classPK: 0,
+			   articleId: '',
+			   autoArticleId: true,
+			   titleMap:{"en_AU": linkTitle},
+			   descriptionMap: {"en_AU": ""},
+			   content: finalContent,
+			   ddmStructureKey: ${bookmarkStructureKey},
+			   ddmTemplateKey: ${bookmarkTemplateKey},
+			   layoutUuid: '',
+			   displayDateMonth: 1,
+			   displayDateDay: 1,
+			   displayDateYear: 1945,
+			   displayDateHour: 0,
+			   displayDateMinute: 0,
+			   expirationDateMonth: 0,
+			   expirationDateDay: 0,
+			   expirationDateYear: 0,
+			   expirationDateHour: 0,
+			   expirationDateMinute: 0,
+			   neverExpire: true,
+			   reviewDateMonth: 0,
+			   reviewDateDay: 0,
+			   reviewDateYear: 0,
+			   reviewDateHour: 0,
+			   reviewDateMinute: 0,
+			   neverReview: true,
+			   indexable: true,
+			   articleURL: '',
+			   serviceContext: {"scopeGroupId":${scopeGroupId}, "userId": ${themeDisplay.getUserId()}, "workflowAction": 1}
+			},
+			setTimeout("location.reload(true);",1000)
+		)
+	}
+
+	function validateUrl(urlInput) {
+		var url = urlInput.val();
+		if (url.length != 0 && url.indexOf("http://", 0) != 0) {
+			url = "http://"+url;
+		}
+		return url;
+	}
+
+	function validateName(nameInput) {
+		var name = nameInput.val();
+		if (!name) {
+			name = "Bookmark";
+		}
+		return name;
+	}
+
+</script>

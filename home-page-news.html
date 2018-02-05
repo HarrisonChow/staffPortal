@@ -1,0 +1,107 @@
+<#assign journalArticleLocalService = serviceLocator.findService("com.liferay.journal.service.JournalArticleLocalService") />
+<#assign journalArticleResourceLocalService = serviceLocator.findService("com.liferay.journal.service.JournalArticleResourceLocalService") />
+
+<style>
+  #home-page-news {
+    border-radius: 5px;
+    background-color: #fafafa;
+    border: solid 1px #ededed;
+  }
+  #home-page-news .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  #home-page-news .home-page-news-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #343441;
+    padding: 15px 25px 0 25px;
+  }
+  #home-news a li .news-image h3 {
+    font-size: 12px;
+    text-align: left;
+    color: #343441;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    padding-left: 10px;
+  }
+  #home-news a li .news-image section {
+    font-size: 12px;
+    color: #343441;
+    padding-left: 10px;
+  }
+  .home-page-news-list img {
+    border-radius: 5px;
+    height: 65px;
+    width: 65px;
+    margin-right:10px;
+    overflow: hidden;
+  }
+  .home-page-news-list #home-news .news-image {
+    float: left;
+    width: 100%;
+    padding: 15px;
+  }
+  .home-page-news-list #home-news a:hover {
+    text-decoration: none;
+  }
+  #home-news a:hover li .news-image{
+    background-color: #f5f5f5;
+  }
+  #home-page-news .home-page-news-list  ul {
+    -webkit-padding-start: 0;
+  }
+  .home-page-news-list  li {
+    list-style: none;
+  }
+  #home-page-news hr {
+    margin-top: 15px;
+    margin-bottom: 0;
+  }
+
+  
+</style>
+
+    <section id="home-page-news" class="tile">
+        <header class="tile-title">
+          <h2 class="tile-heading">News</h2>
+          <button class="show-hide-button" onclick="$(this).closest( '.tile' ).toggleClass( 'collapsed' );"></button>
+        </header>
+        <div class="tile-content">
+          <div class="home-page-news-list row" >
+            <ul id="home-news">
+
+            </ul>
+          </div>
+        </div>
+    </section>
+
+
+
+
+<script>
+    AUI().use('aui-base', function(A){
+      Liferay.Service( '/journal.journalarticle/get-article', {
+        groupId: 20152,
+        articleId: 'HOME-FEED'
+      },
+      function(obj) {
+
+        var xml = obj.content;
+
+        var description = (xml.match(/desc="([^"]+)"/g)).map(function(e){e.match(/desc="([^"]+)"/); return RegExp.$1});
+
+        var photos = (xml.match(/media="([^"]+)"/g)).map(function(e){e.match(/media="([^"]+)"/); return RegExp.$1});
+
+        var titles = (xml.match(/title="([^"]+)"/g)).map(function(e){e.match(/title="([^"]+)"/); return RegExp.$1});
+
+        var urls = (xml.match(/src="([^"]+)"/g)).map(function(e){e.match(/src="([^"]+)"/); return RegExp.$1});
+
+        for (var i = 0; i < description.length; i++) {
+          $('#home-news').append('<a target=\"_blank\" href=\"'+urls[i]+'\"><li><div class=\"news-image\"><img title=\"'+titles[i]+'\" class=\"pull-left\" src=\"'+ photos[i]+'\" /><h3>'+ titles[i] +'</h3><section class=\"news-list-content\">'+ description[i]+'</section></div></li></a>');
+        }
+
+
+      } );
+    });
+</script>

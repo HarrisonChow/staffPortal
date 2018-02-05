@@ -1,0 +1,239 @@
+<#-- Article template -->
+<#-- Use for both WCM Templates and ADTs -->
+<#-- Ensure you set the right structureType, and template variables here -->
+<#attempt>
+<#assign DDMTemplateLocalService = serviceLocator.findService("com.liferay.dynamic.data.mapping.service.DDMTemplateLocalService") />
+<#assign structureType = "Notification" /> <#-- One of Notification or Bookmark -->
+<#assign templateGroupId = 20152 /> <#-- Set this to the groupId of the template collection, not the article (i.e. use may be global group id)  themeDisplay.getCompanyGroupId() -->
+<#assign assetPublisherClassNameId = 20006 /> <#-- Set this to the Asset Publisher class name id -->
+<#assign varsTemplateKey = "5395249" /> <#-- Set this to the template key for the global variables include template -->
+
+<#assign template = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, varsTemplateKey) />
+<#assign configTemplate = template.script?interpret>
+<@configTemplate />
+
+<#if isWCM>
+	<@renderWCM />
+<#else>
+	<#assign template = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, adtViewTemplateKey) />
+	<#assign adtTemplate = template.script?interpret>
+	<@adtTemplate />
+</#if>
+
+<#if editAvailable>
+	<#assign template = DDMTemplateLocalService.getTemplate(templateGroupId, assetPublisherClassNameId, editorTemplateKey) />
+	<#assign editTemplate = template.script?interpret>
+	<@editTemplate />
+</#if>
+<#recover>
+<div>${.error}</div>
+</#attempt>
+
+<#attempt>
+
+<#-- WCM Display code - add code for the display of your web content asset -->
+
+<#macro renderWCM>
+<style>
+.h2 .asset-actions {
+	display: none;
+}
+
+.print-action {
+	float: right;
+}
+
+body.staff #notification h1 {
+    margin-bottom: 10px;
+    color: #0e3f51;
+    font-size: 1.3rem;
+}
+
+body.staff #notification .author span,
+body.staff #notification .pot_time span {
+    font-size: 0.8rem;
+}
+
+body.staff #notification .meta {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 0.8px solid lightgrey;
+}
+
+body.staff #notification .article-intro {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    margin-bottom: 20px;
+	color: #343441;
+    font-size: 1rem;
+}
+
+body.staff #notification .section {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+body.staff #notification .section p,
+body.staff #notification .article-intro p {
+    font-size: 1rem;
+	text-align: left;
+}
+
+body.staff #notification .section p.caption,
+body.staff #notification .article-intro p.caption {
+    font-size: 0.8rem;
+	text-align: center;
+}
+
+body.staff #notification h2.section,
+body.staff #notification .section h2 {
+    font-size: 1.25rem;
+	text-align: left;
+}
+
+body.staff #notification h3.section,
+body.staff #notification .section h3 {
+    font-size: 1.15rem;
+	text-align: left;
+}
+
+body.staff #notification .section img,
+body.staff #notification .article-intro img {
+    max-height: 400px;
+	max-width: 100%;
+}
+
+body.staff #notification .section.body-text li {
+    text-align: left;
+}
+
+@media ( max-width : 669px) {
+	body.staff #notification {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+body.staff #notification nav.editControls {
+    border: 1px dotted #0e3f51;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    text-align: right;
+    margin-top: 10px;
+}
+
+body.staff #notification .editControls h2.article-state {
+    float: left;
+    margin-bottom: 0;
+    font-size: 2rem;
+}
+
+body.staff #notification #editContentItemButton {
+    color: #fff;
+    border-color: #0e3f51;
+    border-radius: 20px;
+    background: #0e3f51;
+    padding: 10px 15px;
+}
+
+body.staff #notification.draft {
+    border: 4px solid #7c15c7;
+	max-width: 1041px;
+}
+
+body.staff #notification.draft nav.editControls {
+    border: 1px dotted #7c15c7;
+}
+
+body.staff #notification.draft .editControls h2.article-state {
+    color: #7c15c7;
+}
+
+body.staff #notification.draft .editControls h2.article-state:after {
+    content: 'DRAFT';
+}
+
+body.staff #notification.draft #editContentItemButton {
+    border-color: #7c15c7;
+    background: #7c15c7;
+}
+
+body.staff #notification.pending {
+    border: 4px solid #157fc7;
+	max-width: 1041px;
+}
+
+body.staff #notification.pending nav.editControls {
+    border: 1px dotted #157fc7;
+}
+
+body.staff #notification.pending .editControls h2.article-state {
+    color: #157fc7;
+}
+
+body.staff #notification.pending .editControls h2.article-state:after {
+    content: 'PENDING';
+}
+
+body.staff #notification.pending #editContentItemButton {
+    border-color: #157fc7;
+    background: #157fc7;
+}
+
+.journal-article-preview {
+    margin: auto;
+    display: table;
+}
+
+body.staff .portlet-body div.h2 {
+    display: none!important;
+}
+
+body.staff #notification .meta span {
+    display: block;
+    color: #343441;
+    font-size: 1rem;
+}
+</style>
+
+<article id="notification" class="${states[srcArticle.getStatus()]} col-lg-offset-1 col-lg-10 col-sm-offset-1 col-sm-10 col-md-offset-0 col-md-12">
+	<#if editAvailable>
+		<nav class="editControls">
+			<h2 class="article-state"></h2>
+			<button id="editContentItemButton">Edit Notification</button>
+		</nav>
+	</#if>
+
+	<section id="main-article-column" class="col-md-8">
+		<header>
+			<h1>${.vars['reserved-article-title'].data}</h1>
+			<div class="meta">
+				<span class="pot_time">
+					<i class="fa fa-clock-o"></i>&nbsp;<strong>Published: </strong><time>${srcArticle.getDisplayDate()?datetime?string('dd MMM yyyy HH:mm')}</time>
+				</span>
+				<span class="pot_time">
+					<i class="fa fa-clock-o"></i>&nbsp;<strong>Expires: </strong><time><#if srcArticle.getExpirationDate()?has_content>${srcArticle.getExpirationDate()?datetime?string('dd MMM yyyy HH:mm')}<#else>not set</#if></time>
+				</span>
+				<span class="author"><i class="fa fa-user-o"></i>&nbsp;<strong>Author: </strong>${.vars['reserved-article-author-name'].data}</span>
+				<span class="author"><i class="fa fa-graduation-cap"></i>&nbsp;<strong>Learn More: </strong>${LearnMoreURL.data}</span>
+				<span class="author"><i class="fa fa-external-link"></i>&nbsp;<strong>Application: </strong>${ApplicationName.data}</span>
+			</div>
+		</header>
+
+		<div class="article-intro">
+			${htmlUtil.escape(.vars['reserved-article-description'].data)}
+		</div>
+	</section>
+</article>
+
+</#macro>
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>

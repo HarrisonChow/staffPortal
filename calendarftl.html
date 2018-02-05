@@ -1,0 +1,776 @@
+<#assign
+   layoutLocalService = serviceLocator.findService( "com.liferay.portal.kernel.service.LayoutLocalService" )
+   user = themeDisplay.user
+/>
+<#assign
+  userEmail = user.getEmailAddress()
+/>
+
+<#assign
+    props = serviceLocator.findService( "com.liferay.portal.kernel.util.Props" )
+    apiKey = props.get( "dec.portal.google.apiKey" )
+    clientId = props.get( "dec.portal.google.clientId" )
+    scopes = props.get( "dec.portal.google.scopes" )
+/>
+
+<link rel="stylesheet" href="../../o/doe-staff-theme/css/ext/fullcalendar.min.css">
+<script>
+    define._amd = define.amd;
+    define.amd = false;
+</script>
+<script src="../../o/doe-staff-theme/js/ext/moment.min.js"></script>
+<script src="../../o/doe-staff-theme/js/ext/fullcalendar.min.js"></script>
+<script src="../../o/doe-staff-theme/js/ext/gcal.min.js"></script>
+<script>
+    define.amd = define._amd;
+</script>
+
+<style>
+  .calendar-tile {
+    border: solid 1px #ededed;
+  }
+  #calendar {
+    padding-top: 15px;
+    background-color: #fff;
+  }
+  .fc-month-view .fc-event-container{
+    display: none;
+  }
+  .fc-view, .fc-view > table {
+    z-index: 0;
+  }
+  .fc .fc-row .fc-content-skeleton table, .fc .fc-row .fc-content-skeleton td, .fc .fc-row .fc-helper-skeleton td {
+    text-align: center;
+  }
+  .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
+    float: none;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+    line-height: 24px;
+  }
+  .fc th, .fc td {
+    border: 0;
+    vertical-align:middle;
+  }
+  #calendar .fc-bg .fc-day {
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .fc-unthemed td.fc-today {
+    color: #fff;
+    border-radius: 35px;
+    background: none;
+  }
+
+  #select-day-event-title {
+    width: 100%;
+  	height: 42px;
+  	border: solid 1px #ededed;
+    font-weight: 300;
+    letter-spacing: 0.6px;
+    text-align: left;
+    line-height: 42px;
+  }
+  #select-day-event-title span, #select-day-event-title i{
+    font-size: 16px;
+    padding-left: 5px;
+    color: #ffffff;
+  }
+  #select-day-event-list li {
+    list-style: none;
+  }
+  #select-day-event-list li span{
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #38384a;
+  }
+  #select-day-event-list li p{
+    opacity: 0.6;
+  }
+  #select-day-event-list li p, #agenda-list a .agenda-details .agenda-date, #agenda-list a .agenda-details .agenda-title, #select-day-event-list .no-event {
+    font-size: 11.3px;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #343441;
+  }
+  #select-day-event-list .event-time {
+    font-size: 20px;
+    font-weight: 300;
+    text-align: center;
+    color: #38384a;
+    height: 76.6px;
+    line-height: 76.6px;
+  }
+  .fc-body .fc-widget-content {
+    padding: 0;
+  }
+  .select-day-event-list ul, .agenda ul {
+    -webkit-padding-start: 0;
+  }
+  .select-day-event-list ul {
+    margin-bottom:0;
+  }
+  .agenda .agenda-header {
+    height: 42px;
+  	background-color: #fafafa;
+    border-top: solid 1px #ededed;
+    border-bottom: solid 1px #ededed;
+    width: 100%;
+    padding-left: 20px;
+    line-height: 42px;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    text-align: left;
+    color: #38384a;
+  }
+  .agenda-header i, #select-day-event-title i {
+    margin-top: 12px;
+  }
+  #select-day-event-title i {
+    color: #ffffff;
+  }
+  .agenda-header i {
+    color: #6b7897
+  }
+  .agenda #agenda {
+    background: #ffffff;
+  }
+
+  #agenda-list li {
+    list-style: none;
+    border-bottom: solid 1px #ededed;
+  }
+  .agenda-details, .event-details {
+    margin-top: 18px;
+  }
+  #agenda-list a .agenda-day {
+    opacity: 0.6;
+    font-size: 36.3px;
+    font-weight: 300;
+    letter-spacing: 1.4px;
+    text-align: center;
+    color: #343441;
+    padding-left: 35px;
+    height: 76.6px;
+    line-height: 76.6px;
+  }
+  #agenda-list a .agenda-details .agenda-date {
+    opacity: 0.6;
+  }
+  #select-day-event-list .no-event {
+    height: 76.6px;
+    line-height: 76.6px;
+    text-align: center;
+    opacity: 0.6;
+  }
+  .past-event-dot, .future-event-dot , .today-event-dot, .space-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8px;
+  }
+  .future-event-dot {
+    background-color: #ff5b5b;
+  }
+  .past-event-dot {
+    background-color: rgba(52, 72, 94, 0.54);
+  }
+  .today-event-dot {
+    background-color: #ffffff;
+  }
+  #calendar .fc-header-toolbar .fc-right .fc-next-button, #calendar .fc-header-toolbar .fc-right .fc-prev-button {
+    border: 0;
+    background-color: transparent;
+    box-shadow: none;
+    background-image: none;
+  }
+  #calendar .fc-header-toolbar .fc-right .fc-next-button:hover, #calendar .fc-header-toolbar .fc-right .fc-prev-button:hover, #calendar .fc-header-toolbar .fc-right .fc-next-button:focus, #calendar .fc-header-toolbar .fc-right .fc-prev-button:focus {
+    outline: none;
+    background-color: transparent;
+    background-image: none;
+  }
+
+  .fc-icon-right-single-arrow, .fc-icon-left-single-arrow {
+    background: #fafafa;
+    border-radius: 11px;
+    height: 22px;
+    width: 22px;
+    vertical-align: middle;
+    padding-top: 5px;
+  }
+  .fc-state-default {
+    text-shadow: none;
+  }
+  .fc-header-toolbar .fc-left h2{
+    font-size: 15px;
+    letter-spacing: 0.6px;
+    text-align: center;
+    color: #6b7897;
+    margin: 6px;
+  }
+  .fc-header-toolbar .fc-left i {
+    margin-top: 7px;
+  }
+  .fc-header-toolbar .fc-left .dropdown-menu {
+    width: 252px;
+    left: -144px;
+    height: 190px;
+    overflow: auto;
+    padding: 0;
+    border: 0;
+  }
+  #monthSelector .monthSelector-year {
+    height: 19px;
+    background-color: #ededed;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #9b9b9b;
+    line-height: 19px;
+  }
+  #monthSelector span{
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+  #monthSelector span{
+    color: #38384a;
+  }
+  #monthSelector .col-xs-3 {
+    margin-bottom: 4px;
+    margin-top: 4px;
+    text-align: center;
+  }
+  #monthSelector .previousMonth span{
+    color: #9b9b9b;
+    opacity: 0.6;
+  }
+  #monthSelector::-webkit-scrollbar, .calendar-tile .tile-title .dropdown-menu::-webkit-scrollbar {
+    display: none;
+  }
+  .calendar-tile .tile-title .pull-right .add-event {
+    width: 25px;
+  	height: 25px;
+    border-width: 0;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    padding: 0;
+    margin-right: 10px;
+  }
+  .calendar-tile .tile-title .calendar-title .dropdown {
+    position: inherit;
+  }
+  .calendar-tile .tile-title .pull-right input:focus {
+    outline: none;
+  }
+  .calendar-tile .tile-title .pull-right .dropdown-menu {
+    width: 328px;
+    left: -303px;
+    height: 145px;
+    overflow: auto;
+    padding: 0;
+    border: solid 1px #ededed;
+  }
+  .calendar-tile .tile-title .pull-right .closeAddEventWindow, .calendar-tile .tile-title .pull-right .submitEvent{
+    height: 47px;
+  	border: solid 1px #ededed;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    padding: 0;
+    margin-top: 0;
+  }
+  body.junior div, body.junior span, body.junior p, body.junior li, body.junior a, body.portal-popup div, body.portal-popup span, body.portal-popup p, body.portal-popup li, body.portal-popup a {
+    font-size: 1rem;
+  }
+  .calendar-tile .tile-title .pull-right .closeAddEventWindow{
+    border-radius: 0 0 0 5px;
+  }
+  .calendar-tile .tile-title .pull-right .submitEvent{
+    border-radius: 0 0 5px 0;
+  }
+  .calendar-tile .tile-title .pull-right  .containers {
+    padding: 15px;
+    width: 100%;
+  }
+  .calendar-tile .tile-title .pull-right  .containers span {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: left;
+    color: #6b7897;
+    margin-bottom: 15px;
+  }
+  .calendar-tile .tile-title .pull-right .inputEvent {
+    height: 42px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    border: solid 1px #ededed;
+    margin-bottom: 15px;
+  }
+  .calendar-tile .tile-title .pull-right .closeAddEventWindow{
+    background-color: #6b7897;
+  }
+  .calendar-tile .tile-title .pull-right .closeAddEventWindow:hover{
+    background-color: rgba(0,0,0,0.7);
+  }
+  .tile-title .calendar-title .dropdown-menu {
+    border: solid 1px #ededed;
+    padding: 0;
+  }
+  .tile-title .calendar-title .dropdown-menu a {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #38384a;
+  }
+  .tile-title .calendar-title .dropdown-menu a:hover {
+    text-decoration: none;
+  }
+  .tile-title .calendar-title li {
+    padding: 15px;
+    width: 232px;
+    border-bottom: solid 1px #ededed;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #38384a;
+  }
+  .tile-title .calendar-title li .calendar-dot {
+    width: 10px;
+  	height: 10px;
+    border-radius: 10px;
+  	border: solid 1px #ededed;
+    display: inline-block;
+    margin-right: 15px;
+  }
+
+  .calendar-tile .fc-body tr td {
+    border: none;
+  }
+  .tile-content .fc-view-container table thead td, .tile-content .fc-view-container table thead th{
+    background-color: none;
+    color:#7c86a2 ;
+    border: none;
+    padding: 0;
+  }
+  .tile-content .fc-view-container,  .tile-content .fc-view-container .fc-day-header, .tile-content .fc-view-container .fc-head-container {
+    background-color: #fff;
+  }
+  .tile-content .fc-view-container  table td, .tile-content .fc-view-container  table th {
+    border: none;
+  }
+  .fc-toolbar .fc-left {
+    padding-left: 15px;
+  }
+  .calendar-tile .tile-content {
+    padding: 0 !important;
+    display: inline-block !important;
+  }
+  .fc-icon-right-single-arrow, .fc-icon-left-single-arrow {
+    padding-top: 2px;
+    color: #343441;
+  }
+  body.early .tile .tile-title .show-hide-button:focus, body.portal-popup .tile .tile-title .show-hide-button:focus {
+    outline: none;
+  }
+  .calendar-tile  .fa-caret-down, .calendar-tile  .fa-caret-left, #monthSelector span{
+    cursor: pointer;
+  }
+
+</style>
+
+  <script type="text/javascript">
+
+      var userEmail = "${userEmail}";
+      var apiKey = "${apiKey}";
+      var clientId = "${clientId}";
+      var scopes = "${scopes}";
+      var calendarId = userEmail;
+      var today = moment(new Date()).format('YYYY-MM-DD');
+
+      function handleClientLoad() {
+        gapi.client.setApiKey(apiKey);
+        window.setTimeout(checkAuth,1);
+      }
+
+      function checkAuth() {
+        gapi.auth.authorize({'client_id': clientId, 'scope': scopes, 'immediate': true}, handleAuthResult);
+      }
+
+      function handleAuthResult(authResult) {
+         if (authResult && !authResult.error) {
+           makeApiCall();
+           $(document).on('submit','form.add-event-form',function(){
+              var description = $("#inputEvent").val();
+              makeRpcRequest(description);
+              $("#add-event").dropdown("toggle");
+          });
+         } else {
+            handleAuthClick();
+            GeneratePublicCalendar();
+         }
+      }
+
+      function handleAuthClick() {
+         gapi.auth.authorize(
+            {
+               client_id: clientId,
+               scope: scopes,
+               immediate: false
+            }, handleAuthResult);
+         return false;
+      }
+
+      function makeApiCall() {
+
+             gapi.client.load('calendar', 'v3').then(function() {
+                   var request = gapi.client.calendar.events.list({
+                         'calendarId': calendarId
+                     });
+
+                     request.then(function(resp) {
+
+                         var eventsList = [];
+                         var successArgs;
+                         var successRes;
+
+                         if (resp.result.error) {
+                             reportError('Google Calendar API: ' + data.error.message, data.error.errors);
+                         }
+                         else if (resp.result.items) {
+                             $.each(resp.result.items, function(i, entry) {
+                                 var url = entry.htmlLink;
+                                 eventsList.push({
+                                     id: entry.id,
+                                     title: entry.summary,
+                                     start: entry.start.dateTime || entry.start.date,
+                                     end: entry.end.dateTime || entry.end.date,
+                                     url: url,
+                                     location: entry.location,
+                                     description: entry.description
+                                 });
+                             });
+                             successArgs = [ eventsList ].concat(Array.prototype.slice.call(arguments, 1));
+                             successRes = $.fullCalendar.applyAll(true, this, successArgs);
+                             if ($.isArray(successRes)) {
+                                 return successRes;
+                             }
+                         }
+
+                         if(eventsList.length > 0)
+                         {
+                           var primarycolor= $(".submitEvent").css("background-color");
+                           $('#calendar').fullCalendar('destroy');
+                           $('#calendar').fullCalendar({
+                               events: eventsList,
+                               header: {
+                                 left: 'title',
+                                 center: '',
+                                 right: 'prev, next'
+                               },
+                               dayRender: function (date, cell) {
+                                 var theDate = $(cell).data('date');
+                                 var fcDaySkel = $("#calendar div.fc-content-skeleton td[data-date='"+theDate+"'] span");
+                                 fcDaySkel.prepend('<div class="space-dot"></div>');
+                                 $(".fc-unthemed td.fc-today span").css({"background-color": primarycolor, "color": "#fff"});
+                               },
+                               dayNamesShort: ['S','M','T','W','T','F','S'],
+                               fixedWeekCount: false,
+                               aspectRatio: 1,
+
+
+                               eventRender: function (event, element, view) {
+                                 var selectDate = moment(event.start).format('YYYY-MM-DD');
+                                 var teventCount = $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] span').children('div.today-event-dot').length;
+                                 var peventCount = $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] span').children('div.past-event-dot').length;
+                                 var feventCount = $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] span').children('div.future-event-dot').length;
+                                 if (selectDate === today && teventCount === 0) {
+                                   $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] span div').removeClass('space-dot').addClass('today-event-dot');
+                                 } else if (selectDate < today && peventCount === 0) {
+                                   $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] span div').removeClass('space-dot').addClass('past-event-dot');
+                                 } else if (selectDate > today && feventCount === 0) {
+                                   $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] span div').removeClass('space-dot').addClass('future-event-dot');
+                                 }
+                               },
+                               eventAfterAllRender: function(view) {
+                                 var futureEvents = [];
+                                 var todayEvents = [];
+                                 for (var i = 0; i < eventsList.length; i++) {
+                                   var today = new Date().setHours(0,0,0,0);
+                                   var eventDate = new Date(eventsList[i].start).setHours(0,0,0,0);
+                                   if (eventDate > today) {
+                                     futureEvents.push(eventsList[i]);
+                                   } else if (eventDate === today) {
+                                     todayEvents.push(eventsList[i]);
+                                   }
+                                 }
+                                 futureEvents.sort(function(a,b){
+                                   return new Date(a.start) - new Date(b.start) ;
+                                 });
+
+                                 $('#agenda-list').empty();
+                                 if (futureEvents.length >0) {
+                                   futureEvents.slice(0, 5).forEach(function(element) {
+                                     var agendadate = element.title ? '<span class="agenda-date">'+moment(element.start).format("MMMM YYYY")+'</span>': "";
+                                     var title = element.title ? '<p class="agenda-title">'+element.title+'</p>': "";
+                                     $('#agenda-list').append('<li><a target="_blank" href="'+element.url+'"><div class="row"><div class="col-xs-3 agenda-day">'+moment(element.start).format("D")+'</div><div class="col-xs-9 agenda-details">'+agendadate+title+'</div></div></a></li>');
+                                   });
+                                 } else {
+                                   $('#agenda-list').append('<div class="no-event">No Events</div>');
+                                 }
+
+                                 if (todayEvents.length>0) {
+                                   $('#select-day-event-title span').empty();
+                                   $('#select-day-event-list').empty();
+                                   todayEvents.forEach(function(element) {
+                                     $('#select-day-event-title span').append(moment(element.start).format('Do MMMM YYYY'));
+                                     var title = element.title ? '<span class="event-title">'+element.title+'</span>': "";
+                                     var description = element.description ? '<p class="event-description">'+element.description+'</p>':"";
+                                     $('#select-day-event-list').append('<li><a target="_blank" href="'+element.url+'"><div class="row"><div class="col-xs-3 event-time">'+moment(element.start).format("HH:mm")+'</div><div class="col-xs-9 event-details">'+title+description+'</div></div></a></li>');
+                                   });
+                                 } else {
+                                   $('#select-day-event-title span').empty();
+                                   $('#select-day-event-list').empty();
+                                   $('#select-day-event-title span').append(moment().format('Do MMMM YYYY'));
+                                   $('#select-day-event-list').append('<div class="no-event">No Events Today</div>');
+                                 }
+
+                                 $('.fc-header-toolbar .fc-left a').remove();
+                                 $('.fc-header-toolbar .fc-left .dropdown').remove();
+                                 $('.fc-header-toolbar .fc-left').append('<div class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-caret-down" aria-hidden="true"></i></a><div id="monthSelector" class="dropdown-menu row"></div></div>');
+
+                                 var theMonths = new Array("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC");
+                                 var today = new Date();
+                                 var aMonth = 0;
+                                 var aYear = today.getFullYear();
+                                 var monthSelector=[]
+                                 var i;
+                                 $('#select-day-event-title span').empty();
+                                 $('#select-day-event-title span').append(moment(today).format('Do MMMM YYYY'));
+
+                                 for (i=0; i<96; i++) {
+                                   monthSelector.push({"month":theMonths[aMonth],"year":aYear})
+                                   aMonth++;
+                                   if (aMonth > 11) {
+                                     aMonth = 0;
+                                     aYear += 1;
+                                   }
+                                 }
+
+                                 monthSelector.forEach(function(element, index, array) {
+                                   if (index===0 || array[index-1].year != element.year) {
+                                     $("#monthSelector").append("<div class='col-xs-12 monthSelector-year'>"+element.year+"</div>");
+                                   }
+                                   var toThemonth = (index+1)%12===0 ? 12: (index+1)%12;
+                                   if (element.month===theMonths[today.getMonth()] && element.year === today.getFullYear()) {
+                                     $("#monthSelector").append("<div class='col-xs-3' id='currentMonth'><span id='goto"+toThemonth+'-15-'+element.year+"'>"+element.month+"</span></div>");
+                                   } else if(index < today.getMonth() && element.year === today.getFullYear()){
+                                     $("#monthSelector").append("<div class='col-xs-3 previousMonth'><span id='goto"+toThemonth+'-15-'+element.year+"'>"+element.month+"</span></div>");
+                                   } else {
+                                     $("#monthSelector").append("<div class='col-xs-3'><span id='goto"+toThemonth+'-15-'+element.year+"'>"+element.month+"</span></div>");
+                                   }
+                                 });
+
+                                 $('.fc-event-container a').attr('target', '_blank');
+                                 $('[id^=goto]').click(function() {
+                                   var gotoMonth = this.id.replace("goto", '');
+                                   $('#calendar').fullCalendar('gotoDate', gotoMonth);
+                                 });
+
+                               },
+                               dayClick: function(date, allDay, jsEvent, view) {
+                                 $("#calendar").find("span").css( "background-color", primarycolor).attr('style', 'background-color: none; color: #7c86a2;');
+                                 $('#calendar').find('.today-event-dot').attr('style', 'background-color: '+primarycolor+';');
+                                 $('#calendar').find('.future-event-dot').attr('style', 'background-color: #ff5b5b;');
+                                 $('#calendar').find('.past-event-dot').attr('style', 'background-color: rgba(52, 72, 94, 0.54);');
+                                 var selectDate = moment(date).format('YYYY-MM-DD');
+
+                                 if (selectDate === today) {
+                                   $('#calendar').find('.fc-day-top[data-date="' + today + '"] .today-event-dot').attr('style', 'background-color: #ffffff;');
+                                 } else if(selectDate > today) {
+                                   $('#calendar').find('.fc-day-top[data-date="' + today + '"] .today-event-dot').attr('style', 'background-color: '+primarycolor+';');
+                                   $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] .future-event-dot').attr('style', 'background-color: #fff;');
+                                 } else if (selectDate < today) {
+                                   $('#calendar').find('.fc-day-top[data-date="' + today + '"] .today-event-dot').attr('style', 'background-color: '+primarycolor+';');
+                                   $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] .past-event-dot').attr('style', 'background-color: #fff;');
+                                 }
+                                 $('#calendar').find('.fc-day-top[data-date="' + selectDate + '"] span').attr('style', 'background-color: '+primarycolor+'; color: #fff !important;');
+
+                                 var dayEvents = $('#calendar').fullCalendar( 'clientEvents', function(event){
+                                   return new Date(event.start).setHours(0, 0, 0, 0) === new Date(date).setHours(0, 0, 0, 0);
+                                 });
+
+                                 $('#select-day-event-list').empty();
+                                 if (dayEvents.length>0) {
+                                   dayEvents.forEach(function(element) {
+                                   $('#select-day-event-title span').empty();
+                                   $('#select-day-event-title span').append(moment(element.start).format('Do MMMM YYYY'));
+                                   var title = element.title ? '<span class="event-title">'+element.title+'</span>': "";
+                                   var description = element.description ? '<p class="event-description">'+element.description+'</p>':"";
+                                   $('#select-day-event-list').append('<li><a target="_blank" href="'+element.url+'"><div class="row"><div class="col-xs-3 event-time">'+moment(element.start).format("HH:mm")+'</div><div class="col-xs-9 event-details">'+title+description+'</div></div></a></li>');
+                                   });
+                                 } else {
+                                   $('#select-day-event-title span').empty();
+                                   $('#select-day-event-title span').append(moment(date).format('Do MMMM YYYY'));
+                                   $('#select-day-event-list').append('<div class="no-event">No Events Today</div>');
+                                 }
+                               }
+                           });
+                         }
+
+                   }, function(reason) {
+                     console.log('Error: ' + reason.result.error.message);
+                   });
+             });
+         }
+
+        function GeneratePublicCalendar(){
+            var primarycolor= $(".submitEvent").css("background-color");
+            $('#calendar').fullCalendar({
+              googleCalendarApiKey: apiKey,
+              header: {
+                left: 'title',
+                center: '',
+                right: 'prev, next'
+              },
+              dayRender: function (date, cell) {
+                var theDate = $(cell).data('date');
+                var fcDaySkel = $("#calendar div.fc-content-skeleton td[data-date='"+theDate+"'] span");
+                fcDaySkel.prepend('<div class="space-dot"></div>');
+                $(".fc-unthemed td.fc-today span").css({"background-color": primarycolor, "color": "#fff"});
+              },
+              dayNamesShort: ['S','M','T','W','T','F','S'],
+              fixedWeekCount: false,
+              aspectRatio: 1,
+            });
+        }
+
+        function makeRpcRequest(eventData) {
+           gapi
+              .client
+              .load('calendar', 'v3')
+              .then(function () {
+                 request = gapi.client.calendar.events.quickAdd({
+                    'calendarId': calendarId,
+                    'text': eventData
+                 });
+                 request.then(function (resp) {
+                    if (resp.result.error) {
+                       reportError('Google Calendar API: ' + data.error.message, data.error.errors);
+                    }
+                 }, function (reason) {
+                    console.log('Error: ' + reason.result.error.message);
+                 });
+              });
+        }
+
+
+</script>
+<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+      <section class="tile calendar-tile">
+        <header class="tile-title">
+          <div class="pull-left calendar-title">
+            <div class="dropdown">
+              <img src="https://liferaydxp.test.det.nsw.edu.au/documents/20152/5394348/kids-calendar.svg/289a01f9-424a-ad78-7f1b-c0f21a6039d6" title="My Calendar" height="32" width="32"><h2 class="tile-heading">Calendar</h2>
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+
+              <ul class="dropdown-menu">
+                <a href="#"><li><span class="primary-bg calendar-dot"></span>My Calendar</li></a>
+                <a href="#"><li><span class="primary-bg calendar-dot"></span>Milson's Park Public</li></a>
+                <a href="#"><li><span class="primary-bg calendar-dot"></span>NSW State Holidays</li></a>
+              </ul>
+            </div>
+          </div>
+          <div class="pull-right">
+            <div class="dropdown">
+              <input class="btn primary-bg add-event dropdown-toggle" type="button" data-toggle="dropdown" id="add-event" value="+">
+              <div class="dropdown-menu">
+                <form class="add-event-form">
+                  <div class="containers">
+                    <span>ENTER EVENT</span>
+                    <input class="col-xs-12 inputEvent" id="inputEvent" type="text" name="" value="" required>
+                  </div>
+                  <button class="col-xs-6 closeAddEventWindow">CANCEL</button>
+                  <button class="col-xs-6 submitEvent" type="submit">SAVE</button>
+              </form>
+              </div>
+              <button class="show-hide-button"
+			onclick="$(this).closest( '.tile' ).toggleClass( 'collapsed' ); $( this ).closest( '.tile' ).find( '.show-more-toggle' ).toggle();  "></button>
+            </div>
+          </div>
+        </header>
+
+        <div class="tile-content">
+          <div id="calendar">
+          </div>
+          <div class="select-day-event">
+            <div class="col-xs-12 primary-bg" id="select-day-event-title">
+              <span></span>
+              <i class="fa fa-caret-down pull-right" aria-hidden="true" data-toggle="collapse" data-target="#select-event"></i>
+            </div>
+            <div class="select-day-event-list col-xs-12 collapse in" id="select-event">
+              <ul id="select-day-event-list">
+
+              </ul>
+            </div>
+          </div>
+
+          <div class="agenda">
+            <div class="agenda-header col-xs-12">
+              Agenda
+              <i class="fa fa-caret-down pull-right" aria-hidden="true" data-toggle="collapse" data-target="#agenda"></i>
+            </div>
+            <div class="agenda-list collapse in" id="agenda">
+              <ul id="agenda-list">
+
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+<script type="text/javascript">
+  $(".agenda .agenda-header").click(function() {
+    $(this).find('i').toggleClass('fa-caret-down fa-caret-right');
+  });
+
+  $("#select-day-event-title").click(function() {
+    $(this).find('i').toggleClass('fa-caret-down fa-caret-right');
+  });
+
+  $(function () {
+    $(".closeAddEventWindow").on("click", function (e) {
+      $("#add-event").dropdown("toggle");
+    });
+
+  });
+  $(document).ready(function() {
+      $(window).resize(function() {
+        current_width = $(window).width();
+        if(current_width < 480){
+          $('#calendar').fullCalendar('option', 'aspectRatio', 1.2);
+        } else if(current_width < 576  && current_width >=480) {
+          $('#calendar').fullCalendar('option', 'aspectRatio', 1.4);
+        } else if(current_width < 768 && current_width >=576) {
+          $('#calendar').fullCalendar('option', 'aspectRatio', 1.5);
+        } else if(current_width < 991 && current_width >=768) {
+          $('#calendar').fullCalendar('option', 'aspectRatio', 1.75);
+        } else {
+          $('#calendar').fullCalendar('option', 'aspectRatio', 1.15);
+        }
+      });
+    });
+
+</script>

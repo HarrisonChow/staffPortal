@@ -1,0 +1,179 @@
+<#assign
+        props = serviceLocator.findService( "com.liferay.portal.kernel.util.Props" )
+        blogEDUrl = props.get( "dec.portal.bloged.url" )
+/>
+
+
+<style>
+#blogs-ed-nav-tabs {
+	border: none;
+}
+
+#blogs-ed-nav-tabs li {
+	border: solid 1px #ededed;
+	height: 35px;
+	padding: 0;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+#blogs-ed-nav-tabs li.active {
+	background-color: #4ab9b8;
+}
+
+#blogs-ed-nav-tabs li a {
+	height: 35px;
+	font-family: Montserrat;
+	font-size: 12px;
+	font-weight: 500;
+	background-color: #f5f5f5;
+	width: 100%;
+	text-align: center;
+}
+
+.tab-pane.fade:not(.active) {
+	display: none;
+}
+
+#blogs-ed-nav-tabs li.active a {
+	color: white;
+}
+
+body.red #blogs-ed-nav-tabs li.active a {
+	background-color: #ff6159;
+}
+
+body.yellow #blogs-ed-nav-tabs li.active a {
+	background-color: #FABF2E;
+}
+
+body.junior #blogs-ed-nav-tabs li.active a {
+	background-color: #29C940;
+}
+
+body.middle #blogs-ed-nav-tabs li.active a {
+	background-color: #00A3FF;
+}
+
+body.senior #blogs-ed-nav-tabs li.active a {
+	background-color: #9957FF;
+}
+
+.blog-entries li {
+	list-style: none;
+}
+
+.blog-entries li h4, .blog-entries li h4 a {
+	font-size: 14px;
+	font-weight: 500;
+	margin-bottom: 0;
+}
+
+.blog-entries li p {
+	font-size: 12px;
+}
+
+.entry-content {
+	max-height: 52px;
+	font-size: 12px;
+	overflow-y: hidden;
+}
+
+.see-more {
+	display: block;
+	border: solid 1px #ededed;
+	background: white;
+	width: 100%;
+	height: 53px;
+	font-weight: 500;
+	text-align: center;
+	color: #9d9d9d !important;
+	font-size: 11px !important;
+	line-height: 1;
+	vertical-align: middle;
+	padding-top: 20px;
+	margin-top: 20px
+}
+
+.see-more:hover {
+	text-decoration: none;
+	background-color: #f5f5f5;
+}
+
+</style>
+
+<#attempt>
+  <section class="tile ">
+  	<header class='tile-title'>
+  		<img src="${themeDisplay.getCDNBaseURL()}/documents/20152/5394348/kids-games.svg/e107d64b-0003-528c-9667-dbf7fc091029" title="BlogED" />
+  		<h2 class="tile-heading">BlogED</h2>
+  		<button class="show-hide-button" onclick="$(this).closest( '.tile' ).toggleClass( 'collapsed' ); $( this ).closest( '.tile' ).find( '.show-more-toggle' ).toggle();  "></button>
+  	</header>
+  	<div class="tile-content">
+  		<div>
+  			<ul id="blogs-ed-nav-tabs" class="nav">
+  				<li class="col-xs-6 active"><a data-toggle="tab" href="#my-posts">MY POSTS</a></li>
+  				<li class="col-xs-6"><a data-toggle="tab" href="#my-blogs">MY BLOGS</a></li>
+  			</ul>
+  			<div id="my-posts" class="tab-pane fade in active">
+  				<ul class="blog-entries" >
+  				</ul>
+  			</div>
+  			<div id="my-blogs" class="tab-pane fade">
+  				<ul class="blog-entries" >
+  				</ul>
+  			</div>
+  		</div>
+  		<div>
+  			<a class="see-more" href="${blogEDUrl}" target="_blank">SEE MORE</a>
+  		</div>
+  	</div>
+  </section>
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>
+<script>
+
+	function createPostEntryMarkup( title, content, url ) {
+		return '<li><h4><a href="' + url + '" target="_blank" >' + title + '</a></h4><div class="entry-content">' + content + '</div></li>';
+	}
+
+	$( document ).ready( function() {
+
+		var maxEntries = 4;
+
+		$.ajax( {
+			type : 'get',
+			url : '/o/rest/profile/blogs-ed'
+		} ).done( function( response ) {
+
+			if ( response.posts ) {
+				var posts = response.posts.postDtoList;
+				for ( var i = 0; i < posts.length && i < maxEntries; i++ ) {
+					var post = posts[ i ];
+					$( '#my-posts .blog-entries' ).append(
+						createPostEntryMarkup( post.title, post.text, post.url )
+					);
+				}
+			}	else	{
+				$( '#my-posts .blog-entries' ).append( '<li>No posts found</li>' );
+			}
+
+			if ( response.blogs ) {
+				var blogs = response.blogs.blogDtoList;
+				for ( var i = 0; i < blogs.length && i < maxEntries; i++ ) {
+					var blog = blogs[ i ];
+					$( '#my-blogs .blog-entries' ).append(
+						createPostEntryMarkup( blog.name, '<p>Owner: ' + blog.owner.fullName + '</p>', blog.url )
+					);
+				}
+			}	else	{
+				$( '#my-blogs .blog-entries' ).append( '<li><div class="entry-content">No blogs found</div></li>' );
+			}
+
+		} ).fail( function( err ) {
+			console.log( err );
+		} );
+	} );
+</script>

@@ -1,0 +1,115 @@
+<style>
+body.staff div.portlet-boundary.portlet-barebone.portlet-journal-content h2.portlet-title-text,
+body.portal-popup div.portlet-boundary.portlet-barebone.portlet-journal-content h2.portlet-title-text {
+    display: none!important;
+}
+
+#home-page-news {
+	border-radius: 5px;
+	background-color: #fafafa;
+	border: solid 1px #ededed;
+}
+
+#home-page-news .row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#home-page-news .home-page-news-title {
+	font-size: 15px;
+	font-weight: 500;
+	color: #343441;
+	padding: 15px 25px 0 25px;
+}
+
+#home-news a li .news-image h3 {
+	font-size: 12px;
+	text-align: left;
+	color: #343441;
+	margin-top: 0;
+	margin-bottom: 0.5rem;
+	padding-left: 10px;
+}
+
+#home-news a li .news-image section {
+	font-size: 12px;
+	color: #343441;
+	padding-left: 10px;
+}
+
+.home-page-news-list img {
+	border-radius: 5px;
+	height: 65px;
+	width: 65px;
+	margin-right: 10px;
+	overflow: hidden;
+}
+
+.home-page-news-list #home-news .news-image {
+	float: left;
+	width: 100%;
+	padding: 15px;
+}
+
+.home-page-news-list #home-news a:hover {
+	text-decoration: none;
+}
+
+#home-news a:hover li .news-image {
+	background-color: #f5f5f5;
+}
+
+#home-page-news .home-page-news-list  ul {
+	-webkit-padding-start: 0;
+}
+
+.home-page-news-list  li {
+	list-style: none;
+}
+
+#home-page-news hr {
+	margin-top: 15px;
+	margin-bottom: 0;
+}
+
+</style>
+
+
+<section id="home-page-news" class="tile">
+	<header class="tile-title">
+		<h2 class="tile-heading">News</h2>
+		<button aria-expanded="false" aria-controls="tileContent"
+			class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+	</header>
+	<div
+		class="accordion-content accordionItem tile-content is-expanded animateIn"
+		id="tileContent" aria-expanded="true">
+		<div class="home-page-news-list row">
+			<ul id="home-news">
+
+			</ul>
+		</div>
+	</div>
+</section>
+
+<script>
+var raw = '${content.getData()?replace('<p>','')?replace('</p>','')?js_string}';
+
+$( document ).ready( function() {
+	var xmlDoc = $.parseXML(htmlDecode(raw));
+
+	var stories = xmlDoc.firstChild.getElementsByTagName('story');
+	for (var i = 0; i < stories.length; i++) {
+		var title = stories[i].attributes['title'].textContent;
+		var url = stories[i].attributes['src'].textContent;
+		var photo = stories[i].attributes['media'].textContent;
+		var description = stories[i].attributes['desc'].textContent;
+	    $('#home-news').append('<a target=\"_blank\" href=\"'+url+'\"><li><div class=\"news-image\"><img title=\"'+title+'\" class=\"pull-left\" src=\"'+ photo+'\" /><h3>'+ title +'</h3><section class=\"news-list-content\">'+ description+'</section></div></li></a>');
+	}
+});
+
+function htmlDecode(input) {
+  var doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+}
+</script>

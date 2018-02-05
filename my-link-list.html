@@ -1,0 +1,236 @@
+<style media="screen">
+    #add-my-links-container .linklabel {
+      padding-right: 0;
+      margin-right: 0 !important;
+    }
+    #add-my-links-container .linklabel label{
+      font-size: 16px !important;
+      font-weight: 300 !important;
+      line-height: 34px;
+    }
+    #add-my-links-container fieldset {
+      margin-bottom: 25px;
+    }
+    #add-my-links-container fieldset h3 {
+      padding-left: 15px;
+    	font-size: 16px;
+    	font-weight: 400;
+    	color: #343441;
+    }
+    #add-my-links-container .example {
+      font-family: Montserrat;
+    	font-size: 11.3px;
+    	letter-spacing: 0.4px;
+    	text-align: left;
+    	color: #343441;
+    }
+
+    .my-links-panel.row{
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 5px 5px 0 0;
+      background-color: #fafafa;
+      border: solid 1px #ededed;
+    }
+    .my-links-title {
+      font-size: 15px !important;
+      font-weight: 500 !important;
+      color: #343441;
+      padding: 10px;
+      padding-left: 15px;
+    }
+    .my-links-title i {
+      padding-right: 10px;
+    }
+
+    .my-links-list{
+      padding-top: 15px;
+      border-radius: 0 0 5px 5px;
+      background-color: #fafafa;
+      border: solid 1px #ededed;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      height: auto;
+    }
+    .my-links-list li{
+      list-style-type: none;
+      padding: 6px 0;
+      font-size: 16px;
+      font-weight: 400;
+      color: #343441;
+    }
+    .my-links-list li img {
+      padding-right: 10px;
+    }
+    ul, menu, dir {
+      -webkit-padding-start: 25px;
+    }
+    #myLinkUrl, #myLinkName {
+      border-radius: 100px;
+    	background-color: rgba(255, 255, 255, 0.75);
+    	border: solid 1px #ededed;
+      padding-left: 15px;
+      width: 100%;
+      height: 34px;
+    }
+    #myLinkUrl:focus, #myLinkName:focus {
+      outline: none;
+    }
+    #submitNewMyLink , #closeWindow{
+      margin-right: 20px;
+      margin-top: 30px;
+      border-radius: 100px;
+      height: 34px;
+      font-size: 13px !important;
+    }
+    .my-links-list #contact-text{
+      font-size: 16px;
+    	font-weight: 300;
+    	text-align: left;
+    	color: #343441;
+      padding-left: 15px;
+    }
+    .links-container ul li a{
+      display: block;
+      width: 100%;
+      height: 19px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-family: Montserrat;
+      font-size: 16px!important;
+      font-weight: 300;
+      text-align: left;
+      color: #343441!important;
+      margin: 5px;
+    }
+    </style>
+
+
+
+    <div>
+      <div class="my-links-panel row">
+        <div class="pull-left my-links-title">
+          <i class="fa fa-link" aria-hidden="true"></i> My link list
+        </div>
+      </div>
+      <div class="my-links-list">
+        <div class="links-container">
+          <ul></ul>
+        </div>
+        <a href="#add-my-links-container" id="contact-text" class="collapsed" data-toggle="collapse" data-parent="#add-my-links-container">
+          <i class="fa fa-pencil" aria-hidden="true"></i> Add more links
+        </a>
+        <div class="collapse" id="add-my-links-container">
+          <fieldset>
+        	  <input name="id" id="_eppstudentlinksportlet_WAR_eppstudentlinksportlet_INSTANCE_Jn6s__id" type="hidden" value="">
+            <h3>Add a link</h3>
+            <div class="col-xs-2 linklabel">
+              <label class="sp " for="myLinkUrl">URL:</label>
+            </div>
+            <div class="col-xs-10">
+              <input name="url" class="url required focus " id="myLinkUrl" type="text" value=""><span class="example">Example:www.google.com</span>
+            </div>
+            <div class="col-xs-2 linklabel">
+              <label class="sp" for="myLinkName">Name:</label>
+            </div>
+            <div class="col-xs-10">
+              <input name="name" id="myLinkName" type="text" value="">
+              <span class="example">Example: Google</span>
+            </div>
+            <button id="submitNewMyLink" class="pull-right">Add Link</button>
+
+            <button id="closeWindow" class="pull-right">Cancle</button>
+
+          </fieldset>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script>
+    $(document).ready(function(){
+        var usersGroupId = ${themeDisplay.getUser().getGroupId()};
+        allMyLinks.hits.hits.forEach(function(element) {
+            console.log(element._source);
+            if (element._source.scopeGroupId == usersGroupId) {
+                console.log(element._source.title_en_AU + " " + element._source.ddm__keyword__220638__URL_en_AU + " " + element._source.assetCategoryIds + " " + element._source.scopeGroupId);
+                $('.links-container ul').append('<li><a href="' + element._source.ddm__keyword__220638__URL_en_AU + '">' + element._source.title_en_AU + '</a></li>');
+            }
+        });
+
+    	$("#submitNewMyLink").off("click").on("click", function(){
+    		let linkTitle = $('#myLinkName').val();
+    		let linkUrl = $('myLinkUrl').val();
+    		let finalContent = "<!?xml version=\"1.0\"?>"+
+    			"<root available-locales=\"en_AU\" default-locale=\"en_AU\">"+
+    			"	<dynamic-element name=\"URL\" type=\"text\" index-type=\"keyword\" instance-id=\"ayry\">"+
+    			"		<dynamic-content language-id=\"en_AU\"><![CDATA["+linkUrl+"]]></dynamic-content>"+
+    			"	</dynamic-element>"+
+    			"	<dynamic-element name=\"Icon\" type=\"text\" index-type=\"keyword\" instance-id=\"yjfi\">"+
+    			"		<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+    			"	</dynamic-element>"+
+    			"	<dynamic-element name=\"Separatorrhxd\" type=\"selection_break\" index-type=\"keyword\" instance-id=\"qier\">"+
+    			"	<dynamic-element name=\"Contact\" type=\"text\" index-type=\"text\" instance-id=\"ehou\">"+
+    			"		<dynamic-element name=\"Phone\" instance-id=\"thub\" type=\"text\" index-type=\"keyword\">"+
+    			"			<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+    			"		</dynamic-element>"+
+    			"		<dynamic-element name=\"Email\" instance-id=\"yxhm\" type=\"text\" index-type=\"keyword\">"+
+    			"			<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+    			"		</dynamic-element>"+
+    			"		<dynamic-content language-id=\"en_AU\"><![CDATA[]]></dynamic-content>"+
+    			"	</dynamic-element>"+
+    			"</dynamic-element></root>";
+
+    		Liferay.Service(
+    		   '/journal.journalarticle/add-article',
+    		   {
+    			   groupId: usersGroupId,
+    			   folderId: 0,
+    			   classNameId: 0,
+    			   classPK: 0,
+    			   articleId: '',
+    			   autoArticleId: true,
+    			   titleMap:{"en_AU": linkTitle},
+    			   descriptionMap: {"en_AU": ""},
+    			   content: finalContent,
+    			   ddmStructureKey: 220637,
+    			   ddmTemplateKey: 220641,
+    			   layoutUuid: '',
+    			   displayDateMonth: 1,
+    			   displayDateDay: 1,
+    			   displayDateYear: 1945,
+    			   displayDateHour: 0,
+    			   displayDateMinute: 0,
+    			   expirationDateMonth: 0,
+    			   expirationDateDay: 0,
+    			   expirationDateYear: 0,
+    			   expirationDateHour: 0,
+    			   expirationDateMinute: 0,
+    			   neverExpire: true,
+    			   reviewDateMonth: 0,
+    			   reviewDateDay: 0,
+    			   reviewDateYear: 0,
+    			   reviewDateHour: 0,
+    			   reviewDateMinute: 0,
+    			   neverReview: true,
+    			   indexable: true,
+    			   articleURL: '',
+    			   serviceContext: {"scopeGroupId":${scopeGroupId}, "userId": ${themeDisplay.getUserId()}, "workflowAction": 1}
+    			},
+    			setTimeout("location.reload(true);",1000)
+    		)
+    	});
+    });
+
+    function validateUrl(form, namespace) {
+    	var jq = jQuery("#"+ namespace +"_url");
+    	var url = jq.val();
+    	if (url.length != 0 && url.indexOf("http://", 0) != 0) {
+    		jq.val("http://"+url);
+    	}
+    }
+    $('#closeWindow').click(function() {
+      $('#add-my-links-container').removeClass('in');
+    })
+    </script>

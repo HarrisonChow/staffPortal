@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Staff Portal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+      .profileform {
+        margin-top: 85px;
+      }
+      .update-profile-title {
+        font-size: 20px;
+        font-weight: 300;
+        text-align: center;
+        color: #0e3f51;
+      }
+      .update-profile-title p {
+        font-size: 12px;
+        font-weight: 300;
+        text-align: center;
+        color: #343441;
+      }
+      .personal-details, .work-contact-details, .assistant-details,.emergency-contanct-details, .additional-information {
+        margin: 15px 0;
+        border-radius: 5px;
+        background-color: #fafafa;
+        border: solid 1px #ededed;
+        padding: 15px 25px;
+      }
+      .details-title {
+        font-size: 18px;
+        font-weight: 600;
+        text-align: left;
+        color: #4ab9b8;
+      }
+      .details-title img {
+        padding: 0 15px;
+      }
+      .profileform hr {
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      .profileform label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #343441;
+      }
+      .profileform p {
+        font-size: 15px;
+        font-weight: 300;
+        color: #343441;
+      }
+      .profileform input {
+        height: 42px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        border: solid 1px #ededed;
+      }
+      .profileform input:focus {
+        outline: none;
+      }
+      .cancel-btn, .save-btn {
+        width: 98px;
+        height: 34px;
+        border-radius: 100px;
+        font-size: 10px;
+        font-weight: 600;
+        text-align: center;
+        padding-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 25px;
+      }
+      .save-btn {
+        background-color: #26ca50;
+        color: #ffffff;
+        float: left;
+      }
+      .cancel-btn {
+        background-color: #E5E5E5;
+        color: #000;
+        float: right;
+      }
+      .cancel-btn:hover, .save-btn:hover {
+        cursor: pointer;
+        background-color: rgba(0,0,0,.7);
+        color: #ffffff;
+      }
+      .details-title a:focus {
+        outline: none;
+      }
+      #personal-details-questions .modal-dialog, #contact-details-questions .modal-dialog {
+        width: 70vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo"></div>
+      <div class="search">
+        <div>
+          <input class='input-style' placeholder='&#xF002; What are you looking for...'/>
+        </div>
+        <div>
+          <input class="seach-btn" type="button" value="search">
+        </div>
+      </div>
+    </div>
+    <div class="container profileform">
+      <div class="update-profile-title">
+        Update your Profile
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <div class="personal-details">
+        <div class="row details-title">
+          <img src="assets/images/user 2.png" alt="">Personal Details
+          <a href="#" data-toggle="modal" data-target="#personal-details-questions"><img class="pull-right" src="assets/images/question.png" alt=""></a>
+        </div>
+        <hr/>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <label>FRIST NAME</label>
+            <p>Michael</p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label>SURNAME</label>
+            <p>Alexander</p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label>GENDER</label>
+            <p>Male</p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label>DATE OF BIRTH</label>
+            <p>21 May 1960</p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label class="pull-left">PREFERRED FIRST NAME</label>
+            <input class="col-xs-12" type="text" value="Mick">
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label class="pull-left">PREFERRED SURNAME</label>
+            <input class="col-xs-12" type="text" value="Mick">
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label class="pull-left">EMAIL DISPLAY NAME TAG</label>
+            <input class="col-xs-12" type="text" value="John Smith...">
+          </div>
+        </div>
+      </div>
+
+      <div class="work-contact-details">
+        <div class="row details-title">
+          <img src="assets/images/location.png" alt="">Work Contact Details
+          <a href="#" data-toggle="modal" data-target="#contact-details-questions" ><img class="pull-right" src="assets/images/question.png" alt=""></a>
+        </div>
+        <hr/>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <label pull-left>BUSINESS PHONE</label>
+            <input class="col-xs-12" type="text" value="02 9876 5432">
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label pull-left>BUSINESS FAX</label>
+            <input class="col-xs-12" type="text" value="-">
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label pull-left>MOBILE PHONE</label>
+            <input class="col-xs-12" type="text" value="0412 345 678">
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label pull-left>BUSINESS TITLE / ROLE</label>
+            <input class="col-xs-12" type="text" value="School Pricipal">
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <label pull-left>COMPANY</label>
+            <input class="col-xs-12" type="text" value="DET">
+          </div>
+        </div>
+      </div>
+
+      <div class="assistant-details">
+        <div class="row details-title">
+          <img src="assets/images/assistant.png" alt="">Assistant Details
+          <a href="#"><img class="pull-right" src="assets/images/question.png" alt=""></a>
+        </div>
+        <hr/>
+        <div class="row">
+
+        </div>
+      </div>
+
+      <div class="emergency-contanct-details">
+        <div class="row details-title">
+          <img src="assets/images/vacation.png" alt="">Vacation / Emergency Contact Details
+          <a href="#"><img class="pull-right" src="assets/images/question.png" alt=""></a>
+        </div>
+        <hr/>
+        <div class="row">
+
+        </div>
+      </div>
+
+      <div class="additional-information">
+        <div class="row details-title">
+          <img src="assets/images/additional.png" alt="">Additional Information
+          <a href="#"><img class="pull-right" src="assets/images/question.png" alt=""></a>
+        </div>
+        <hr/>
+        <div class="row">
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="cancel-btn">
+            CANCEL
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="save-btn">
+            SAVE
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+      </div>
+
+
+
+
+      <!-- personal-details-questions-content -->
+      <div class="modal fade" id="personal-details-questions" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">HELP</h4>
+            </div>
+            <div class="modal-body">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+            <div class="modal-footer">
+              <div class="cancel-btn" data-dismiss="modal">CLOSE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- contact-details-questions-content -->
+      <div class="modal fade" id="contact-details-questions" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">CONTACT HELPS</h4>
+            </div>
+            <div class="modal-body">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+            <div class="modal-footer">
+              <div class="cancel-btn" data-dismiss="modal">CLOSE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    </div>
+
+    <script type="text/javascript" src="assets/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<#assign ServiceContextThreadLocal = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"] />
+<#assign themeDisplay = ServiceContextThreadLocal.getServiceContext().getThemeDisplay() />
+
+<section class="tile links-tile" data-category-ids="${.vars['reserved-article-description'].data}">
+	<header class='tile-title'>
+		<img src="${themeDisplay.getCDNBaseURL()}${.vars['reserved-article-small-image-url'].data}" title="${.vars['reserved-article-title'].data}" />
+		<h2 class="tile-heading">${.vars['reserved-article-title'].data}</h2>
+		<button class="show-hide-button"
+			onclick="$(this).closest( '.tile' ).toggleClass( 'collapsed' ); $( this ).closest( '.tile' ).find( '.show-more-toggle' ).toggle();  "></button>
+	</header>
+	<div class="tile-content">
+		<div class="links-container">
+			${content.getData()}
+		</div>
+	</div>
+</section>

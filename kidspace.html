@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>kidspace Portal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style media="screen">
+
+      body {
+        margin: 0px;
+        background: #fff;
+        top: 0;
+        font-family: Montserrat;
+        overflow: auto;
+      }
+      .logo {
+        padding: 8px 20px;
+        font-size: 32px;
+      }
+      .logo a {
+        color: #fff;
+      }
+      .kidspace-header {
+        height: 60px;
+        width: 100%;
+        background-color: #33cf59;
+        position: fixed;
+        top:0; left:0;
+        z-index: 9999;
+      }
+      .title-right {
+        padding-right: 10px;
+      }
+      .title-right .fa {
+        font-size: 30px;
+        margin-top: 15px;
+        margin-right: 10px;
+        color: #000;
+      }
+
+      .kid-info-header.row{
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 5px 5px 0 0;
+        background-color: #fafafa;
+        border: solid 1px #ededed;
+      }
+      .kid-info-header {
+        border-bottom: solid 1px #ededed;
+      }
+      .calendar-title, .games-title, .email-title, .learning-title {
+        font-size: 15px;
+        font-weight: 500;
+        color: #343441;
+      }
+      .games-title, .calendar-title, .learning-title {
+        padding: 10px;
+        padding-left: 15px;
+      }
+      .email-title {
+        padding: 18px;
+        padding-left: 15px;
+      }
+      .games-title i, .calendar-title i, .learning-title i, .email-title i {
+        padding-right: 10px;
+      }
+      .calendar, .email {
+        z-index: 999;
+      }
+      .calendar {
+        margin-top: 15px;
+      }
+      .googleCalendar {
+        width: 100%;
+        min-height: 350px;
+      }
+
+      .games-list, .learning-list {
+        padding-top: 15px;
+        border-radius: 0 0 5px 5px;
+        background-color: #fafafa;
+        border: solid 1px #ededed;
+        min-height: 210px;
+        margin-bottom: 20px;
+      }
+      .games-list li, .learning-list li {
+        list-style-type: none;
+        padding: 6px 0;
+        font-size: 16px;
+        font-weight: 400;
+        color: #343441;
+      }
+      .games-list li img, .learning-list li img {
+        padding-right: 10px;
+      }
+      ul, menu, dir {
+        -webkit-padding-start: 25px;
+      }
+      #kid-wrapper{
+        margin-top: 60px;
+      }
+
+      .kid-wrapper {
+        padding-left: 250px;
+        transition: all 0.4s ease 0s;
+      }
+      #kid-space-sidebar-wrapper {
+        margin-left: -250px;
+        width: 250px;
+        position: fixed;
+        overflow-y: auto;
+        z-index: 1000;
+        transition: all 0.4s ease 0s;
+        height: 100%;
+        background-color: #fafafa;
+        border-right: solid 1px #ededed;
+      }
+      .kid-space-sidebar-wrapper {
+        left: 250px;
+        transition: all 0.4s ease 0s;
+      }
+      .kid-space-sidebar-wrapper-down {
+        left: 0;
+        transition: all 0.4s ease 0s;
+      }
+      .kid-space-sidebar-wrapper-Open {
+        left: 250px !important;
+        transition: all 0.4s ease 0s;
+      }
+
+      .kid-wrapper {
+        padding-left: 250px;
+        transition: all 0.4s ease 0s;
+      }
+      .kid-wrapper-down {
+        padding-left: 0px;
+        transition: all 0.4s ease 0s;
+      }
+
+      .kid-space-sidebar-wrapper li, .kid-space-sidebar-wrapper-Open li, .kid-space-sidebar-wrapper-down li{
+        list-style-type: none;
+        padding: 20px 20px;
+        border-radius: 5px;
+      	background-color: #fafafa;
+      	border: solid 1px #ededed;
+        margin: 5px 10px;
+      }
+      .kid-space-sidebar-wrapper li i , .kid-space-sidebar-wrapper-Open li i, .kid-space-sidebar-wrapper-down li i{
+        padding-right: 10px;
+      }
+      .kid-space-sidebar-wrapper ul, .kid-space-sidebar-wrapper-Open ul, .kid-space-sidebar-wrapper-down ul, dir {
+        -webkit-padding-start: 0px;
+      }
+      .kidSpaceContainer {
+        margin-left: 25px;
+        margin-right: 25px;
+        width: calc(100%-500px);
+        padding-top: 20px;
+      }
+      #page-content-wrapper {
+        width: calc(100%-500px);
+      }
+      .bottom-menu-content {
+        padding: 20px;
+      }
+      .bottom-menu {
+        position: fixed;
+        width: 250px;
+        bottom: 0px;
+        background-color: #ededed;
+        min-height: 250px;
+      }
+      .bottom-menu-details {
+        padding-top: 10px;
+      }
+      .bottom-menu-item {
+        font-size: 14px;
+      	font-weight: 300;
+      	color: #343441;
+        padding-bottom: 20px;
+        background-repeat: no-repeat;
+        background-position: 0 .5em;
+        padding-left: 30px;
+      }
+      .bottom-menu-item i {
+        padding-right: 10px;
+      }
+      .login {
+        opacity: 0.4;
+        font-size: 12px;
+        font-weight: bold;
+        color: #343441;
+      }
+      .username {
+        font-size: 14px;
+        color: #343441;
+        padding-bottom: 10px;
+      	border-bottom: solid 1px rgba(52,52,65,0.4);
+      }
+      .logout {
+        font-size: 14px;
+        font-weight: 600;
+        color: #343441;
+        border-top: solid 1px rgba(52,52,65,0.4);
+        padding-top: 15px;
+        background-repeat: no-repeat;
+        background-position: right 100%;
+      }
+      .logout i {
+        float: right;
+        font-size: 25px;
+      }
+
+      .kid-left, .kid-right {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      @media only screen and (max-width: 992px) and (min-width: 600px)  {
+        .kid-left {
+          height: 505px;
+        }
+      }
+
+      @media (max-width:767px) {
+        #kid-wrapper {
+          padding-left: 0;
+        }
+
+        #kid-space-sidebar-wrapper {
+          left: 0;
+        }
+
+        #kid-wrapper.active {
+          position: relative;
+          left: 250px;
+        }
+
+        #kid-wrapper.active #kid-space-sidebar-wrapper {
+          left: 250px;
+          width: 250px;
+          transition: all 0.4s ease 0s;
+        }
+
+      }
+      @media (max-width:600px) {
+        .calendar{
+          display: none;
+        }
+        .kid-left {
+          height: 75px;
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div class="kidspace-header">
+      <div class="logo">
+        <i class="fa fa-bars" id="kidSpace-home" aria-hidden="true"></i>
+      </div>
+    </div>
+
+
+    <div class="kid-wrapper" id="kid-wrapper">
+
+      <div id="kid-space-sidebar-wrapper" class="kid-space-sidebar-wrapper">
+
+          <ul>
+            <li><i class="fa fa-ravelry" aria-hidden="true"></i> SCHOOL LIBRARY</li>
+            <li><i class="fa fa-ravelry" aria-hidden="true"></i> EBACKPACK</li>
+            <li><i class="fa fa-ravelry" aria-hidden="true"></i> SEARCH DOE</li>
+          </ul>
+
+          <div class="bottom-menu">
+            <div class="bottom-menu-content">
+              <div class="bottom-menu-title">
+                <span class="login">LOGGED IN AS</span>
+                <p class="username">Michael Alexander</p>
+              </div>
+              <div class="bottom-menu-details">
+                <div class="bottom-menu-item">
+                  <i class="fa fa-key" aria-hidden="true"></i> Change Password
+                </div>
+                <div class="bottom-menu-item">
+                  <i class="fa fa-paint-brush" aria-hidden="true"></i>Change Colour Theme
+                </div>
+              </div>
+
+              <div class="logout">
+                LOG OUT <i class="fa fa-power-off" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+      </div>
+
+
+
+      <div id="page-content-wrapper">
+        <div class="page-content">
+          <div class="containers">
+            <div class="kidSpaceContainer">
+              <div class="content">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 kid-left">
+                      <div class="col-xs-12 email">
+                          <div class="kid-info-header row">
+                            <div class="pull-left email-title">
+                              <i class="fa fa-envelope-o" aria-hidden="true"></i> EMAIL
+                            </div>
+                            <div class="pull-right title-right">
+                              <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="col-xs-12 calendar">
+                        <div class="kid-info-header row">
+                          <div class="pull-left calendar-title">
+                            <i class="fa fa-calendar" aria-hidden="true"></i> CALENDAR
+                          </div>
+                        </div>
+                        <div class="games-list responsive-iframe-container small-container" id="calendar">
+                          <iframe class="googleCalendar" src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTz=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23fafafa&amp;src=five.test%40test-det-edu.com&amp;color=%232F6309&amp;ctz=Australia%2FSydney" style="border-width:0" frameborder="0" scrolling="no">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-8 col-md-6 kid-right">
+                      <div class="col-lg-6 col-md-12">
+                          <div class="kid-info-header row">
+                            <div class="pull-left games-title">
+                              <i class="fa fa-gamepad" aria-hidden="true"></i> Games
+                            </div>
+                          </div>
+                          <div class="games-list">
+                            <ul>
+                              <li> <img src="http://www.placecage.com/20/20">ABC's the Playground</li>
+                              <li> <img src="http://www.placecage.com/20/20">BBC - Games</li>
+                              <li> <img src="http://www.placecage.com/20/20">Billy The Pirate</li>
+                              <li> <img src="http://www.placecage.com/20/20">Go Jetters</li>
+                              <li> <img src="http://www.placecage.com/20/20">The Paddy Fields of China</li>
+                              <li> <img src="http://www.placecage.com/20/20">Come and Play</li>
+                            </ul>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-6 col-md-12">
+                        <div class="kid-info-header row">
+                          <div class="pull-left learning-title">
+                            <i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning
+                          </div>
+                        </div>
+                        <div class="learning-list">
+                          <ul>
+                            <li><img src="http://www.placecage.com/20/20">Recycling</li>
+                            <li><img src="http://www.placecage.com/20/20">Reading</li>
+                            <li><img src="http://www.placecage.com/20/20">ANZAC</li>
+                            <li><img src="http://www.placecage.com/20/20">Experiments</li>
+                            <li><img src="http://www.placecage.com/20/20">Nouns</li>
+                            <li><img src="http://www.placecage.com/20/20">Mass</li>
+                            <li><img src="http://www.placecage.com/20/20">Area</li>
+                            <li><img src="http://www.placecage.com/20/20">Geometry</li>
+                            <li><img src="http://www.placecage.com/20/20">Chance and probability</li>
+                            <li><img src="http://www.placecage.com/20/20">Convict and colonial Australia</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    <script type="text/javascript">
+      current_width = $(window).width();
+      if(current_width < 576){
+        $('.all-links .col-xs-12').css("margin-bottom", "20px");
+        $("#quick-links").removeClass('in');
+        $("#quick-links-context .links-btn").text('SHOW');
+        $("#my-links").removeClass('in');
+        $("#my-links-text .links-btn").text('SHOW');
+        $(".links-header.row").css({"border-bottom": "solid 1px #ededed"});
+      } else {
+        $("#quick-links").addClass('in');
+        $("#quick-links-context .links-btn").text('HIDE');
+        $("#my-links").addClass('in');
+        $("#my-links-text .links-btn").text('HIDE');
+        $(".links-header.row").css({"border-bottom": "0"});
+      }
+
+      $("#kidSpace-home").click(function() {
+        if(current_width < 768){
+          $('#kid-space-sidebar-wrapper').toggleClass("kid-space-sidebar-wrapper kid-space-sidebar-wrapper-Open");
+          $('#kid-wrapper').toggleClass("kid-wrapper kid-wrapper-down");
+        } else {
+          $('#kid-space-sidebar-wrapper').toggleClass("kid-space-sidebar-wrapper kid-space-sidebar-wrapper-down");
+          $('#kid-wrapper').toggleClass("kid-wrapper kid-wrapper-down");
+        }
+      });
+
+      $(window).resize(function(){
+        current_width = $(window).width();
+        if(current_width < 576){
+          $('.all-links .col-xs-12').css("margin-bottom", "20px");
+          $("#quick-links").removeClass('in');
+          $("#quick-links-context .links-btn").text('SHOW');
+          $("#my-links").removeClass('in');
+          $("#my-links-text .links-btn").text('SHOW');
+          $(".links-header.row").css({"border-bottom": "solid 1px #ededed"});
+        } else {
+          $("#quick-links").addClass('in');
+          $("#quick-links-context .links-btn").text('HIDE');
+          $("#my-links").addClass('in');
+          $("#my-links-text .links-btn").text('HIDE');
+          $(".links-header.row").css({"border-bottom": "0"});
+        }
+      });
+
+    </script>
+
+  </body>
+</html>

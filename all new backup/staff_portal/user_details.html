@@ -1,0 +1,389 @@
+<#attempt>
+<style>
+
+#user_details {
+  margin-top: 25px;
+}
+.all-content {
+  padding-left: 0;
+  padding-right: 0;
+}
+.info-header.row{
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 5px 5px 0 0;
+  background-color: #fafafa;
+  border: solid 1px #ededed;
+}
+.info-header {
+  border-bottom: solid 1px #ededed;
+}
+
+.user-title, .info-title, .group-title {
+  background-repeat: no-repeat;
+  background-position: 1em .7em;
+  font-size: 15px;
+  font-weight: 500;
+  color: #0e3f51;
+  border-right:solid 1px #ededed;
+  padding: 10px 0;
+}
+.info-btn {
+  font-size: 12px;
+  font-weight: bold;
+  color: #0e3f51;
+  text-align: center;
+  padding: 12px;
+}
+.info-details {
+  padding: 15px;
+  border-radius: 0 0 5px 5px;
+  background-color: #fafafa;
+}
+.content .col-xs-9, .content .col-xs-3 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.info {
+  margin-bottom: 15px;
+}
+#user_details .col-md-4, #user_details .col-sm-12 {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .contacts, .user-details {
+    padding-bottom: 0;
+  }
+
+  .detail.col-xs-10.row {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  .all-content {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+}
+
+
+
+
+
+
+.heading-primary {
+  font-size: 2em;
+  padding: 2em;
+  text-align: center;
+}
+
+.accordionTitle, .accordion__Heading {
+  display: block;
+  text-decoration: none;
+}
+
+.accordionTitleActive:before, .accordionTitle.is-expanded:before {
+  transform: rotate(-225deg);
+}
+.accordionItem {
+  height: auto;
+  overflow: hidden;
+  max-height: 50em;
+  transition: max-height 1s;
+}
+@media screen and (min-width: 48em) {
+  .accordionItem {
+    max-height: 25em;
+    transition: max-height 0.5s;
+  }
+}
+.accordionItem.is-collapsed {
+  max-height: 0;
+}
+.no-js .accordionItem.is-collapsed {
+  max-height: auto;
+}
+.animateIn {
+  animation: accordionIn 0.45s normal ease-in-out both 1;
+}
+.animateOut {
+  animation: accordionOut 0.45s alternate ease-in-out both 1;
+}
+@keyframes accordionIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) rotateX(-60deg);
+    transform-origin: 50% 0;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes accordionOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) rotateX(-60deg);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.tile {
+	border-radius: 5px;
+	background-color: #fafafa;
+	border: solid 1px #ededed;
+	position: relative;
+}
+
+.tile .tile-title {
+  padding-left: 15px;
+  border-bottom: solid 1px #ededed;
+}
+.tile .tile-title h2 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 15px;
+	font-weight: 500;
+	color: #343441;
+}
+
+.tile .tile-title .showHide-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 47px;
+  width: 60px;
+  border-radius: 0 5px 5px 0;
+  background-color: transparent;
+  border-left: solid 1px #ededed;
+  color: #000;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.accordion-content .info-details p{
+  font-size: 15px;
+  font-weight: 300;
+  color: #343441;
+}
+
+.accordion-content .info-details span{
+  font-size: 12px;
+  font-weight: 600;
+  color: #c2c2c2;
+}
+
+.accordion-content .info-details .sub-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+</style>
+
+    <div class="row" id="user_details">
+
+        <div class="col-md-4 col-sm-12">
+          <section class="tile">
+            <header class="tile-title">
+              <h2 class="tile-heading">Personal Details</h2>
+              <button aria-expanded="false" aria-controls="personalContent" class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+            </header>
+            <div class="accordion-content accordionItem tile-content is-expanded animateIn" id="personalContent" aria-expanded="true">
+              <div class="info-details collapse in">
+                <span>NAME</span>
+                <p data-profile-bind="First Name"></p>
+                <span>GENDER</span>
+                <p data-profile-bind="Gender"></p>
+                <span>DATE OF BIRTH</span>
+                <p data-profile-bind="Date Of Birth"></p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <section class="tile">
+            <header class="tile-title">
+              <h2 class="tile-heading">Work contact details</h2>
+              <button aria-expanded="false" aria-controls="workContent" class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+            </header>
+            <div class="accordion-content accordionItem tile-content is-expanded animateIn" id="workContent" aria-expanded="true">
+              <div class="info-details collapse in">
+                <span>WORK PHONE</span>
+                <p data-profile-bind="Business Phone"></p>
+                <span>FAX</span>
+                <p data-profile-bind="Business Fax"></p>
+                <span>MOBILE PHONE</span>
+                <p data-profile-bind="Business Mobile"></p>
+                <span>PHYSICAL SITE</span>
+                <p data-profile-bind="Physical Site"></p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <section class="tile">
+            <header class="tile-title">
+              <h2 class="tile-heading">DoE</h2>
+              <button aria-expanded="false" aria-controls="doeContent" class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+            </header>
+            <div class="accordion-content accordionItem tile-content is-expanded animateIn" id="doeContent" aria-expanded="true">
+              <div class="info-details collapse in">
+                <p class="sub-title">DoE user details</p>
+                <span>DOE EMAIL ADDRESS</span>
+                <p data-profile-bind="DET Email Address"></p>
+                <span>DOE USER</span>
+                <p data-profile-bind="DET User ID"></p>
+                <span>NETWORK USER</span>
+                <p data-profile-bind="Network User ID"></p>
+
+                <p class="sub-title">DoE employment details</p>
+                <span>ORG UNIT / LOCATION </span>
+                <p data-profile-bind="School Contactor Org Unit/Tafe Contactor Func Unit"></p>
+                <span>DOE OTHER EMPLOYEE PAYROLL NUMBER</span>
+                <p data-profile-bind="Contractor Employee ID"></p>
+                <span>EXTRA FUNCTIONS</span>
+                <p data-profile-bind="Extra Functions"></p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+    </div>
+
+
+
+
+<script type="text/javascript">
+
+    function renderProfile(response) {
+      var staffProfile = response.staffProfile;
+      $("#user_details [data-profile-bind]").each(
+          function(index, element) {
+            var $element = $(element);
+            var dataBind = $element.attr("data-profile-bind");
+            var profileElement = staffProfile.find(function(it) {
+              return it.Name === dataBind;
+            });
+
+            if ( !profileElement ) {
+              console.log( 'Element with Name "' + dataBind + '" not found in the response' );
+              return;
+            }
+
+            var value = (profileElement.Value || "N/A").toString().split(",").join(", ");
+
+            $element.text(value);
+
+          });
+    }
+
+    function initFormData() {
+      return $.ajax({
+        'type' : 'get',
+        'url' : '/o/rest/profile/details/' + window.screenName
+      }).then( renderProfile );
+    }
+
+    $( document ).ready( function() {
+
+      initFormData();
+
+    } );
+
+
+    (function(){
+    	var d = document,
+    	accordionToggles = d.querySelectorAll('.js-accordionTrigger'),
+    	setAria,
+    	setAccordionAria,
+    	switchAccordion,
+      touchSupported = ('ontouchstart' in window),
+      pointerSupported = ('pointerdown' in window);
+
+      skipClickDelay = function(e){
+        e.preventDefault();
+        e.target.click();
+      }
+
+    		setAriaAttr = function(el, ariaType, newProperty){
+    		el.setAttribute(ariaType, newProperty);
+    	};
+    	setAccordionAria = function(el1, el2, expanded){
+    		switch(expanded) {
+          case "true":
+          	setAriaAttr(el1, 'aria-expanded', 'true');
+          	setAriaAttr(el2, 'aria-hidden', 'false');
+          	break;
+          case "false":
+          	setAriaAttr(el1, 'aria-expanded', 'false');
+          	setAriaAttr(el2, 'aria-hidden', 'true');
+          	break;
+          default:
+    				break;
+    		}
+    	};
+
+    switchAccordion = function(e) {
+    	e.preventDefault();
+    	var thisAnswer = e.target.parentNode.nextElementSibling;
+    	var thisQuestion = e.target;
+    	if(thisAnswer.classList.contains('is-collapsed')) {
+    		setAccordionAria(thisQuestion, thisAnswer, 'true');
+    		$(this).text("HIDE");
+    	} else {
+    		setAccordionAria(thisQuestion, thisAnswer, 'false');
+    		$(this).text("SHOW");
+    	}
+      	thisQuestion.classList.toggle('is-collapsed');
+      	thisQuestion.classList.toggle('is-expanded');
+    		thisAnswer.classList.toggle('is-collapsed');
+    		thisAnswer.classList.toggle('is-expanded');
+
+      	thisAnswer.classList.toggle('animateIn');
+    	};
+    	for (var i=0,len=accordionToggles.length; i<len; i++) {
+    		if(touchSupported) {
+          accordionToggles[i].addEventListener('touchstart', skipClickDelay, false);
+        }
+        if(pointerSupported){
+          accordionToggles[i].addEventListener('pointerdown', skipClickDelay, false);
+        }
+        accordionToggles[i].addEventListener('click', switchAccordion, false);
+      }
+    })();
+
+</script>
+
+
+<#recover>
+  <div>Sorry, we were unable to process this request.</div>
+  <div class="hidden-error">${.error}</div>
+</#attempt>
