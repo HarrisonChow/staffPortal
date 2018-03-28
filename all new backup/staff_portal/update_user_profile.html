@@ -39,16 +39,12 @@
 	color: #4ab9b8;
 }
 
-.details-title img {
-	padding: 0 15px;
-}
-
 #update-profile-form hr {
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
 
-#update-profile-form select {
+#update-profile-form select[multiple] {
 	height: 200px;
 }
 
@@ -66,6 +62,11 @@
 	font-size: 15px !important;
 	font-weight: 300 !important;
 	color: #343441 !important;
+}
+
+#update-profile-form p.disclaimer {
+	font-size: 12px !important;
+	padding: 10px 0;
 }
 
 #update-profile-form input {
@@ -90,12 +91,18 @@
 	margin-top: 10px !important;
 }
 
+.update-profile-title a:hover, .update-profile-title a:focus {
+	text-decoration: none;
+}
+
 #personal-details-questions .modal-dialog, #contact-details-questions .modal-dialog {
 	width: 70vw;
 }
 </style>
-<form id="update-profile-form" action="#">
-	<div class="update-profile-title">Update your Profile</div>
+<form id="update-profile-form" action="#" style="margin-top: 20px;">
+	<div class="update-profile-title">Update your Profile<a href="#" data-toggle="modal" data-target="#personal-details-info" >
+				<img style="width: 20px;height: auto;margin-right: 16px;" src="/o/doe-staff-theme/images/question-mark.svg">
+			</a></div>
 	<div class="personal-details">
 		<div class="row details-title">
 			Personal Details
@@ -103,7 +110,7 @@
 		<hr />
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
-				<label>FRIST NAME</label>
+				<label>FIRST NAME</label>
 				<p data-profile-bind="First Name"></p>
 			</div>
 			<div class="col-xs-12 col-sm-6">
@@ -119,21 +126,33 @@
 				<p data-profile-bind="Date Of Birth"></p>
 			</div>
 			<div class="col-xs-12 col-sm-6">
+				<label class="pull-left">EMAIL DISPLAY NAME TAG</label> <input data-profile-bind="Display Name Suffix" class="col-xs-12" type="text" value="" />
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<label class="pull-left">TITLE</label>
+				<select data-profile-bind="Personal Title" >
+					<option value="">Please Select</option>
+					<option value="Doctor">Dr (Doctor)</option>
+					<option value="Miss">Miss</option>
+					<option value="Mr">Mr</option>
+					<option value="Mrs">Mrs</option>
+					<option value="Ms">Ms</option>
+					<option value="Professor">Prof (Professor)</option>
+				</select>
+			</div>
+			<div class="col-xs-12 col-sm-6">
 				<label class="pull-left">PREFERRED FIRST NAME</label> <input class="col-xs-12" data-profile-bind="Preferred First Name" type="text" value="" />
 			</div>
 			<div class="col-xs-12 col-sm-6">
 				<label class="pull-left">PREFERRED SURNAME</label> <input data-profile-bind="Preferred Last Name" class="col-xs-12" type="text" value="" />
 			</div>
-			<div class="col-xs-12 col-sm-6">
-				<label class="pull-left">EMAIL DISPLAY NAME TAG</label> <input data-profile-bind="Email Display Tag" class="col-xs-12" type="text" value="" />
-			</div>
+
 		</div>
 	</div>
 
 	<div class="work-contact-details">
 		<div class="row details-title">
-			<img src="assets/images/location.png" alt="">Work Contact Details <a href="#" data-toggle="modal" data-target="#contact-details-questions"><img class="pull-right"
-				src="assets/images/question.png" alt=""></a>
+			<img src="assets/images/location.png" alt="">Work Contact Details
 		</div>
 		<hr />
 		<div class="row">
@@ -149,13 +168,15 @@
 			<div class="col-xs-12 col-sm-6">
 				<label pull-left>BUSINESS TITLE / ROLE</label> <input data-profile-bind="Title/Role" class="col-xs-12" type="text" value="">
 			</div>
-			<div class="col-xs-12 col-sm-6">
-				<label pull-left>COMPANY</label> <input class="col-xs-12" data-profile-bind="Company" type="text" value="">
+			<div class="col-xs-12 col-sm-6 form-group">
+				<label pull-left>COMPANY *</label>
+				<input class="col-xs-12" required data-required-error="The field Company is required" data-profile-bind="Company" type="text" value="">
+				<div class="help-block with-errors"></div>
 			</div>
-
-
-			<div class="col-xs-12 col-sm-6">
-				<label pull-left>PHYSICAL SITE</label> <input class="col-xs-12" data-profile-bind="Physical Site" type="text" value="">
+			<div class="col-xs-12 col-sm-6 form-group">
+				<label pull-left>PHYSICAL SITE *</label>
+				<input class="col-xs-12" required data-required-error="The field Physical Site is required" data-profile-bind="Physical Site" type="text" value="">
+				<div class="help-block with-errors"></div>
 			</div>
 			<div class="col-xs-12 col-sm-6">
 				<label pull-left>DEPARTMENT/SCHOOL/COLLEGE</label> <input class="col-xs-12" data-profile-bind="Department/School/College" type="text" value="">
@@ -189,7 +210,7 @@
 	</div>
 
 	<!-- teachers only  -->
-	<div class="emergency-contanct-details">
+	<div class="emergency-contanct-details" id="teacher-contact-details" style="display: none;">
 		<div class="row details-title">
 			Vacation / Emergency Contact Details
 		</div>
@@ -249,12 +270,82 @@
 			<button class="btn-secondary" onclick="resetUpdateProfileForm(); return false;">CANCEL</button>
 		</div>
 		<div class="col-xs-6 center">
-			<button class="btn-primary" onclick="updateProfileDetails();">SAVE</button>
+			<button class="btn-primary" onclick="$('#update-profile-form').submit();">SAVE</button>
 		</div>
 	</div>
+
+	<div class="modal fade doe-modal-form" id="personal-details-info" role="dialog">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+		    <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">CLOSE X</button>
+	          <h4 class="modal-title">IMPORTANT INFO</h4>
+	        </div>
+	      <div class="modal-body">
+	      	<p>
+	      		PLEASE BE AWARE THAT THE UPDATE CAN TAKE UP TO 24 HOURS TO APPEAR IN THE GLOBAL ADDRESS LIST. INFORMATION PUBLISHED HERE IS VISIBLE TO ALL CORPORATE, TAFE AND SCHOOL STAFF
+	      	</p>
+	      	<p>
+	      		Preferred names are displayed in the Global Address List.</p>
+	      	<p>
+	      		Only enter data if it is different than your legal name(s), and must reflect who you are known as. Refer to the Code of Conduct.</p>
+	      	<p>
+				The email display tag will be displayed in the Global Address List and emails you send. </p>
+			<p>
+				Only enter in business data to be displayed after your name (useful for staff with similar names to help differentiate staff).</p>
+			<p>
+				Please ensure you enter information in proper case and not all upper or lower case</p>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 </form>
 <script type="text/javascript">
+// https://tc39.github.io/ecma262/#sec-array.prototype.find
+if (!Array.prototype.find) {
+  Object.defineProperty(Array.prototype, 'find', {
+    value: function(predicate) {
+     // 1. Let O be ? ToObject(this value).
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
 
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+
+      // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+      var thisArg = arguments[1];
+
+      // 5. Let k be 0.
+      var k = 0;
+
+      // 6. Repeat, while k < len
+      while (k < len) {
+        // a. Let Pk be ! ToString(k).
+        // b. Let kValue be ? Get(O, Pk).
+        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+        // d. If testResult is true, return kValue.
+        var kValue = o[k];
+        if (predicate.call(thisArg, kValue, k, o)) {
+          return kValue;
+        }
+        // e. Increase k by 1.
+        k++;
+      }
+
+      // 7. Return undefined.
+      return undefined;
+    }
+  });
+}
 	function resetUpdateProfileForm() {
 		initFormData();
 		$( '#update-profile-form input' ).attr( 'data-changed', 'false' );
@@ -315,6 +406,15 @@
 			this.selected = false;
 		} );
 
+
+		var roleElement = staffProfile.find(function(it) {
+			return it.Name === 'Employment Roles';
+		});
+
+		if ( roleElement && roleElement.Value ===  'SCHOOL.TEACHER' ) {
+			$( '#teacher-contact-details' ).show();
+		}
+
 		$("#update-profile-form [data-profile-bind]").each(
 				function(index, element) {
 					var $element = $(element);
@@ -323,21 +423,16 @@
 						return it.Name === dataBind;
 					});
 
-					if ( !profileElement ) {
-						console.log( 'Element with Name "' + dataBind + '" not found in the response' );
-						return;
-					}
-
 					var value = (profileElement.Value || "").toString()
 							.split(",").join(", ");
 
-					if ($element.is("input")) {
+					if ($element.is("input") || $element.is("textarea")) {
 						$element.val(value);
 					} else if ( $element.is( "select" ) ){
-						var selectedOpts = profileElement.Value.split( ',' ).map( function( val ) { return val.trim() } );
+						var selectedOpts = ( profileElement.Value || '' ).split( ',' ).map( function( val ) { return val.trim() } );
 						selectedOpts.forEach( function( val ) {
 							var target = $element.find( 'option[value="' + val + '"]' );
-							if ( target ) {
+							if ( target[0] ) {
 								target[ 0 ].selected = true;
 							}
 						} );
@@ -350,7 +445,7 @@
 	function initFormData() {
 		return $.ajax({
 			'type' : 'get',
-			'url' : '/o/rest/profile/details/' + window.screenName
+			'url' : '/o/rest/profile/details/' + window.screenName + '?_t=' + new Date().getTime()
 		}).then( renderProfile );
 	}
 
@@ -361,6 +456,16 @@
 		} );
 
 		initFormData();
+
+		$( '#update-profile-form' ).validator();
+
+
+		$( '#update-profile-form' ).on( 'submit', function( e ) {
+			if (!e.isDefaultPrevented()) {
+				updateProfileDetails();
+			}
+			return false;
+		} )
 
 	} );
 </script>

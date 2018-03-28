@@ -623,12 +623,12 @@ body.portal-popup .tile .tile-title .show-hide-button:focus {
 
             allCalendar.execute(function(resp){
                 var calendars = resp.items;
-                console.log(calendars);
+
                 $('#calendar-tile .calendar-title ul.dropdown-menu').empty();
                 calendars.forEach(function(element) {
                     var newId = 'calendarId-'.concat(JSON.parse(element.etag));
                     $('#calendar-tile .calendar-title ul.dropdown-menu').append('<li data-calendarid="'+element.id+'" onclick="makeApiCall(\''+element.id+'\')"><span class="primary-bg calendar-dot"></span><div>'+element.summary+'</div></li>')
-                })
+                });
             });
 
             var request = gapi.client.calendar.events.list({

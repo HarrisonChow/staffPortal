@@ -30,12 +30,13 @@
 	<#assign vacob = "" />
 </#if>
 
+
 <style media="screen">
 
 	body.early .tile .tile-content {
 		padding-top: 5px;
 	}
-	
+
 	.info-content {
 		font-size: 14px;
 		text-align: center;
@@ -136,24 +137,10 @@
 		opacity: 0.2;
 	}
 
-	#${namespace}edit-bookmark-toggle.toggled {
-		opacity: 0.2;
-	}
-
 	#${namespace}add-bookmarks-toggle i {
 		padding-right: 5px;
 	}
-	#${namespace}edit-bookmark-toggle, #${namespace}add-bookmarks-toggle {
-		position: absolute;
-		top: 0px;
-		height: 47px;
-		border-radius: 0 5px 5px 0;
-		background-color: transparent;
-		border-left: solid 1px #ededed;
-		color: #000;
-		font-size: 12px;
-		font-weight: 600;
-	}
+
 	#${namespace}edit-bookmark-toggle {
 		right: 60px;
 		width: 45px;
@@ -180,6 +167,10 @@
 		float: right;
 		margin: 10px 15px 10px 0;
 	}
+	#${namespace}my-module-name {
+		width: 100%;
+		margin-bottom: 20px;
+	}
 	#${namespace}new-module-name:focus, #${namespace}my-module-name:focus {
 		outline: 0;
 		border-color: #66afe9;
@@ -189,6 +180,36 @@
 		font-size: 14px;
 		font-weight: 500;
 	}
+	#${namespace}my-bookmarks .tile-title {
+		display: inline-flex;
+		width: 100%;
+	}
+	#${namespace}my-bookmarks .tile-title .dropdown {
+		line-height: 46px;
+		position: absolute;
+		right: 76px;
+	}
+	#${namespace}my-bookmarks .tile-title .dropdown .dropdown-menu {
+		top: 65%;
+	}
+	#${namespace}my-bookmarks .tile-title .dropdown .dropdown-menu li {
+		font-size: 12px;
+		line-height: 24px;
+		width: 100%;
+		cursor: pointer;
+	}
+	#${namespace}my-bookmarks .tile-title .dropdown .dropdown-menu li i {
+		padding-right: 15px;
+	}
+	#${namespace}update-module-name-btn {
+		width: 60px;
+		margin-right: 10px;
+	}
+	.${namespace}update-module-name-btn {
+		text-align: right;
+		padding-right: 20px;
+		padding-bottom: 15px;
+	}
 </style>
 
 <section id="${namespace}my-bookmarks" class="tile">
@@ -196,17 +217,24 @@
 		<h2 class="tile-heading">
 			My-Bookmarks
 		</h2>
-		<button aria-expanded="false" aria-controls="${namespace}tileContent"
-		class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
-		<button class="toolbar-button toggled disabled" id='${namespace}edit-bookmark-toggle' onclick="">EDIT</button>
-		<button class="toolbar-button toggled disabled" id='${namespace}add-bookmarks-toggle' onclick="$(this).toggleClass( 'toggled' );$(this).closest( '.tile' ).find( '.collapsible' ).toggle(); $( '#${namespace}my-bookmarks .show-more-toggle' ).toggle(); $('#${namespace}edit-bookmark-toggle').toggleClass( 'toggled disabled' ); "><i class="fa fa-plus"></i>ADD</button>
+		<div class="dropdown">
+			<i class="fa fa-cog dropdown-toggle" aria-hidden="true" data-toggle="dropdown"></i>
+		    <ul class="dropdown-menu">
+		      <li id='${namespace}add-bookmark-toggle' onclick="$(this).toggleClass( 'toggled' );$(this).closest( '.tile' ).find( '.collapsible' ).toggle(); $( '#${namespace}my-bookmarks .show-more-toggle' ).toggle(); $('#${namespace}edit-bookmark-toggle').toggleClass( 'toggled disabled' ); "><i class="fa fa-plus-square"></i> ADD</li>
+		      <li id='${namespace}edit-bookmark-toggle'><i class="fa fa-edit"></i>EDIT</li>
+		    </ul>
+		  </div>
+		<button aria-expanded="false" aria-controls="${namespace}tileContent" class="accordion-title accordionTitle js-accordionTrigger showHide-button">HIDE</button>
+
+
+
 	</header>
 	<div class="accordion-content accordionItem tile-content is-expanded animateIn" id="${namespace}tileContent" aria-expanded="true">
 		<div class="my-bookmarks-list">
 			<div id="${namespace}my-bookmarks-container" class="bookmarks-container collapsible">
 				<div id='${namespace}input-module-name'>
 					<div>
-						<label class='bookmark-title'>module title</label>
+						<label class='bookmark-title'>MODULE TITLE</label>
 						<input name='name' id='${namespace}new-module-name' type='text' value='' placeholder='My-Bookmarks' onfocus='this.placeholder = ""' onblur='this.placeholder = ""'/>
 					</div>
 					<div>
@@ -230,7 +258,7 @@
 					</div>
 				</form>
 				<div class="controls-container">
-					<button id="${namespace}closeWindow" onclick="$('#${namespace}add-bookmarks-toggle').removeClass( 'toggled' );$(this).closest( '.tile' ).find( '.collapsible' ).toggle(); $('#${namespace}myBookmarkUrl').val(''); $('#${namespace}myBookmarkName').val(''); $( '#${namespace}my-bookmarks .show-more-toggle' ).show(); $('#${namespace}edit-bookmark-toggle').toggleClass( 'toggled disabled' );" class="pull-left btn-secondary">CANCEL</button>
+					<button id="${namespace}closeWindow" onclick="$('#${namespace}add-bookmarks-toggle').removeClass( 'toggled' );$(this).closest( '.tile' ).find( '.collapsible' ).toggle(); $('#${namespace}myBookmarkUrl').val(''); $('#${namespace}myBookmarkName').val(''); $( '#${namespace}my-bookmarks .show-more-toggle' ).show(); " class="pull-left btn-secondary">CANCEL</button>
 					<button id="${namespace}submitNewMyBookmarks" class="pull-right">SAVE</button>
 				</div>
 			</div>
@@ -249,7 +277,6 @@
 
 			$('#${namespace}input-module-name').remove();
 			$('#${namespace}add-bookmarks-toggle').toggleClass('toggled disabled');
-			$('#${namespace}edit-bookmark-toggle').toggleClass('toggled disabled');
 
 			Liferay.Service(
 				'/assetcategory/get-category',
@@ -435,82 +462,93 @@
 
 		$("#${namespace}edit-bookmark-toggle").off("click").on("click", function(){
 			var currentModuleName = $('#${namespace}my-bookmarks .tile-heading').text();
-			$(this).text(function(i, text){
-				if(text === "EDIT"){
-					$('#${namespace}add-bookmarks-toggle').toggleClass('toggled disabled');
 
-					$('#${namespace}my-bookmarks-container').prepend("<div id='${namespace}update-module-name'><label class='bookmark-title'>module title</label><input name='name' id='${namespace}my-module-name' type='text' value='' placeholder='"+currentModuleName+"' onfocus='this.placeholder = \"\"' onblur='this.placeholder = \"\"'/></div>");
+			$('#${namespace}add-bookmarks-toggle').toggleClass('toggled disabled');
+			$('#${namespace}update-module-name').remove();
+			$('.${namespace}update-module-name-btn').remove();
+			$('#${namespace}my-bookmarks-container ul li i').remove();
 
-					$('#${namespace}my-bookmarks-container ul li').append("<i  class='fa fa-trash-o' aria-hidden='true'></i>");
+			$('#${namespace}my-bookmarks-container ul li i').empty();
+			$('#${namespace}my-bookmarks-container').prepend("<div id='${namespace}update-module-name'><div class='col-sm-12'><label class='bookmark-title'>MODULE TITLE</label></div><div class='col-sm-12'><input name='name' id='${namespace}my-module-name' type='text' value='' placeholder='"+currentModuleName+"' onfocus='this.placeholder = \"\"' onblur='this.placeholder = \"\"'/></div></div><div class='${namespace}update-module-name-btn'><button id='${namespace}update-module-name-btn'>SAVE</button><button id='${namespace}cancel-update-module-name-btn'>CANCEL</button></div>");
 
-					$( "#${namespace}my-bookmarks-container ul li i" ).click(function(){
-						var currentId = "#"+$(this).parent().attr('id');
-						var articleId = $(currentId)[0].dataset.articleid;
-						var groupId = parseInt($(currentId)[0].dataset.groupid);
+			$('#${namespace}my-bookmarks-container ul li').append("<i  class='fa fa-trash-o' aria-hidden='true'></i>");
 
-						Liferay.Service( '/journal.journalarticle/get-article', {
+			$( "#${namespace}my-bookmarks-container ul li i" ).click(function(){
+				var currentId = "#"+$(this).parent().attr('id');
+				var articleId = $(currentId)[0].dataset.articleid;
+				var groupId = parseInt($(currentId)[0].dataset.groupid);
+
+				Liferay.Service( '/journal.journalarticle/get-article', {
+					groupId: groupId,
+					articleId: articleId
+				},
+				function( article ) {
+					Liferay.Service(
+						'/journal.journalarticle/expire-article',
+						{
 							groupId: groupId,
-							articleId: articleId
+							articleId: articleId,
+							version: article.version,
+							articleURL: article.urlTitle
 						},
-						function( article ) {
+						function(obj) {
+							$(currentId).remove();
+						}
+					);
+				});
+			});
+
+			$("#${namespace}cancel-update-module-name-btn").off("click").on("click", function(){
+				$('#${namespace}update-module-name').remove();
+				$('.${namespace}update-module-name-btn').remove();
+				$('#${namespace}my-bookmarks-container ul li i').remove();
+			});
+
+			$("#${namespace}update-module-name-btn").off("click").on("click", function(){
+
+				var newTitle = $('#${namespace}my-bookmarks-container input').val();
+				$('#${namespace}update-module-name').remove();
+				$('.${namespace}update-module-name-btn').remove();
+				$('#${namespace}my-bookmarks-container ul li i').remove();
+				var remainBookmarks = $('#${namespace}my-bookmarks-container ul li').length;
+				if (newTitle === '' && remainBookmarks > 1) {
+				} else if (newTitle === '' && remainBookmarks < 1) {
+					location.reload();
+				} else {
+					Liferay.Service(
+						'/assetcategory/get-category',
+						{
+							categoryId: '${categoryId}'
+						},
+						function(obj) {
+							var newTitleMap = {
+								"en_AU": newTitle
+							}
+							var newdescriptionMap = {
+								"en_AU": portletId
+							}
 							Liferay.Service(
-								'/journal.journalarticle/expire-article',
+								'/assetcategory/update-category',
 								{
-									groupId: groupId,
-									articleId: articleId,
-									version: article.version,
-									articleURL: article.urlTitle
+									categoryId: obj.categoryId,
+									parentCategoryId: obj.parentCategoryId,
+									titleMap: newTitleMap,
+									descriptionMap: newdescriptionMap,
+									vocabularyId: obj.vocabularyId,
+									categoryProperties: null
 								},
 								function(obj) {
-									$(currentId).remove();
+									location.reload();
 								}
 							);
-						});
-					});
-				} else if(text === "SAVE"){
-					$('#${namespace}add-bookmarks-toggle').toggleClass('toggled disabled');
-
-					var newTitle = $('#${namespace}my-bookmarks-container input').val();
-					$('#${namespace}update-module-name').remove();
-					$('#${namespace}my-bookmarks-container ul li i').remove();
-					var remainBookmarks = $('#${namespace}my-bookmarks-container ul li').length;
-					if (newTitle === '' && remainBookmarks > 1) {
-					} else if (newTitle === '' && remainBookmarks < 1) {
-						location.reload();
-					} else {
-						Liferay.Service(
-							'/assetcategory/get-category',
-							{
-								categoryId: '${categoryId}'
-							},
-							function(obj) {
-								var newTitleMap = {
-									"en_AU": newTitle
-								}
-								var newdescriptionMap = {
-									"en_AU": portletId
-								}
-								Liferay.Service(
-									'/assetcategory/update-category',
-									{
-										categoryId: obj.categoryId,
-										parentCategoryId: obj.parentCategoryId,
-										titleMap: newTitleMap,
-										descriptionMap: newdescriptionMap,
-										vocabularyId: obj.vocabularyId,
-										categoryProperties: null
-									},
-									function(obj) {
-										location.reload();
-									}
-								);
-							}
-						);
-					}
+						}
+					);
 				}
-			return text === "EDIT" ? "SAVE" : "EDIT";
-			})
+			});
 		});
+
+
+
 	});
 
 	function validateUrl(urlInput) {
